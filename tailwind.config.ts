@@ -10,8 +10,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'custom-blue': '#B51C69',
-        'custom-purple': '#5F0235',
+        'custom-lpurple': '#B51C69',
+        'custom-dpurple': '#5F0235',
       },
       fontFamily: {
         Chakra_Petch: ["Chakra Petch", "sans-serif"],

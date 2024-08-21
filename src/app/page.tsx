@@ -1,5 +1,5 @@
 "use client"
-import { Footer } from "@/components/home/future/footer";
+import { Footer } from "@/components/home/future/Footer";
 import { login } from "@/utils/functions/login";
 import Image from "next/image";
 
@@ -11,7 +11,7 @@ export default function Home() {
         Login
       </button>
     </main>
-      <Footer/>
+      
     </>
     );
 }
