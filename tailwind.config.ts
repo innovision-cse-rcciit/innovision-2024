@@ -1,3 +1,4 @@
+import { Chakra_Petch } from "next/font/google";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -11,6 +12,9 @@ const config: Config = {
       colors: {
         'custom-blue': '#B51C69',
         'custom-purple': '#5F0235',
+      },
+      fontFamily: {
+        Chakra_Petch: ["Chakra Petch", "sans-serif"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
