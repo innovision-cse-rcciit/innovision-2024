@@ -5,11 +5,11 @@ import React from 'react';
 export const Footer = () => {
   return (
     <div className="w-full relative bg-gradient-to-r from-custom-lpurple via-custom-purple/70 to-custom-dpurple py-10 flex flex-col items-center">
-      <div className="relative z-10 w-full mx-auto text-center mb-6">
+      <div className="relative z-10 w-full mx-auto text-center mb-6 p-4">
         <Image height={500} width={500} src="/home/image.png" alt="Innovision" className="mx-auto object-cover" />
       </div>
 
-      <div className="absolute top-0 z-0 mx-auto">
+      <div className="absolute top-0 z-0 mx-auto p-2">
         <Image height={250} width={250} src="/innovision.svg" alt="Innovision bg" className="mx-auto object-cover"/>
       </div>
 
