@@ -5,14 +5,15 @@
 }
 
 .future-event-card:hover {
-    transform: translateX(10px);
+    transform: translateX(0px);
 }
 
 .future-event-card .bg-black {
-    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+    transition: transform 0.5s ease-in-out, width 0.3s ease-in-out;
     transform-origin: center;
+    
 }
 
 .future-event-card:hover .bg-black {
-    transform: scaleX(1.07) scaleY(1.5);
+    transform: scaleX(1.07) scaleY(1.25) ;
 }
