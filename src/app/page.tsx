@@ -1,5 +1,4 @@
 "use client"
-import { Footer } from "@/components/home/future/Footer";
 import { login } from "@/utils/functions/login";
 import Image from "next/image";
 
