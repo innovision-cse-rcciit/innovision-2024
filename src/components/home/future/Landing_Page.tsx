@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 
 const LandingPage = () => {
     const date = new Date();
@@ -9,15 +8,23 @@ const LandingPage = () => {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
 
+    const timeDigits = [
+        hours[0],
+        hours[1],
+        ':',
+        minutes[0],
+        minutes[1]
+    ];
+
     return (
-        <div className="h-screen w-screen relative">
+        <div className="max-md:h-screen max-md:w-screen relative">
             <img
                 src='/landing/Future_landing_page.png'
                 className='w-full h-full object-cover'
                 alt='Landing'
             />
             <img
-                className='absolute top-2 left-2 h-10 w-52 sm:h-12 sm:w-64 md:h-16 md:w-72 lg:h-15 lg:w-70 xl:top-8 xl:left-16'
+                className='absolute top-2 left-2 h-10 w-52 sm:h-12 sm:w-64 md:h-16 md:w-72 lg:h-15 lg:w-70 xl:top-5 xl:left-16'
                 src='landing/innovision-heading.png'
                 alt='Heading'
             />
@@ -28,15 +35,33 @@ const LandingPage = () => {
                     src='landing/Innovision-logo-landing.png'
                     alt='Logo'
                 />
-                <div className='flex flex-col gap-4 items-center lg:items-end'>
-                    <div className='text-sm text-white top-64 right-10 md:top-80 md:right-24 lg:top-88 lg:right-32 lg:text-base xl:text-xl'>
-                        PRESENTED BY CSE DEPARTMENT OF RCCIIT
+                <div className='flex flex-col gap-14 items-center'>
+                    <div className='flex flex-col gap-2 items-center lg:items-end'>
+                        <div className='text-sm text-[#DAD7D9] top-64 right-10 md:top-80 md:right-24 lg:top-88 lg:right-32 lg:text-base xl:text-xl font-Chakra_Petch italic'>
+                            PRESENTED BY CSE DEPARTMENT OF RCCIIT
+                        </div>
+                        <button className='bg-[#DAD7D9] text-[#B61B69] font-bold h-10 w-28 text-xs lg:h-14 lg:w-36 lg:text-sm'>
+                            REGISTER NOW
+                        </button>
                     </div>
-                    <button className='bg-[#DAD7D9] text-[#B61B69] font-bold h-10 w-28 text-xs lg:h-14 lg:w-36 lg:text-sm'>
-                        REGISTER NOW
-                    </button>
-                    <div className='text-white text-sm'>
-                        {`${day} ${month}, ${year} ${hours}:${minutes}`}
+                    <div className='flex flex-col gap-5 items-center'>
+                        <div className='flex flex-row items-center'>
+                            {timeDigits.map((digit, index) => (
+                                <div key={index} className='relative flex items-center justify-center'>
+                                    <img
+                                        src={digit === ':' ? "landing/Time-asset-colon.svg" : `landing/Time-asset-1.svg`}
+                                        className={digit === ':' ? 'h-6 mt-2 ml-2 mr-2 xl:h-10 xl:mt-4 xl:ml-4 xl:mr-4' : `h-14 xl:h-20 ${index % 2 === 0 ? '' : 'transform rotate-180'}`}
+                                        alt={`time-${digit}`}
+                                    />
+                                    <h1 className='absolute text-[#B51C69] text-3xl keania-one-regular'>
+                                        {(digit === ":") ? "" : digit}
+                                    </h1>
+                                </div>
+                            ))}
+                        </div>
+                        <div className='text-[#DAD7D9] text-4xl keania-one-regular'>
+                            {`${day} ${month}, ${year}`}
+                        </div>
                     </div>
                 </div>
             </div>

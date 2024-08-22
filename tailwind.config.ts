@@ -1,4 +1,4 @@
-import { Chakra_Petch } from "next/font/google";
+import { Chakra_Petch, Keania_One } from "next/font/google";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -15,6 +15,7 @@ const config: Config = {
       },
       fontFamily: {
         Chakra_Petch: ["Chakra Petch", "sans-serif"],
+        Keania_One: ["Keania_One", "sans-serif"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
