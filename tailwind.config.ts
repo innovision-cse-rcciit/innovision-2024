@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        'custom-lpurple': '#B51C69',
+        'custom-dpurple': '#5F0235',
+      },
       fontFamily: {
         Chakra_Petch: ["Chakra Petch", "sans-serif"],
       },
