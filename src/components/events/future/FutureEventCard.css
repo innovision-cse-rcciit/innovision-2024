@@ -2,18 +2,29 @@
     background: linear-gradient(126.67deg, #DAD7D9 0.76%, rgba(218, 215, 217, 0.28) 100%);
     transition: transform 0.3s ease-in-out;
     cursor: pointer;
+    position: relative;
 }
 
 .future-event-card:hover {
-    transform: translateX(0px);
+    transform: translateX(-2px);
 }
 
 .future-event-card .bg-black {
     transition: transform 0.5s ease-in-out, width 0.3s ease-in-out;
     transform-origin: center;
-    
 }
 
 .future-event-card:hover .bg-black {
-    transform: scaleX(1.07) scaleY(1.25) ;
+    transform: scaleX(1.2) scaleY(1.6);
 }
+
+.hovered-text {
+    color: white;
+    z-index: 1;
+    transition: color 0.5s ease-in-out;
+}
+
+.box-shadow {
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.6);
+}
+
