@@ -5,7 +5,6 @@ import FFooter from "@/components/home/future/Footer";
 import PFooter from "@/components/home/past/Footer";
 import Navbar from "@/components/common/Navbar";
 import SessionProvider from "@/components/common/SessionProvider";
-import Gallery from "@/components/home/past/Gallery";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,8 +24,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar />
         {children}
-      <body className={inter.className}>{children}
-        <Gallery/>
         {
           gg?<FFooter/>:<PFooter/>
         }

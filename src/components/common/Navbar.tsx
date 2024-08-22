@@ -18,7 +18,6 @@ const Navbar = () => {
   const [scrolling, setScrolling] = useState(false);
   const [userImg, setUserImg] = useState("");
   const user = useUser((state) => state.user);
-  console.log(user)
   const setUser = useUser((state) => state.setUser);
   const router = useRouter();
   const pathname = usePathname();
