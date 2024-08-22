@@ -16,21 +16,8 @@ const Gallery: React.FC = () => {
         <div className="bg-black aspect-square "></div>
         <div className="bg-black aspect-square"></div>
         <div className="bg-black aspect-square col-span-2 sm:col-span-3 md:col-span-3 lg:col-span-1"></div>
-        <div className="bg-black aspect-square mx-auto pt-"></div>
-        <div className="flex flex-col gap-y-4 ">
-          <div className="bg-black aspect-square"></div>
-          <div className="bg-black aspect-square"></div>
-        </div>
-        <div className="bg-black aspect-square col-span-2 sm:col-span-2 md:col-span-2 lg:col-span-2"></div>
-        <div className="flex flex-col gap-y-4 ">
-          <div className="bg-black aspect-square"></div>
-          <div className="bg-black aspect-square"></div>
-        </div>
-        <div className="bg-black aspect-square col-span-2 md:col-span-1 lg:col-span-1"></div>
-        <div className="bg-black aspect-square"></div>
-        <div className="bg-black aspect-square col-span-2 sm:col-span-3 md:col-span-3 lg:col-span-1"></div>
-        <div className="bg-black aspect-square"></div>
-        <div className="flex flex-col gap-y-4 ">
+        <div className="bg-black aspect-square mx-auto"></div>
+        <div className="flex flex-col gap-y-4">
           <div className="bg-black aspect-square"></div>
           <div className="bg-black aspect-square"></div>
         </div>
