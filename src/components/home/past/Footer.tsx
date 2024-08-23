@@ -14,13 +14,13 @@ export const Footer = () => {
       </div>
 
       <div className="relative z-10 flex flex-wrap justify-center space-x-4 sm:space-x-8 mt-6">
-        <Link href="#" className="text-white text-sm sm:text-lg font-Chakra_Petch">EVENTS</Link>
+        <Link href="/events" className="text-white text-sm sm:text-lg font-Chakra_Petch">EVENTS</Link>
         <span className="hidden sm:inline text-white">|</span>
-        <Link href="#" className="text-white text-sm sm:text-lg font-Chakra_Petch">GALLERY</Link>
+        <Link href="/gallery" className="text-white text-sm sm:text-lg font-Chakra_Petch">GALLERY</Link>
         <span className="hidden sm:inline text-white">|</span>
-        <Link href="#" className="text-white text-sm sm:text-lg font-Chakra_Petch">TEAM</Link>
+        <Link href="/team" className="text-white text-sm sm:text-lg font-Chakra_Petch">TEAM</Link>
         <span className="hidden sm:inline text-white">|</span>
-        <Link href="#" className="text-white text-sm sm:text-lg font-Chakra_Petch">MY PROFILE</Link>
+        <Link href="/profile" className="text-white text-sm sm:text-lg font-Chakra_Petch">MY PROFILE</Link>
       </div>
 
       <div className="flex justify-center space-x-4 sm:space-x-6 mt-6">
