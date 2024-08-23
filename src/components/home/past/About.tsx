@@ -2,8 +2,24 @@ import React from 'react'
 
 const About = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/past_background.svg')" }}>
-      <div className="flex flex-col md:flex-row items-center text-white p-6 md:p-16 ">        
+
+    <div className=" relative min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/past_background.svg')" }}>
+
+            <div className="relative top-0 left-0 z-10">
+            
+      </div>
+
+       {/* <div className="absolute top-0 left-0 z-10">
+        <img
+          src="/home/about/red_hue.svg"
+          alt="Red Hue"
+          width={400} // Adjust width according to your SVG size
+          height={400} // Adjust height according to your SVG size
+          className="opacity-80" // Adjust opacity if needed
+          style={{ objectFit: 'contain', objectPosition: 'top left' }}
+        />
+      </div> */}
+      <div className=" flex flex-col md:flex-row items-center text-white p-6 md:p-16 ">       
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center">
           <img src="/home/about/about_logo.png" alt="Main Logo" className="w-80 h-80 md:w-[500px] md:h-[500px]" />
           <img src="\home\about\innovision_logo.png" alt="Innovision Logo" className="w-72 h-20 md:w-96 md:h-32  mt-[-10px]" />
