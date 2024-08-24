@@ -62,7 +62,7 @@ export default function Register() {
     </label>
     <select
       id="department"
-      defaultValue="" // Set defaultValue here
+      defaultValue="" 
       required
       className="w-full px-4 py-2 border border-pink-600 rounded-md bg-gray-800 text-white focus:ring-2 focus:ring-pink-400"
     >
