@@ -21,12 +21,12 @@ export default function RootLayout({
   const gg = false;
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
         <Navbar />
-        {children}
-        {
-          gg?<FFooter/>:<PFooter/>
-        }
+        <main className="flex-grow">
+          {children}
+        </main>
+        {gg ? <FFooter /> : <PFooter />}
         <SessionProvider />
       </body>
     </html>
