@@ -1,13 +1,8 @@
 import React from 'react';
+import {useCurrentDateTime} from "../../../utils/functions/dateTime"
 
 const LandingPage = () => {
-    const date = new Date();
-    const day = date.toLocaleString('en-GB', { day: 'numeric' });
-    const month = date.toLocaleString('en-GB', { month: 'long' });
-    const year = date.getFullYear() + 1000;
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-
+    const { day, month, year, hours, minutes } = useCurrentDateTime();
     const timeDigits = [
         hours[0],
         hours[1],
@@ -23,11 +18,6 @@ const LandingPage = () => {
                 className='w-full h-full object-cover'
                 alt='Landing'
             />
-            <img
-                className='absolute top-2 left-2 h-10 w-52 sm:h-12 sm:w-64 md:h-16 md:w-72 lg:h-15 lg:w-70 xl:top-5 xl:left-16'
-                src='landing/innovision-heading.png'
-                alt='Heading'
-            />
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-11/12 h-5/6 border-4 rounded-3xl border-white md:w-10/12 md:h-4/5 lg:w-11/12 lg:h-3/4 xl:w-11/12 xl:h-3/4" />
             <div className='absolute inset-0 flex flex-col gap-4 items-center justify-center lg:flex-row lg:gap-x-60 xl:gap-x-96'>
                 <img
@@ -40,9 +30,18 @@ const LandingPage = () => {
                         <div className='text-sm text-[#DAD7D9] top-64 right-10 md:top-80 md:right-24 lg:top-88 lg:right-32 lg:text-base xl:text-xl font-Chakra_Petch italic'>
                             PRESENTED BY CSE DEPARTMENT OF RCCIIT
                         </div>
-                        <button className='bg-[#DAD7D9] text-[#B61B69] font-bold h-10 w-28 text-xs lg:h-14 lg:w-36 lg:text-sm'>
+                        <div className='flex flex-row items-center'>
+                            <img 
+                                src='/landing/Button.png'
+                                className='h-10 w-28 lg:h-14 lg:w-36 lg:text-sm'
+                            />
+                            <h1 className='absolute mx-3 lg:mx-5 font-Chakra_Petch text-[#B61B69] text-xs lg:text-sm font-bold'>
+                                REGISTER NOW
+                            </h1>
+                        </div>
+                        {/* <button className='bg-[#DAD7D9] text-[#B61B69] font-bold h-10 w-28 text-xs lg:h-14 lg:w-36 lg:text-sm'>
                             REGISTER NOW
-                        </button>
+                        </button> */}
                     </div>
                     <div className='flex flex-col gap-5 items-center'>
                         <div className='flex flex-row items-center'>
