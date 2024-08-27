@@ -1,20 +1,33 @@
 "use client";
 
-import { addEventSchema, EventMode } from '@/lib/schema/add-event-schema';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from 'zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
+import { zodResolver } from "@hookform/resolvers/zod"
+import { addEventSchema, EventMode } from '@/lib/schema/add-event-schema';
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+} from '../ui/form';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '../ui/select';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import AddCoordinatorForm from './AddCoordinatorForm';
-import dynamic from 'next/dynamic';
-import { Role } from '@/lib/schema/add-coordinator-volunteer-schema';
-import { addEvent } from '../../../actions/admin/add-event';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { CoordinatorList } from './CoordinatorList';
+import { addEvent } from '../../../actions/admin/add-event';
+import { ICoordinator } from '@/lib/types/coordinator';
 
 // Dynamically import ReactQuill with no SSR
 const ReactQuill = dynamic(() => import('react-quill'), {
@@ -25,7 +38,7 @@ type Props = {}
 
 const AddEventForm = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [coordinator, setCoordinator] = useState<{ name: string; email: string, role: Role }[]>([]);
+    const [coordinator, setCoordinator] = useState<ICoordinator[]>([]);
 
     const form = useForm<z.infer<typeof addEventSchema>>({
         resolver: zodResolver(addEventSchema),
@@ -39,7 +52,7 @@ const AddEventForm = (props: Props) => {
             schedule: '',
             coordinator: [],
             event_type: EventMode.ONLINE,
-        }
+        },
     });
     const {
         handleSubmit,
@@ -50,10 +63,16 @@ const AddEventForm = (props: Props) => {
     } = form;
 
     const handleAddEvent = async (values: z.infer<typeof addEventSchema>) => {
-        console.log('Add event:', values);
-        // const roles = values.coordinator;
-        // delete values.coordinator;
-        // const res = await addEvent(values, roles);
+        if (coordinator.length === 0) {
+            form.setError('coordinator', {
+                type: 'manual',
+                message: 'At least one coordinator is required',
+            });
+            return;
+        }
+        const roles = coordinator;
+        console.log('Add event:', roles);
+        const res: any = await addEvent(values, roles);
         reset();
     }
 
@@ -65,7 +84,7 @@ const AddEventForm = (props: Props) => {
                 onSubmit={handleSubmit(handleAddEvent)}
                 className='flex flex-col gap-y-4'
             >
-                <div className="flex gap-x-4 items-center">
+                <div className="flex gap-x-4 items-center max-md:flex-col">
                     <div className="flex flex-col gap-y-4">
                         {/* Event name */}
                         <FormField
@@ -245,7 +264,15 @@ const AddEventForm = (props: Props) => {
                         <CoordinatorList
                             data={coordinator}
                             setCoordinator={setCoordinator}
+                            event_name={getValues("event_name") ?? ""}
                         />
+                        {
+                            formState.errors.coordinator && (
+                                <FormMessage>
+                                    {formState.errors.coordinator.message}
+                                </FormMessage>
+                            )
+                        }
                         <AddCoordinatorForm
                             event_name={getValues("event_name") ?? ""}
                             isOpen={isOpen}
@@ -259,9 +286,9 @@ const AddEventForm = (props: Props) => {
                         </AddCoordinatorForm>
                     </div>
                 </div>
-
                 <Button
                     type="submit"
+                    disabled={formState.isLoading}
                 >
                     Add Event
                 </Button>

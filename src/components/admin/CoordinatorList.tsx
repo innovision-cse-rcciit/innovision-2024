@@ -34,27 +34,37 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Role } from "@/lib/schema/add-coordinator-volunteer-schema"
+import AddCoordinatorForm from "./AddCoordinatorForm"
+import { ICoordinator } from "@/lib/types/coordinator"
 
 
 
 type Props = {
-    data: { name: string; email: string, role: Role }[];
-    setCoordinator: (coordinator: { name: string; email: string, role: Role }[]) => void;
+    data: ICoordinator[];
+    setCoordinator: (coordinator: ICoordinator[]) => void;
+    event_name: string;
 }
 
-export function CoordinatorList({ data, setCoordinator }: Props) {
+export function CoordinatorList({ data, setCoordinator, event_name }: Props) {
     console.log(data);
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = useState({})
+    const [editingCoordinator, setEditingCoordinator] = useState<ICoordinator | null>(null);
+    const [isEditOpen, setIsEditOpen] = useState(false);
+
+    const handleEdit = (coordinator: ICoordinator) => {
+        setEditingCoordinator(coordinator);
+        setIsEditOpen(true);
+    };
 
     const handleRemove = (email: string) => {
         const updatedData = data.filter((coordinator) => coordinator.email !== email)
         setCoordinator(updatedData)
     }
 
-    const columns: ColumnDef<{ name: string; email: string, role: Role }>[] = [
+    const columns: ColumnDef<ICoordinator>[] = [
         // Select
         {
             id: "select",
@@ -116,7 +126,7 @@ export function CoordinatorList({ data, setCoordinator }: Props) {
             id: "actions",
             enableHiding: false,
             cell: ({ row }) => {
-                const email = row.original.email;
+                const coordinator = row.original;
 
                 return (
                     <DropdownMenu>
@@ -128,9 +138,13 @@ export function CoordinatorList({ data, setCoordinator }: Props) {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                                <DropdownMenuItem
+                                    onClick={() => handleEdit(coordinator)}
+                                >
+                                    Edit
+                                </DropdownMenuItem>
                             <DropdownMenuItem
-                                onClick={() => handleRemove(email)}
+                                onClick={() => handleRemove(coordinator.email)}
                             >
                                 Remove
                             </DropdownMenuItem>
@@ -256,6 +270,15 @@ export function CoordinatorList({ data, setCoordinator }: Props) {
                     </Button>
                 </div>
             </div>
+            {isEditOpen && editingCoordinator && (
+                <AddCoordinatorForm
+                    event_name={event_name}
+                    isOpen={isEditOpen}
+                    onClose={() => setIsEditOpen(false)}
+                    defaultCoordinator={editingCoordinator}
+                    coorinatorValue={data}
+                    setCoordinatorValue={setCoordinator} children={undefined}                />
+            )}
         </div>
     )
 }

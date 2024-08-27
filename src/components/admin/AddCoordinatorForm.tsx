@@ -26,29 +26,38 @@ import {
     SelectValue
 
 } from '../ui/select';
+import { ICoordinator } from '@/lib/types/coordinator';
 
 type Props = {
     children: React.ReactNode;
     event_name: string;
     isOpen: boolean;
     onClose: (isOpen: boolean) => void;
-    coorinatorValue: { name: string; email: string, role: Role }[];
-    setCoordinatorValue: (coordinator: { name: string; email: string, role: Role }[]) => void;
+    defaultCoordinator?: ICoordinator;
+    coorinatorValue: ICoordinator[];
+    setCoordinatorValue: (coordinator: ICoordinator[]) => void;
 }
 
-const AddCoordinatorForm = ({ children, event_name, isOpen, onClose, coorinatorValue, setCoordinatorValue }: Props) => {
+const AddCoordinatorForm = ({ children, event_name, isOpen, onClose, coorinatorValue, setCoordinatorValue, defaultCoordinator }: Props) => {
 
     const [loading, setLoading] = useState<boolean>(false);
-    const [name, setName] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [coRole, setCoRole] = useState<Role>(Role.COORDINATOR);
+    const [name, setName] = useState<string>(defaultCoordinator?.name ?? "");
+    const [email, setEmail] = useState<string>(defaultCoordinator?.email ?? "");
+    const [coRole, setCoRole] = useState<Role>(defaultCoordinator?.role ?? Role.COORDINATOR);
 
     const addCoordinator = (e: any) => {
         setLoading(true);
         const newCoordinator = { name, email, role: coRole };
-        // coorinatorValue.push(newCoordinator);
-        // setCoordinatorValue(coorinatorValue);
-        setCoordinatorValue(prevCoordinators => [...prevCoordinators, newCoordinator]);
+        if (defaultCoordinator) {
+            // Editing existing coordinator
+            const updatedCoordinators = coorinatorValue.map(coordinator =>
+                coordinator.email === defaultCoordinator.email ? newCoordinator : coordinator
+            );
+            setCoordinatorValue(updatedCoordinators);
+        } else {
+            // Adding new coordinator
+            setCoordinatorValue(prevCoordinators => [...prevCoordinators, newCoordinator]);
+        }
         setLoading(false);
         setName("");
         setEmail("");

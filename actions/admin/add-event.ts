@@ -1,7 +1,7 @@
 import { Role } from '@/lib/schema/add-coordinator-volunteer-schema';
 import { supabase } from '@/lib/supabase-client';
 export const addEvent = async (values: any, roles: any) => {
-    console.log(values);
+    console.log(values, roles);
     delete values.coordinator;
     const { data, error } = await supabase.auth.getSession();
 
