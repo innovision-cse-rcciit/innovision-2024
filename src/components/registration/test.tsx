@@ -2,6 +2,46 @@
 import React, { useState } from "react";
 
 export default function Register() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    collegeRoll: "",
+    department: "",
+    section: "",
+    phoneNumber: "",
+    gender: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("/api/sendEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        alert("Registration successful! Confirmation email sent.");
+      } else {
+        alert("Failed to send confirmation email.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred during registration.");
+    }
+  };
 
   return (
                         
@@ -22,7 +62,7 @@ export default function Register() {
                             />
                           </div>
                           <div className="bg-white mr-4 bg-opacity-10 backdrop-blur-sm p-8 rounded-lg shadow-lg border border-pink-600 w-full max-w-md lg:order-1 lg:w-1/2">
-                          <form>
+                          <form onSubmit={handleSubmit}>
                     <div className="mb-2">
                       <label className="block text-white font-semibold mb-2" htmlFor="name">
                         Name
