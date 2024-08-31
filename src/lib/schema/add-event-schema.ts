@@ -13,5 +13,6 @@ export const addEventSchema = z.object({
     description: z.string().max(200).trim(),
     rules: z.string().max(2000).trim(),
     coordinator: addCoordinatorVolunteerSchema.array(),
-    event_type: z.nativeEnum(EventMode)
+    event_type: z.nativeEnum(EventMode),
+    isOpen: z.boolean(),
 });
