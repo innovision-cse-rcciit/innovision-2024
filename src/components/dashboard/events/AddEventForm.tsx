@@ -13,21 +13,22 @@ import {
     FormItem,
     FormLabel,
     FormMessage
-} from '../ui/form';
+} from '../../ui/form';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue
-} from '../ui/select';
-import { Button } from '../ui/button';
-import { Label } from '../ui/label';
-import { Input } from '../ui/input';
+} from '../../ui/select';
+import { Button } from '../../ui/button';
+import { Label } from '../../ui/label';
+import { Input } from '../../ui/input';
 import AddCoordinatorForm from './AddCoordinatorForm';
 import { CoordinatorList } from './CoordinatorList';
-import { addEvent } from '../../../actions/admin/add-event';
+import { addEvent } from '../../../../actions/admin/add-event';
 import { ICoordinator } from '@/lib/types/coordinator';
+import { Switch } from '../../ui/switch';
 
 // Dynamically import ReactQuill with no SSR
 const ReactQuill = dynamic(() => import('react-quill'), {
@@ -52,6 +53,7 @@ const AddEventForm = (props: Props) => {
             schedule: '',
             coordinator: [],
             event_type: EventMode.ONLINE,
+            isOpen: true
         },
     });
     const {
@@ -71,7 +73,7 @@ const AddEventForm = (props: Props) => {
             return;
         }
         const roles = coordinator;
-        console.log('Add event:', roles);
+        console.log('Add event:', values);
         const res: any = await addEvent(values, roles);
         reset();
     }
@@ -232,7 +234,8 @@ const AddEventForm = (props: Props) => {
                             control={form.control}
                             name="event_type"
                             render={({ field }) => (
-                                <FormItem>
+                                <FormItem className='w-full'>
+                                    <Label>Event Mode</Label>
                                     <Select
                                         disabled={field.disabled}
                                         onValueChange={field.onChange}
@@ -255,6 +258,24 @@ const AddEventForm = (props: Props) => {
                                             }
                                         </SelectContent>
                                     </Select>
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Registration */}
+                        <FormField
+                            control={form.control}
+                            name="isOpen"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <div className="flex gap-x-4 items-center">
+                                        <Label>Open Registration</Label>
+                                        <Switch
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                            aria-readonly
+                                        />
+                                    </div>
                                 </FormItem>
                             )}
                         />

@@ -10,14 +10,14 @@ import {
     DialogTitle,
     DialogTrigger
 
-} from '../ui/dialog'
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
+} from '../../ui/dialog'
+import { Input } from '../../ui/input';
+import { Label } from '../../ui/label';
 import {
     Role
 
 } from '@/lib/schema/add-coordinator-volunteer-schema';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import {
     Select,
     SelectContent,
@@ -25,7 +25,7 @@ import {
     SelectTrigger,
     SelectValue
 
-} from '../ui/select';
+} from '../../ui/select';
 import { ICoordinator } from '@/lib/types/coordinator';
 
 type Props = {
