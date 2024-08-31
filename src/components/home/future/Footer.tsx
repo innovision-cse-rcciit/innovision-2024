@@ -14,13 +14,13 @@ export const Footer = () => {
       </div>
 
       <div className="relative z-10 flex flex-wrap justify-center space-x-4 sm:space-x-8 mt-6">
-        <Link href="#" className="text-white text-sm sm:text-lg">EVENTS</Link>
+        <Link href="/events" className="text-white text-sm sm:text-lg font-Chakra_Petch">EVENTS</Link>
         <span className="hidden sm:inline text-white">|</span>
-        <Link href="#" className="text-white text-sm sm:text-lg">GALLERY</Link>
+        <Link href="/gallery" className="text-white text-sm sm:text-lg font-Chakra_Petch">GALLERY</Link>
         <span className="hidden sm:inline text-white">|</span>
-        <Link href="#" className="text-white text-sm sm:text-lg">TEAM</Link>
+        <Link href="/team" className="text-white text-sm sm:text-lg font-Chakra_Petch">TEAM</Link>
         <span className="hidden sm:inline text-white">|</span>
-        <Link href="#" className="text-white text-sm sm:text-lg">MY PROFILE</Link>
+        <Link href="/profile" className="text-white text-sm sm:text-lg font-Chakra_Petch">MY PROFILE</Link>
       </div>
 
       <div className="flex justify-center space-x-4 sm:space-x-6 mt-6">
@@ -29,7 +29,7 @@ export const Footer = () => {
         <Link href="#"><img src="/home/socials/facebook.svg" alt="Discord" className="h-6 w-6 sm:h-8 sm:w-8"/></Link>
       </div>
 
-      <div className="text-white text-xs sm:text-sm text-center mt-8">
+      <div className="text-white text-xs sm:text-sm text-center mt-8 font-Chakra_Petch">
         DEPARTMENT OF CSE, RCCIIT
       </div>
     </div>
