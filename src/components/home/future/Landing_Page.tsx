@@ -1,5 +1,6 @@
 import React from 'react';
 import {useCurrentDateTime} from "../../../utils/functions/dateTime"
+import Image from 'next/image';
 
 const LandingPage = () => {
     const { day, month, year, hours, minutes } = useCurrentDateTime();
@@ -13,7 +14,9 @@ const LandingPage = () => {
 
     return (
         <div className="max-md:h-screen max-md:w-screen relative">
-            <img
+            <Image
+            width={1920}
+            height={1080}
                 src='/landing/Future_landing_page.png'
                 className='w-full h-full object-cover'
                 alt='Landing'

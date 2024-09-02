@@ -26,7 +26,7 @@ export default function RootLayout({
         <main className="flex-grow">
           {children}
         </main>
-        {gg ? <FFooter /> : <PFooter />}
+      <FFooter />
         <SessionProvider />
       </body>
     </html>

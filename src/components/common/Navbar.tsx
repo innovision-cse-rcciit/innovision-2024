@@ -18,6 +18,7 @@ const Navbar = () => {
   const [scrolling, setScrolling] = useState(false);
   const [userImg, setUserImg] = useState("");
   const user = useUser((state) => state.user);
+  console.log(user)
   const setUser = useUser((state) => state.setUser);
   const router = useRouter();
   const pathname = usePathname();
@@ -166,7 +167,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="sticky left-0 top-0 z-[100] bg-black text-white w-screen overflow-x-hidden font-hollirood lg:w-full ">
+      <div className="sticky left-0 top-0 z-[100] bg-pink-950 text-white w-screen overflow-x-hidden font-hollirood lg:w-full ">
         <div
           className={`${
             scrolling || isMenuOpen
