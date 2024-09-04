@@ -16,7 +16,7 @@ const LandingPage = () => {
         <div
             className="relative w-full h-screen max-md:w-screen max-md:h-screen bg-cover bg-center">
             <Image 
-                src={'/landing/Future_landing_page.png'} 
+                src={'https://i.postimg.cc/Pqdw4FWp/Future-landing-page.png'} 
                 alt='' 
                 layout="fill" 
                 objectFit="cover" 
