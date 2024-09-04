@@ -1,11 +1,26 @@
-import React from 'react'
+import TeamCard from "@/components/team/TeamCard";
+import React from "react";
 
-type Props = {}
+const Gallery: React.FC = () => {
+  const sampleData = [
+    {name: "Dibakar", role: "Tech Team"},
+    {name: "Dibakar", role: "Tech Team"},
+    {name: "Dibakar", role: "Tech Team"},
+    {name: "Dibakar", role: "Tech Team"},
+    {name: "Dibakar", role: "Tech Team"},
+    {name: "Dibakar", role: "Tech Team"},
+  ]
 
-const Team = (props: Props) => {
+
   return (
-    <div>Team</div>
-  )
-}
+    <div className="bg-black grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 p-5">
+      {sampleData.map(({name, role}) => {
+        return(
+          <TeamCard name={name} role={role} />
+        );
+      })}
+    </div>
+  );
+};
 
-export default Team
+export default Gallery;
