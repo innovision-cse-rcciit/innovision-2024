@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
     Dialog,
     DialogContent,
@@ -9,13 +9,11 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger
-
-} from '../../ui/dialog'
+} from '../../ui/dialog';
 import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
 import {
     Role
-
 } from '@/lib/schema/add-coordinator-volunteer-schema';
 import { Button } from '../../ui/button';
 import {
@@ -24,7 +22,6 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue
-
 } from '../../ui/select';
 import { ICoordinator } from '@/lib/types/coordinator';
 
@@ -34,11 +31,11 @@ type Props = {
     isOpen: boolean;
     onClose: (isOpen: boolean) => void;
     defaultCoordinator?: ICoordinator;
-    coorinatorValue: ICoordinator[];
-    setCoordinatorValue: (coordinator: ICoordinator[]) => void;
+    coordinatorValue: ICoordinator[];
+    setCoordinatorValue: React.Dispatch<React.SetStateAction<ICoordinator[]>>;
 }
 
-const AddCoordinatorForm = ({ children, event_name, isOpen, onClose, coorinatorValue, setCoordinatorValue, defaultCoordinator }: Props) => {
+const AddCoordinatorForm = ({ children, event_name, isOpen, onClose, coordinatorValue, setCoordinatorValue, defaultCoordinator }: Props) => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const [name, setName] = useState<string>(defaultCoordinator?.name ?? "");
@@ -47,16 +44,16 @@ const AddCoordinatorForm = ({ children, event_name, isOpen, onClose, coorinatorV
 
     const addCoordinator = (e: any) => {
         setLoading(true);
-        const newCoordinator = { name, email, role: coRole };
+        const newCoordinator: ICoordinator = { name, email, role: coRole };
         if (defaultCoordinator) {
             // Editing existing coordinator
-            const updatedCoordinators = coorinatorValue.map(coordinator =>
+            const updatedCoordinators = coordinatorValue.map(coordinator =>
                 coordinator.email === defaultCoordinator.email ? newCoordinator : coordinator
             );
             setCoordinatorValue(updatedCoordinators);
         } else {
             // Adding new coordinator
-            setCoordinatorValue(prevCoordinators => [...prevCoordinators, newCoordinator]);
+            setCoordinatorValue((prevCoordinators: ICoordinator[]) => [...prevCoordinators, newCoordinator]);
         }
         setLoading(false);
         setName("");
@@ -124,15 +121,16 @@ const AddCoordinatorForm = ({ children, event_name, isOpen, onClose, coorinatorV
                 <Button
                     type="button"
                     onClick={addCoordinator}
+                    disabled={loading}
                 >
                     Add {role}
                 </Button>
                 <DialogFooter>
-
+                    {/* Add any footer elements if needed */}
                 </DialogFooter>
             </DialogContent>
         </Dialog >
-    )
+    );
 }
 
-export default AddCoordinatorForm
+export default AddCoordinatorForm;
