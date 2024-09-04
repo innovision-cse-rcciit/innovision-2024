@@ -30,7 +30,7 @@ const LandingPage = () => {
                     <Image 
                         height={400} 
                         width={440}
-                        src='/Landing/innovision-logo-landing.png'
+                        src='https://i.postimg.cc/JnPs7b2s/Innovision-logo-landing.png'
                         className=' max-md:w-72 max-md:h-60 md:w-56 md:h-48 xl:w-96 xl:h-80'
                         alt='Logo'
                     />
