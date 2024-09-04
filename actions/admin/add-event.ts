@@ -8,7 +8,7 @@ export const addEvent = async (values: any, roles: any) => {
     if (error) {
         throw error;
     }
-    const { data: eventInsertData, error: eventInsertError } = await supabase
+    const { data: eventInsertData, error: eventInsertError }:any = await supabase
         .from("events")
         .insert({
             event_name: values.event_name,
@@ -30,7 +30,7 @@ export const addEvent = async (values: any, roles: any) => {
         return supabase.from("roles").insert({
             id: data.session?.user.id,
             role: role.role as Role,
-            event_id: eventInsertData.id // Use the inserted event's ID
+            event_id: eventInsertData?.id! // Use the inserted event's ID
         });
     });
     console.log('Roles Insertion started');
