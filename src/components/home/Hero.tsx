@@ -15,7 +15,7 @@ const LandingPage = () => {
     return (
         <div
             className="relative w-full h-screen max-md:w-screen max-md:h-screen bg-cover bg-center"
-            style={{ backgroundImage: "url('/landing/Future_landing_page.png')" }}
+            style={{ backgroundImage: "url('/Landing/Future_landing_page.png')" }}
         >
             <div className="flex items-center justify-center my-auto mx-auto h-full">
                 <div className='rounded-xl backdrop-blur-sm flex flex-row md:pt-10 hover:backdrop-blur-none cursor-pointer flex-wrap border-2 border-white  w-4/5 h-4/5 transform -translate-y-1/6 gap-4 items-center justify-around  '>
@@ -23,7 +23,7 @@ const LandingPage = () => {
                 <Image 
                         height={40} 
                         width={40}
-                        src='/landing/arrow.png'
+                        src='/Landing/arrow.png'
                         alt='Logo'
                     />
                 </div>
@@ -45,7 +45,7 @@ const LandingPage = () => {
                                     width={112}
                                     height={110}
                                     alt='Register' 
-                                    src='/landing/Button.png'
+                                    src='/Landing/Button.png'
                                     className='w-40 md:w-60'
                                 />
                                 <h1 className='absolute text-center w-full font-Chakra_Petch text-[#B61B69] text-sm md:text-xl font-bold'>
