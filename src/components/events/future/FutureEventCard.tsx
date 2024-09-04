@@ -1,19 +1,23 @@
 import React from 'react';
-import './FutureEventCard.css';
 
-const FutureEventCard = ({ date, title }:{
-    date: string;
-    title: string;
-}) => {
+const FutureEventCard = ({ date, title }: {date: string, title: string }) => {
     const [isHovered, setIsHovered] = React.useState(false);
+
     return (
-        <div onMouseEnter={()=>setIsHovered(true)} onMouseLeave={()=>setIsHovered(false)} className="relative border border-black p-4 w-full max-w-xs mx-auto future-event-card">
-            <div className="absolute top-2 left-4 text-base font-Chakra_Petch font-semibold">{title}</div>
-            <div className="absolute top-3 right-2 text-xs font-Chakra_Petch font-semibold">{date}</div>
-            <div className="relative mt-8 w-full h-40 bg-black transition-transform duration-300 ease-in-out transform hover:scale-100">
-                { isHovered && <h1 className="absolute top-0 left-0 text-white">
-                    Hello
-                </h1>}
+        <div
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className={`relative border-4 border-[#B61B69] max-w-xs mx-auto rounded-xl overflow-hidden`}
+        >
+            <img src='/events/Webify_poster.jpeg' className='rounded-lg' />
+            <div
+                className={`absolute top-0 w-full h-full bg-[#A31A5F] bg-opacity-50 transform ${isHovered ? 'opacity-100 scale-100 transition-transform duration-1000 ease-out' : 'opacity-0 scale-110'} transition-transform duration-1000 ease-out`}
+            >
+                <span className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-5xl font-sans'>
+                    <button className='text-[#B51C69] px-2 py-2 w-32 rounded-lg text-lg font-Chakra_Petch bg-white'>
+                        Register
+                    </button>
+                </span>
             </div>
         </div>
     );

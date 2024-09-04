@@ -1,17 +1,12 @@
 "use client"
-import { Footer } from "@/components/home/future/Footer";
-import { login } from "@/utils/functions/login";
-import Image from "next/image";
+import About from "@/components/home/About";
+import Hero from "@/components/home/Hero";
 
 export default function Home() {
   return (
-    <>
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <button onClick={login}>
-        Login
-      </button>
-    </main>
-      
-    </>
+   <main className="relative h-full w-full">
+    <Hero />
+    <About />
+   </main>
     );
 }
