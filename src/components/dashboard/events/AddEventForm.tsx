@@ -26,7 +26,7 @@ import { Label } from '../../ui/label';
 import { Input } from '../../ui/input';
 import AddCoordinatorForm from './AddCoordinatorForm';
 import { CoordinatorList } from './CoordinatorList';
-import { addEvent } from '../../../../actions/admin/add-event';
+// import { addEvent } from '../../../../actions/admin/add-event';
 import { ICoordinator } from '@/lib/types/coordinator';
 import { Switch } from '../../ui/switch';
 
@@ -74,7 +74,7 @@ const AddEventForm = (props: Props) => {
         }
         const roles = coordinator;
         console.log('Add event:', values);
-        const res: any = await addEvent(values, roles);
+        // const res: any = await addEvent(values, roles);
         reset();
     }
 
