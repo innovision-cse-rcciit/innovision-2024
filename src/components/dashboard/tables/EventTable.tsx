@@ -162,7 +162,7 @@ const EventTable = ({ data }: Props) => {
                 />
                 <div className="ml-auto flex gap-x-4">
                     <Button
-                        onClick={() => router.push('/dashboard/add-event')}
+                        onClick={() => router.push('/admin/manage-events/add-event')}
                     >
                         Add Event
                     </Button>

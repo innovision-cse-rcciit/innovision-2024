@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FutureEventCard = ({ date, title }: {date: string, title: string }) => {
+const FutureEventCard = ({ imageUrl }: {imageUrl: string }) => {
     const [isHovered, setIsHovered] = React.useState(false);
 
     return (
@@ -9,7 +9,7 @@ const FutureEventCard = ({ date, title }: {date: string, title: string }) => {
             onMouseLeave={() => setIsHovered(false)}
             className={`relative border-4 border-[#B61B69] max-w-xs mx-auto rounded-xl overflow-hidden`}
         >
-            <img src='/events/Webify_poster.jpeg' className='rounded-lg' />
+            <img src={imageUrl} className='rounded-lg' />
             <div
                 className={`absolute top-0 w-full h-full bg-[#A31A5F] bg-opacity-50 transform ${isHovered ? 'opacity-100 scale-100 transition-transform duration-1000 ease-out' : 'opacity-0 scale-110'} transition-transform duration-1000 ease-out`}
             >

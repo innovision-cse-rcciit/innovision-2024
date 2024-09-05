@@ -1,21 +1,63 @@
-"use client";
-import React from "react";
-import FutureEventCard from "@/components/events/future/FutureEventCard";
-import FutureEventsHeading from "@/components/events/future/FutureEventsHeading";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../../components/ui/tabs";
+"use client"
+import React, { useEffect, useState } from 'react'
+import FutureEventCard from '@/components/events/future/FutureEventCard'
+import FutureEventsHeading from '@/components/events/future/FutureEventsHeading'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs'
+import { getAllEvents } from '@/utils/functions/getAllEvents';
+
+interface Event {
+  banner_url: string;
+description: string;
+event_category_id: string;
+event_mode: string;
+event_name: string;
+id: string;
+is_open: boolean;
+max_team_size: number;
+min_team_size: number;
+rules: string;
+schedule: string;
+}
 
 const Event = () => {
-  const cardsData = [
-    { date: "02.09.2024", title: "WEBIFY" },
-    { date: "03.09.2024", title: "CODATHON" },
-    { date: "04.09.2024", title: "HACKATHON" },
-    { date: "04.09.2024", title: "BAG" },
-  ];
+  const [allEvents, setAllEvents] = useState<Event[]>([]); 
+
+  const fetchEvents = async () => {
+    const events: Event[] = await getAllEvents(); 
+    setAllEvents(events);
+    console.log(events);
+  }
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadStatus, setUploadStatus] = useState<string | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setSelectedFile(event.target.files[0]);  // Only one file can be selected
+    }
+  };
+
+  const handleUpload = async () => {
+    if (selectedFile) {
+      console.log('Selected File:', selectedFile);
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      formData.append('folderName', 'ART');
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+      console.log(result);
+      // Handle the upload status
+    }
+  };
 
   return (
     <>
@@ -53,39 +95,27 @@ const Event = () => {
           </div>
           <TabsContent value="technical">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {cardsData.map((card, index) => (
-                <FutureEventCard
-                  key={index}
-                  date={card.date}
-                  title={card.title}
-                />
-              ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="gaming">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {cardsData.map((card, index) => (
-                <FutureEventCard
-                  key={index}
-                  date={card.date}
-                  title={card.title}
-                />
+              {allEvents.map((event, index) => (
+                <FutureEventCard key={index} imageUrl={event.banner_url} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="non-technical">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {cardsData.map((card, index) => (
-                <FutureEventCard
-                  key={index}
-                  date={card.date}
-                  title={card.title}
-                />
+              {allEvents.map((event, index) => (
+                <FutureEventCard key={index} imageUrl={event.banner_url} />
               ))}
             </div>
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Upload Section */}
+      {/* <div>
+        <input type="file" accept='image/*' onChange={handleFileChange} />
+        <button onClick={handleUpload}>Upload</button>
+        {uploadStatus && <p>{uploadStatus}</p>}
+      </div> */}
     </>
   );
 };
