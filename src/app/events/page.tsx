@@ -83,21 +83,21 @@ const Event = () => {
           </div>
           <TabsContent value="technical">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {allEvents.filter((event:any)=>event.event_categories.title =="TECHNICAL").map((event:any, index:number) => (
+              {allEvents.filter((event:any)=>event.event_categories?.title =="TECHNICAL").map((event:any, index:number) => (
                 <FutureEventCard key={index} imageUrl={event.banner_url} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="gaming">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {allEvents.filter((event:any)=>event.event_categories.title =="GAMING").map((event:any, index:number) => (
+              {allEvents.filter((event:any)=>event.event_categories?.title =="GAMING").map((event:any, index:number) => (
                 <FutureEventCard key={index} imageUrl={event.banner_url} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="non-technical">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {allEvents.filter((event:any)=>event.event_categories.title =="NON-TECHNICAL").map((event:any, index:number) => (
+              {allEvents.filter((event:any)=>event.event_categories?.title =="NON-TECHNICAL").map((event:any, index:number) => (
                 <FutureEventCard key={index} imageUrl={event.banner_url} />
               ))}
             </div>

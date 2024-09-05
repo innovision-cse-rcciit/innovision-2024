@@ -7,8 +7,8 @@ type Props = {
 };
 
 export const metadata: Metadata = {
-  title: "Regalia 2K24 | Team",
-  description: "Regalia 2K24 Organizing Team Description",
+  title: "INNOVISION 2K24 | Team",
+  description: "INNOVISION  2K24 Organizing Team Description",
 };
 
 const TeamLayout = ({ children }: Props) => {
