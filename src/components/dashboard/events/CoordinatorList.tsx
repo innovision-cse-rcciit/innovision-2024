@@ -41,7 +41,7 @@ import { ICoordinator } from "@/lib/types/coordinator"
 
 type Props = {
     data: ICoordinator[];
-    setCoordinator: (coordinator: ICoordinator[]) => void;
+    setCoordinator: React.Dispatch<React.SetStateAction<ICoordinator[]>>;  // Fix here
     event_name: string;
 }
 
@@ -276,7 +276,7 @@ export function CoordinatorList({ data, setCoordinator, event_name }: Props) {
                     isOpen={isEditOpen}
                     onClose={() => setIsEditOpen(false)}
                     defaultCoordinator={editingCoordinator}
-                    coorinatorValue={data}
+                    coordinatorValue={data}
                     setCoordinatorValue={setCoordinator} children={undefined}                />
             )}
         </div>

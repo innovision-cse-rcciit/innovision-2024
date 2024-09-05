@@ -242,7 +242,7 @@ const AddEventForm = (props: Props) => {
                                         defaultValue={field.value}
                                     >
                                         <SelectTrigger className="bg-zinc-300/50 border-0 text-black focus:ring-0 ring-offset-0 capitalize outline-none focus:ring-offset-0">
-                                            <SelectValue placeholder="Select a event type" />
+                                            <SelectValue placeholder="Select an event type" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {
@@ -298,7 +298,7 @@ const AddEventForm = (props: Props) => {
                             event_name={getValues("event_name") ?? ""}
                             isOpen={isOpen}
                             onClose={setIsOpen}
-                            coorinatorValue={coordinator}
+                            coordinatorValue={coordinator} // Corrected property name here
                             setCoordinatorValue={setCoordinator}
                         >
                             <Button>
@@ -318,4 +318,4 @@ const AddEventForm = (props: Props) => {
     )
 }
 
-export default AddEventForm
+export default AddEventForm;
