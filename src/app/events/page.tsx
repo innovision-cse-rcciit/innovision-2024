@@ -1,22 +1,27 @@
-"use client"
-import React, { useEffect, useState } from 'react'
-import FutureEventCard from '@/components/events/future/FutureEventCard'
-import FutureEventsHeading from '@/components/events/future/FutureEventsHeading'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs'
-import { getAllEvents } from '@/utils/functions/getAllEvents';
-
-
+"use client";
+import React, { useEffect, useState } from "react";
+import FutureEventCard from "@/components/events/future/FutureEventCard";
+import FutureEventsHeading from "@/components/events/future/FutureEventsHeading";
+import ClipLoader from "react-spinners/ClipLoader";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../components/ui/tabs";
+import { getAllEvents } from "@/utils/functions/getAllEvents";
 
 const Event = () => {
-  const [allEvents, setAllEvents] = useState<Event[]>([]); 
-
-  const fetchEvents = async () => {
-    const events: any = await getAllEvents(); 
-    setAllEvents(events);
-    console.log(events);
-  }
+  const [allEvents, setAllEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setLoading(true);
+    const fetchEvents = async () => {
+      const events: any = await getAllEvents();
+      setAllEvents(events);
+      setLoading(false);
+    };
     fetchEvents();
   }, []);
 
@@ -25,7 +30,7 @@ const Event = () => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      setSelectedFile(event.target.files[0]);  // Only one file can be selected
+      setSelectedFile(event.target.files[0]); // Only one file can be selected
     }
   };
 
@@ -81,27 +86,45 @@ const Event = () => {
               </TabsTrigger>
             </TabsList>
           </div>
+          {loading ? <div>
+            <ClipLoader size={25} color="black" />
+          </div> :<>
           <TabsContent value="technical">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {allEvents.filter((event:any)=>event.event_categories?.title =="TECHNICAL").map((event:any, index:number) => (
-                <FutureEventCard key={index} imageUrl={event.banner_url} />
-              ))}
+              {allEvents
+                .filter(
+                  (event: any) => event.event_categories?.title == "TECHNICAL"
+                )
+                .map((event: any, index: number) => (
+                  <FutureEventCard key={index} imageUrl={event.banner_url} />
+                ))}
             </div>
           </TabsContent>
           <TabsContent value="gaming">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {allEvents.filter((event:any)=>event.event_categories?.title =="GAMING").map((event:any, index:number) => (
-                <FutureEventCard key={index} imageUrl={event.banner_url} />
-              ))}
+              {allEvents
+                .filter(
+                  (event: any) => event.event_categories?.title == "GAMING"
+                )
+                .map((event: any, index: number) => (
+                  <FutureEventCard key={index} imageUrl={event.banner_url} />
+                ))}
             </div>
           </TabsContent>
           <TabsContent value="non-technical">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {allEvents.filter((event:any)=>event.event_categories?.title =="NON-TECHNICAL").map((event:any, index:number) => (
-                <FutureEventCard key={index} imageUrl={event.banner_url} />
-              ))}
+              {allEvents
+                .filter(
+                  (event: any) =>
+                    event.event_categories?.title == "NON-TECHNICAL"
+                )
+                .map((event: any, index: number) => (
+                  <FutureEventCard key={index} imageUrl={event.banner_url} />
+                ))}
             </div>
           </TabsContent>
+          </>}
+
         </Tabs>
       </div>
 
