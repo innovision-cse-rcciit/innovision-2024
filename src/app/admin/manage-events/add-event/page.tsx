@@ -1,5 +1,5 @@
-import AddEventForm from '@/components/dashboard/events/AddEventForm'
 import React from 'react'
+import AddEventForm from '@/components/dashboard/events/AddEventForm'
 
 type Props = {}
 
