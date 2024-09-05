@@ -8,7 +8,7 @@ type Props = {
 
 const TeamWrapper = ({children}: Props) => {
   return ( 
-    <div className="mx-auto flex flex-col items-center gap-5 mb-10 scroll-smooth bg-black">
+    <div className="mx-auto flex flex-col items-center gap-5 scroll-smooth bg-black">
       <div className="flex flex-col items-center justify-center">
         <div className="mt-10 mx-auto text-white font-Chakra_Petch text-4xl font-bold text-regalia max-w-xl text-wrap">
           Organizing Team
@@ -20,7 +20,7 @@ const TeamWrapper = ({children}: Props) => {
           <TeamTab key={index} team={teamItem} />
         ))}
       </div>
-      <div>{children}</div>
+      <div className='mb-4'>{children}</div>
     </div>
   );
 }
