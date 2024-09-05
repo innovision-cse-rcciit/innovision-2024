@@ -37,3 +37,5 @@ next-env.d.ts
 
 # API Key
 apikey.json
+
+.vercel

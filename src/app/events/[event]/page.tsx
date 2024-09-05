@@ -1,7 +1,11 @@
+'use client';
 import React from 'react'
 import EventDetailsCard from '@/components/events/future/EventDetailsCard';
+import { useParams } from 'next/navigation';
 
 const EventDetails = () => {
+    const {event} = useParams();
+    console.log(event);
     return (
         <div className='flex flex-col items-center relative'>
             <img

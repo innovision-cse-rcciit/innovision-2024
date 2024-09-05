@@ -1,18 +1,24 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FutureEventCard from '@/components/events/future/FutureEventCard'
 import FutureEventsHeading from '@/components/events/future/FutureEventsHeading'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs'
-import { uploadToGoogleDrive } from '@/utils/functions/wallPicUpload'
+import { getAllEvents } from '@/utils/functions/getAllEvents';
+
+
 
 const Event = () => {
-  const cardsData = [
-    { date: '02.09.2024', title: 'WEBIFY' },
-    { date: '03.09.2024', title: 'CODATHON' },
-    { date: '04.09.2024', title: 'HACKATHON' },
-    { date: '04.09.2024', title: 'BAG' },
-  ];
+  const [allEvents, setAllEvents] = useState<Event[]>([]); 
 
+  const fetchEvents = async () => {
+    const events: any = await getAllEvents(); 
+    setAllEvents(events);
+    console.log(events);
+  }
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadStatus, setUploadStatus] = useState<string | null>(null);
@@ -23,64 +29,83 @@ const Event = () => {
     }
   };
 
-  const handleUpload = async () => {
-    if (selectedFile) {
-      console.log('Selected File:', selectedFile);
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-      formData.append('folderName', 'ART');
+  // const handleUpload = async () => {
+  //   if (selectedFile) {
+  //     console.log('Selected File:', selectedFile);
+  //     const formData = new FormData();
+  //     formData.append('file', selectedFile);
+  //     formData.append('folderName', 'ART');
 
-      const response = await fetch('/api/upload',
-        {
-          method: 'POST',
-          body: formData,
-        });
+  //     const response = await fetch('/api/upload', {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
 
-      const result = await response.json();
-      console.log(result);
-      // try {
-      //   setUploadStatus(`File uploaded successfully with ID: ${fileId}`);
-      // } catch (error) {
-      //   setUploadStatus('Failed to upload file');
-      // }
-    }
-  };
+  //     const result = await response.json();
+  //     console.log(result);
+  //     // Handle the upload status
+  //   }
+  // };
 
   return (
     <>
-      <div className="flex flex-col items-center py-4 bg-black">
+      <div
+        className="flex flex-col items-center  py-4 bg-black w-full bg-no-repeat bg-center"
+        style={{
+          backgroundImage: "url('/home/events-bg.png')",
+          backgroundSize: "cover",
+          backgroundAttachment: "fixed",
+        }}
+      >
         <FutureEventsHeading />
         <Tabs defaultValue="technical" className="w-full">
           <div className="flex justify-center w-full pb-12">
-            <TabsList className="grid w-3/4 xl:w-1/2 grid-cols-2 rounded-3xl h-14 bg-[#FFFFFF1A]">
-              <TabsTrigger value="technical" className='h-12 text-white data-[state=active]:bg-[#B51C69] data-[state=active]:text-white rounded-3xl'>Technical</TabsTrigger>
-              <TabsTrigger value="non-technical" className='h-12 text-white data-[state=active]:bg-[#B51C69] data-[state=active]:text-white rounded-3xl'>Non-Technical</TabsTrigger>
+            <TabsList className="grid w-3/4 xl:w-1/2 grid-cols-3 rounded-3xl h-14 bg-[#FFFFFF1A]">
+              <TabsTrigger
+                value="technical"
+                className="h-12 text-white data-[state=active]:bg-[#B51C69] data-[state=active]:text-white rounded-3xl"
+              >
+                Technical
+              </TabsTrigger>
+              <TabsTrigger
+                value="gaming"
+                className="h-12 text-white data-[state=active]:bg-[#B51C69] data-[state=active]:text-white rounded-3xl"
+              >
+                Gaming
+              </TabsTrigger>
+              <TabsTrigger
+                value="non-technical"
+                className="h-12 text-white data-[state=active]:bg-[#B51C69] data-[state=active]:text-white rounded-3xl"
+              >
+                Non-Technical
+              </TabsTrigger>
             </TabsList>
           </div>
           <TabsContent value="technical">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {cardsData.map((card, index) => (
-                <FutureEventCard key={index} date={card.date} title={card.title} />
+              {allEvents.map((event:any, index:number) => (
+                <FutureEventCard key={index} imageUrl={event.banner_url} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="non-technical">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {cardsData.map((card, index) => (
-                <FutureEventCard key={index} date={card.date} title={card.title} />
+              {allEvents.map((event:any, index:number) => (
+                <FutureEventCard key={index} imageUrl={event.banner_url} />
               ))}
             </div>
           </TabsContent>
         </Tabs>
       </div>
 
-      <div>
+      {/* Upload Section */}
+      {/* <div>
         <input type="file" accept='image/*' onChange={handleFileChange} />
         <button onClick={handleUpload}>Upload</button>
         {uploadStatus && <p>{uploadStatus}</p>}
-      </div>
+      </div> */}
     </>
-  )
-}
+  );
+};
 
-export default Event
+export default Event;
