@@ -7,4 +7,5 @@ export interface IUser extends User {
     college_roll: string;
     department: string;
     year: string;
+    roles: any;
 }

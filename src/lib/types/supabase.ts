@@ -24,14 +24,17 @@ export type Database = {
       event_categories: {
         Row: {
           id: string
+          image: string | null
           title: string | null
         }
         Insert: {
           id?: string
+          image?: string | null
           title?: string | null
         }
         Update: {
           id?: string
+          image?: string | null
           title?: string | null
         }
         Relationships: []
@@ -95,6 +98,7 @@ export type Database = {
           id: string
           name: string
           phone: string
+          team_id: string
         }
         Insert: {
           attendance?: Json | null
@@ -104,6 +108,7 @@ export type Database = {
           id?: string
           name: string
           phone: string
+          team_id?: string
         }
         Update: {
           attendance?: Json | null
@@ -113,6 +118,7 @@ export type Database = {
           id?: string
           name?: string
           phone?: string
+          team_id?: string
         }
         Relationships: [
           {
@@ -120,6 +126,13 @@ export type Database = {
             columns: ["event_id"]
             isOneToOne: false
             referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "participants_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
             referencedColumns: ["id"]
           },
         ]
