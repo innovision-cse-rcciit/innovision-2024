@@ -16,7 +16,8 @@ const Gallery: React.FC = () => {
     <div className="bg-black grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 p-5">
       {sampleData.map(({name, role}) => {
         return(
-          <TeamCard name={name} role={role} />
+          <></>
+      //    <TeamCard name={name} role={role} />
         );
       })}
     </div>
