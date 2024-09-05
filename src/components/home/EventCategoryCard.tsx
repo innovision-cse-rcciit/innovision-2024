@@ -6,7 +6,7 @@ const EventCategoryCard = ({event}:{
 }) => {
   
   return (
-    <Link href={`/`} className="card">
+    <Link href={`/events/${event.title}`} className="card">
   <div className="card-info">
     <Image src={event.image} className="object-cover w-full h-full" alt={event.title} width={300} height={300} />
   </div>
