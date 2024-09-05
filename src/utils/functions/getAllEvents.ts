@@ -1,15 +1,18 @@
 import { supabase } from "@/lib/supabase-client";
 
 export async function getAllEvents() {
-  const { data, error } = await supabase.auth.getSession();
-
-  const allEvents = await supabase
+  try{
+    const {data,error} = await supabase
     .from("events")
-    .select();
+    .select('*,event_categories(*)');
 
   if (error) {
     throw error;
   }
 
-  return allEvents?.data || [];
+  return data;
+  }
+  catch(error){
+    console.log(error);
+  }
 }

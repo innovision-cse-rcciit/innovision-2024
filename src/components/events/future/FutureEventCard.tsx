@@ -1,7 +1,7 @@
-import React from 'react';
+import { useState } from 'react';
 
 const FutureEventCard = ({ imageUrl }: {imageUrl: string }) => {
-    const [isHovered, setIsHovered] = React.useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     return (
         <div
