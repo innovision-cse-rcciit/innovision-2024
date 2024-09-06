@@ -88,34 +88,34 @@ export const teams = [
         },
         {
           name: "Adrita Chakraborty",
-          role: "Developer",
+          role: "Tech Team",
           image:
             "https://i.postimg.cc/NGPpqH0h/IMG-20240704-WA0259-Adrita-Chakraborty.jpg",
         },
         {
           name: "Pratyush Pal",
-          role: "Developer",
+          role: "Tech Team",
           image:
             "https://i.postimg.cc/gkw3Hq9K/Pratyush-Pal.jpg",
         },
         {
           name: "Subhadeep Dhar",
-          role: "Developer",
+          role: "Tech Team",
           image: "https://i.postimg.cc/t47zrCbq/1720191675352.jpg",
         },
         {
           name: "Soumyaraj Sarkar",
-          role: "Developer",
+          role: "Tech Team",
           image: "https://i.postimg.cc/9FSt6gPS/Soumyaraj-Sarkar.jpg",
         },
         {
           name: "Dibakar Banerjee",
-          role: "Developer",
+          role: "Tech Team",
           image: "https://i.postimg.cc/3RX1g4ZN/Whats-App-Image-2024-07-19-at-18-29-51.jpg",
         },
         {
           name: "Sutanuka Chakraborty",
-          role: "Developer",
+          role: "UI/UX Designer",
           image:
             "https://i.postimg.cc/SR5rWwPQ/IMG-20240830-WA0150-Sutanuka-Chakraborty.jpg",
         },
