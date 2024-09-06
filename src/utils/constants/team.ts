@@ -45,7 +45,7 @@ export const teams = [
          
         ],
     },
-    //lead team
+    //lead team completed
     {
       category: "Lead Team",
       id: "leads",
@@ -94,30 +94,30 @@ export const teams = [
         },
         {
           name: "Pratyush Pal",
-          role: "Tech Team",
+          role: "Developer",
           image:
             "https://i.postimg.cc/gkw3Hq9K/Pratyush-Pal.jpg",
         },
         {
           name: "Subhadeep Dhar",
-          role: "Tech Team",
+          role: "Developer",
           image: "https://i.postimg.cc/t47zrCbq/1720191675352.jpg",
         },
         {
           name: "Soumyaraj Sarkar",
-          role: "Tech Team",
+          role: "Developer",
           image: "https://i.postimg.cc/9FSt6gPS/Soumyaraj-Sarkar.jpg",
-        },
-        {
-          name: "Dibakar Banerjee",
-          role: "Tech Team",
-          image: "https://i.postimg.cc/3RX1g4ZN/Whats-App-Image-2024-07-19-at-18-29-51.jpg",
         },
         {
           name: "Sutanuka Chakraborty",
           role: "UI/UX Designer",
           image:
             "https://i.postimg.cc/SR5rWwPQ/IMG-20240830-WA0150-Sutanuka-Chakraborty.jpg",
+        },
+        {
+          name: "Dibakar Banerjee",
+          role: "Developer",
+          image: "https://i.postimg.cc/3RX1g4ZN/Whats-App-Image-2024-07-19-at-18-29-51.jpg",
         },
 
       ],
@@ -143,7 +143,7 @@ export const teams = [
           name: "Akasdeep Mondal",
           role: "Tech C : Coordinator",
           image:
-            "https://i.postimg.cc/tC5NBd2Z/Srabany-Biswas.jpg",
+            "https://i.postimg.cc/zGNBwh2m/Whats-App-Image-2024-09-06-at-21-13-22.jpg",
         },
         {
           name: "Diptodeep Biswas",
@@ -177,7 +177,7 @@ export const teams = [
           name: "Moyukh Chowdhury",
           role: "Webify : Coordinator",
           image:
-            "https://i.postimg.cc/jdptkN2T/MOYUKH-CHOWDHURY.jpg",
+            "https://i.postimg.cc/tTH3QJ2F/20240612-004206.jpg",
         },
         {
           name: "Soumyaraj Bag",
@@ -619,7 +619,7 @@ export const teams = [
         {
           name: "Shoptorshi Mondal",
           role: "Social Media Team Member",
-          image: "https://i.postimg.cc/Nj85HFpJ/Whats-App-Image-2024-09-06-at-19-44-01.jpg",
+          image: "https://i.postimg.cc/3RddqTH2/Whats-App-Image-2024-09-06-at-20-32-24.jpg",
         },
         {
           name: "Deep Rajak",
