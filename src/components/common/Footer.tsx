@@ -18,15 +18,15 @@ export const Footer = () => {
         <span className="hidden sm:inline text-white">|</span>
         <Link href="/gallery" className="text-white text-sm sm:text-lg font-Chakra_Petch">GALLERY</Link>
         <span className="hidden sm:inline text-white">|</span>
-        <Link href="/team" className="text-white text-sm sm:text-lg font-Chakra_Petch">TEAM</Link>
+        <Link href="/team/swc" className="text-white text-sm sm:text-lg font-Chakra_Petch">TEAM</Link>
         <span className="hidden sm:inline text-white">|</span>
         <Link href="/profile" className="text-white text-sm sm:text-lg font-Chakra_Petch">MY PROFILE</Link>
       </div>
 
       <div className="flex justify-center space-x-4 sm:space-x-6 mt-6">
-        <Link href="#"><img src="/home/socials/instagram.svg" alt="Instagram" className="h-6 w-6 sm:h-8 sm:w-8"/></Link>
-        <Link href="#"><img src="/home/socials/facebook.svg" alt="Facebook" className="h-6 w-6 sm:h-8 sm:w-8"/></Link>
-        <Link href="#"><img src="/home/socials/facebook.svg" alt="Discord" className="h-6 w-6 sm:h-8 sm:w-8"/></Link>
+        <Link href="https://www.instagram.com/innovisionrcc/"><img src="/home/socials/instagram.svg" alt="Instagram" className="h-6 w-6 sm:h-8 sm:w-8"/></Link>
+        <Link href="https://www.facebook.com/innovisionrcc"><img src="/home/socials/facebook.svg" alt="Facebook" className="h-6 w-6 sm:h-8 sm:w-8"/></Link>
+        <Link href="https://discord.gg/EHYzPJeYAK"><img src="/home/socials/discord.svg" alt="Discord" className="h-6 w-6 sm:h-8 sm:w-8"/></Link>
       </div>
 
       <div className="text-white text-xs sm:text-sm text-center mt-8 font-Chakra_Petch">
