@@ -66,7 +66,7 @@ const Event = () => {
         <EventsHeading />
         <Tabs defaultValue="technical" className="w-full">
           <div className="flex justify-center w-full pb-12">
-            <TabsList className="grid w-3/4 xl:w-1/2 grid-cols-3 rounded-3xl h-14 bg-[#FFFFFF1A]">
+            <TabsList className="grid w-11/12 md:w-3/4 xl:w-1/2 grid-cols-3 rounded-3xl h-14 bg-[#FFFFFF1A]">
               <TabsTrigger
                 value="technical"
                 className="h-12 text-white data-[state=active]:bg-[#B51C69] data-[state=active]:text-white rounded-3xl"
