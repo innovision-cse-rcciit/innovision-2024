@@ -15,9 +15,9 @@ const Gallery: React.FC = () => {
 
   return (
     <div className="bg-black grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 p-4">
-      {sampleData.map(({name, role}) => {
+      {sampleData.map((date,index) => {
         return(
-          <GalleryCard />
+          <GalleryCard key={index} />
         );
       })}
     </div>

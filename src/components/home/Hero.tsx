@@ -14,30 +14,23 @@ const LandingPage = () => {
 
     return (
         <div
-            className="relative w-full h-screen max-md:w-screen max-md:h-screen bg-cover bg-center">
-            <Image 
-                src={'https://i.postimg.cc/Pqdw4FWp/Future-landing-page.png'} 
-                alt='' 
-                layout="fill" 
-                objectFit="cover" 
-                quality={100} 
-                priority={true}
-                className="absolute top-0 left-0 z-0"
-            />
-            <div className="flex items-center justify-center my-auto mx-auto h-full relative z-10">
-                <div className='rounded-xl backdrop-blur-sm flex flex-row md:pt-10 hover:backdrop-blur-none cursor-pointer flex-wrap border-2 border-white  w-4/5 h-4/5 transform -translate-y-1/6 gap-4 items-center justify-around'>
-                    <div className='absolute left-10 top-10'>
-                        <Image 
-                            height={40} 
-                            width={40}
-                            src='/landing/arrow.png'
-                            alt='Logo'
-                        />
-                    </div>
+            className="relative w-full h-screen max-md:w-screen max-md:h-screen bg-cover bg-center"
+            style={{ backgroundImage: "url('/Landing/Future_landing_page.png')" }}
+        >
+            <div className="flex items-center justify-center my-auto mx-auto h-full">
+                <div className='rounded-xl backdrop-blur-sm flex flex-row md:pt-10 hover:backdrop-blur-none cursor-pointer flex-wrap border-2 border-white  w-4/5 h-4/5 transform -translate-y-1/6 gap-4 items-center justify-around  '>
+                <div className='absolute left-10 top-10'>
+                <Image 
+                        height={40} 
+                        width={40}
+                        src='/Landing/arrow.png'
+                        alt='Logo'
+                    />
+                </div>
                     <Image 
                         height={400} 
                         width={440}
-                        src='/Landing/innovision-logo-landing.png'
+                        src='https://i.postimg.cc/JnPs7b2s/Innovision-logo-landing.png'
                         className=' max-md:w-72 max-md:h-60 md:w-56 md:h-48 xl:w-96 xl:h-80'
                         alt='Logo'
                     />
@@ -52,7 +45,7 @@ const LandingPage = () => {
                                     width={112}
                                     height={110}
                                     alt='Register' 
-                                    src='/landing/Button.png'
+                                    src='/Landing/Button.png'
                                     className='w-40 md:w-60'
                                 />
                                 <h1 className='absolute text-center w-full font-Chakra_Petch text-[#B61B69] text-sm md:text-xl font-bold'>
@@ -67,7 +60,7 @@ const LandingPage = () => {
                                         <Image
                                             width={100}
                                             height={100}
-                                            src={digit === ':' ? "landing/Time-asset-colon.svg" : `landing/Time-asset-1.svg`}
+                                            src={digit === ':' ? "/Landing/Time-asset-colon.svg" : `/Landing/Time-asset-1.svg`}
                                             className={digit === ':' ? 'h-6 mt-2  xl:h-10 xl:mt-4 ' : `h-10 md:h-14 xl:h-20 ${index % 2 === 0 ? '' : 'transform rotate-180'}`}
                                             alt={`time-${digit}`}
                                         />
@@ -86,7 +79,7 @@ const LandingPage = () => {
                         <Image 
                             height={400}
                             width={1240}
-                            src='/landing/lines.png'
+                            src='/Landing/lines.png'
                             alt='Logo'
                         />
                     </div>
