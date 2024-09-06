@@ -20,7 +20,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
     const fetchEvent = async () => {
       console.log(eventId);
       const event = await getEventById(eventId);
-      const registered:any = await checkIfRegistered(eventId, user?.id!);
+      const registered: any = await checkIfRegistered(eventId, user?.id!);
       setEventDetails(event);
       setRegisteredEvent(registered);
       setLoading(false);
@@ -28,114 +28,132 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
     fetchEvent();
   }, [eventId]);
   return (
-    <div className="flex flex-col items-center justify-center gap-10 mx-auto w-full">
-        <h1 className='text-4xl md:text-5xl text-white text-center font-Chakra_Petch font-bold'>EVENT : <span id="glow" className="tracking-wider">{eventDetails.event_name.toUpperCase()}</span></h1>
+    <>
       {loading ? (
         <div className="flex flex-col w-full items-center justify-center mx-auto mt-10">
           <ClipLoader color="#B51C69" loading={loading} size={50} />
         </div>
       ) : (
-        <div className="border-4 backdrop-blur hover:backdrop-blur-0 rounded-xl  border-white flex w-full flex-row font-Chakra_Petch  justify-center gap-5 md:px-10 py-5 max-md:flex-wrap-reverse md:items-start lg:items-center">
-          <div className="items-left text-white flex w-full flex-col justify-center gap-5 md:w-[5/6] lg:w-[70%]">
-            <h1
-              id="glow"
-              className="text-center text-3xl font-bold tracking-widest     md:pb-6"
-            >
+        <div className="flex flex-col items-center justify-center gap-10 mx-auto w-full">
+          <h1 className="text-4xl md:text-5xl text-white text-center font-Chakra_Petch font-bold">
+            EVENT :{" "}
+            <span id="glow" className="tracking-wider">
               {eventDetails.event_name.toUpperCase()}
-            </h1>
-            <div className="flex flex-col-reverse justify-between gap-5 text-lg md:flex-row">
-              <div className=" space-y-5">
-                <div className="items-left flex flex-col justify-center gap-5 text-white  text-sm tracking-widest md:text-xs lg:text-base">
-                  {parse(eventDetails.description)}
-                </div>
+            </span>
+          </h1>
+          <div className="border-4 backdrop-blur hover:backdrop-blur-0 rounded-xl  border-white flex w-full flex-row font-Chakra_Petch  justify-center gap-5 md:px-10 py-5 max-md:flex-wrap-reverse md:items-start lg:items-center">
+            <div className="items-left text-white flex w-full flex-col justify-center gap-5 md:w-[5/6] lg:w-[70%]">
+              <h1
+                id="glow"
+                className="text-center text-3xl font-bold tracking-widest     md:pb-6"
+              >
+                {eventDetails.event_name.toUpperCase()}
+              </h1>
+              <div className="flex flex-col-reverse justify-between gap-5 text-lg md:flex-row">
+                <div className=" space-y-5">
+                  <div className="items-left flex flex-col justify-center gap-5 text-white  text-sm tracking-widest md:text-xs lg:text-base">
+                    {parse(eventDetails.description)}
+                  </div>
 
-                <div className="items-left flex flex-row flex-wrap  gap-5   tracking-widest">
-                  <h1 id="glow" className="italic">
-                    SCHEDULE
-                  </h1>
-                  {parse(eventDetails.schedule)}
+                  <div className="items-left flex flex-row flex-wrap  gap-5   tracking-widest">
+                    <h1 id="glow" className="italic">
+                      SCHEDULE
+                    </h1>
+                    {parse(eventDetails.schedule)}
+                  </div>
+                  <div className="items-left flex flex-row flex-wrap gap-5   tracking-widest">
+                    <h1 id="glow" className="italic ">
+                      TEAM SIZE :{" "}
+                    </h1>
+                    {eventDetails?.max_team_size > 1
+                      ? eventDetails?.min_team_size +
+                        " - " +
+                        eventDetails?.max_team_size
+                      : 1 + " (Solo)"}
+                  </div>
+                  <div className="items-left flex flex-row flex-wrap  gap-5   tracking-widest">
+                    <h1 id="glow" className="italic">
+                      VENUE
+                    </h1>
+                    {parse(eventDetails.schedule)}
+                  </div>
+                  <div className="items-left flex flex-row flex-wrap  gap-5   tracking-widest">
+                    <h1 id="glow" className="italic">
+                      EVENT MODE
+                    </h1>
+                    {parse(eventDetails.event_mode)}
+                  </div>
+                  <h1 className="  text-lg">Coordinators :</h1>
+                  {!loading && eventDetails?.roles.length > 0 ? (
+                    eventDetails?.roles
+                      .filter((role: any) => role.role !== "VOLUNTEER")
+                      ?.map((coordinator: any, index: number) => {
+                        return (
+                          <div
+                            key={index}
+                            className="flex flex-col items-start gap-2   text-white"
+                          >
+                            <span className="flex flex-row items-center gap-4 text-sm font-semibold tracking-widest ">
+                              {coordinator?.users?.name}
+                              <a
+                                href={`tel:${coordinator?.users?.phone}`}
+                                className="text-lg font-semibold tracking-widest text-regalia hover:text-green-500 lg:text-sm"
+                              >
+                                {coordinator?.users?.phone}
+                              </a>
+                            </span>
+                          </div>
+                        );
+                      })
+                  ) : (
+                    <h1 className="text-center   text-sm font-semibold text-red-600">
+                      No Coordinators added yet !
+                    </h1>
+                  )}
                 </div>
-                <div className="items-left flex flex-row flex-wrap gap-5   tracking-widest">
-                  <h1 id="glow" className="italic ">
-                    TEAM SIZE :{" "}
-                  </h1>
-                  {eventDetails?.max_team_size > 1
-                    ? eventDetails?.min_team_size +
-                      " - " +
-                      eventDetails?.max_team_size
-                    : 1 + " (Solo)"}
-                </div>
-                <h1 className="  text-lg">Coordinators :</h1>
-                {!loading && eventDetails?.roles.length > 0 ? (
-                  eventDetails?.roles
-                    .filter((role: any) => role.role !== "VOLUNTEER")
-                    ?.map((coordinator: any, index: number) => {
-                      return (
-                        <div
-                          key={index}
-                          className="flex flex-col items-start gap-2   text-white"
-                        >
-                          <span className="flex flex-row items-center gap-4 text-sm font-semibold tracking-widest ">
-                            {coordinator?.users?.name}
-                            <a
-                              href={`tel:${coordinator?.users?.phone}`}
-                              className="text-lg font-semibold tracking-widest text-regalia hover:text-green-500 lg:text-sm"
-                            >
-                              {coordinator?.users?.phone}
-                            </a>
-                          </span>
-                        </div>
-                      );
-                    })
-                ) : (
-                  <h1 className="text-center   text-sm font-semibold text-red-600">
-                    No Coordinators added yet !
-                  </h1>
-                )}
+              </div>
+              <div className=" flex flex-row space-x-5">
+                <button className="text-white px-2 py-2 w-40 md:w-48 lg:w-64 rounded-lg text-xs lg:text-md font-Chakra_Petch italic bg-[#B51C69] shadow-[4.0px_8.0px_8.0px_gray]">
+                  View Rules and Regulations
+                </button>
               </div>
             </div>
-            <div className=" flex flex-row space-x-5">
-              <button className="text-white px-2 py-2 w-40 md:w-48 lg:w-64 rounded-lg text-xs lg:text-md font-Chakra_Petch italic bg-[#B51C69] shadow-[4.0px_8.0px_8.0px_gray]">
-                View Rules and Regulations
-              </button>
-            </div>
-          </div>
-          <div className="mx-auto flex h-full w-full flex-col max-lg:mt-10 max-md:mt-0 md:w-[1/6] lg:w-auto gap-5">
-            <Image
-              src={eventDetails?.banner_url || "/events/Background-img.png"}
-              alt="hero"
-              height={600}
-              width={350}
-              className=" mx-auto rounded-2xl object-cover object-left-top"
-            />
-            {
-              // !registeredEvent! &&
-              eventDetails! && eventDetails!.is_open && (
-                <button
-                  disabled={!eventDetails.is_open}
-                  onClick={async () => {
-                    if (!user) {
-                      login();
-                    }
-                    clickSound();
-                    // setOpenRegister(true);
-                  }}
-                  className="relative flex flex-row mx-auto items-center"
-                >
-                  <Image
-                    width={100}
-                    height={40}
-                    src="/landing/Button.png"
-                    className="h-10 w-28 lg:h-14 lg:w-36 lg:text-sm"
-                    alt="Register Now"
-                  />
-                  <h1 className="absolute mx-3 lg:mx-5 font-Chakra_Petch text-[#B61B69] text-xs lg:text-sm font-bold">
-                    REGISTER NOW
-                  </h1>
-                </button>
-              )
-            }
-            {/* {eventDetails?.result_out === true ? (
+            <div className="mx-auto flex h-full w-full flex-col max-lg:mt-10 max-md:mt-0 md:w-[1/6] lg:w-auto gap-5">
+              <Image
+                src={eventDetails?.banner_url || "/events/Background-img.png"}
+                alt="hero"
+                height={600}
+                width={350}
+                className=" mx-auto rounded-2xl object-cover object-left-top"
+              />
+              {
+                // !registeredEvent! &&
+                eventDetails! && eventDetails!.is_open && (
+                  <button
+                    disabled={!eventDetails.is_open}
+                    onClick={async () => {
+                      if (!user) {
+                        login();
+                      }
+                      clickSound();
+                      // setOpenRegister(true);
+                    }}
+                    className="relative flex flex-row mx-auto items-center"
+                  >
+                    <Image
+                      width={100}
+                      height={40}
+                      src="/landing/Button.png"
+                      className="h-10 w-28 lg:h-14 lg:w-36 lg:text-sm"
+                      alt="Register Now"
+                    />
+                    <h1 className="absolute mx-3 lg:mx-5 font-Chakra_Petch text-[#B61B69] text-xs lg:text-sm font-bold">
+                      REGISTER NOW
+                    </h1>
+                  </button>
+                )
+              }
+              {/* {eventDetails?.result_out === true ? (
                   <button
                     onClick={() => setOpenResult(true)}
                     className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
@@ -162,7 +180,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                     </button>
                   )
                 )} */}
-            {/* {registeredEvent! && (
+              {/* {registeredEvent! && (
                   <button
                     className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
                     onClick={() => {
@@ -176,10 +194,11 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                     </span>
                   </button>
                 )} */}
+            </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
