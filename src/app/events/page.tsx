@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import FutureEventCard from "@/components/events/future/FutureEventCard";
-import FutureEventsHeading from "@/components/events/future/FutureEventsHeading";
 import ClipLoader from "react-spinners/ClipLoader";
 import {
   Tabs,
@@ -10,6 +8,8 @@ import {
   TabsTrigger,
 } from "../../components/ui/tabs";
 import { getAllEvents } from "@/utils/functions/getAllEvents";
+import EventCard from "@/components/events/EventCard";
+import EventsHeading from "@/components/events/EventsHeading";
 
 const Event = () => {
   const [allEvents, setAllEvents] = useState<Event[]>([]);
@@ -20,6 +20,7 @@ const Event = () => {
     const fetchEvents = async () => {
       const events: any = await getAllEvents();
       setAllEvents(events);
+      console.log(events);
       setLoading(false);
     };
     fetchEvents();
@@ -55,14 +56,14 @@ const Event = () => {
   return (
     <>
       <div
-        className="flex flex-col items-center  py-4 bg-black w-full bg-no-repeat bg-center"
+        className="flex flex-col items-center  py-4 bg-black w-full min-h-screen bg-no-repeat bg-center"
         style={{
           backgroundImage: "url('/home/events-bg.png')",
           backgroundSize: "cover",
           backgroundAttachment: "fixed",
         }}
       >
-        <FutureEventsHeading />
+        <EventsHeading />
         <Tabs defaultValue="technical" className="w-full">
           <div className="flex justify-center w-full pb-12">
             <TabsList className="grid w-3/4 xl:w-1/2 grid-cols-3 rounded-3xl h-14 bg-[#FFFFFF1A]">
@@ -86,45 +87,49 @@ const Event = () => {
               </TabsTrigger>
             </TabsList>
           </div>
-          {loading ? <div>
-            <ClipLoader size={25} color="black" />
-          </div> :<>
-          <TabsContent value="technical">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {allEvents
-                .filter(
-                  (event: any) => event.event_categories?.title == "TECHNICAL"
-                )
-                .map((event: any, index: number) => (
-                  <FutureEventCard key={index} imageUrl={event.banner_url} />
-                ))}
+          {loading ? (
+            <div className="flex flex-col items-center w-full justify-center mx-auto mt-10">
+              <ClipLoader size={40} color="white" />
             </div>
-          </TabsContent>
-          <TabsContent value="gaming">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {allEvents
-                .filter(
-                  (event: any) => event.event_categories?.title == "GAMING"
-                )
-                .map((event: any, index: number) => (
-                  <FutureEventCard key={index} imageUrl={event.banner_url} />
-                ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="non-technical">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
-              {allEvents
-                .filter(
-                  (event: any) =>
-                    event.event_categories?.title == "NON-TECHNICAL"
-                )
-                .map((event: any, index: number) => (
-                  <FutureEventCard key={index} imageUrl={event.banner_url} />
-                ))}
-            </div>
-          </TabsContent>
-          </>}
-
+          ) : (
+            <>
+              <TabsContent value="technical">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
+                  {allEvents
+                    .filter(
+                      (event: any) =>
+                        event.event_categories?.title == "TECHNICAL"
+                    )
+                    .map((event: any, index: number) => (
+                      <EventCard key={index} event={event} />
+                    ))}
+                </div>
+              </TabsContent>
+              <TabsContent value="gaming">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
+                  {allEvents
+                    .filter(
+                      (event: any) => event.event_categories?.title == "GAMING"
+                    )
+                    .map((event: any, index: number) => (
+                      <EventCard key={index} event={event} />
+                    ))}
+                </div>
+              </TabsContent>
+              <TabsContent value="non-technical">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-4">
+                  {allEvents
+                    .filter(
+                      (event: any) =>
+                        event.event_categories?.title == "NON-TECHNICAL"
+                    )
+                    .map((event: any, index: number) => (
+                      <EventCard key={index} event={event} />
+                    ))}
+                </div>
+              </TabsContent>
+            </>
+          )}
         </Tabs>
       </div>
 

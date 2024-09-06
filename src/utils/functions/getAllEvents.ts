@@ -1,5 +1,4 @@
 import { supabase } from "@/lib/supabase-client";
-import { EventMode } from "@/lib/schema/add-event-schema";
 
 export async function getAllEvents() {
     try {

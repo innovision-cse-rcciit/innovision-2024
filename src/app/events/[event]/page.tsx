@@ -1,23 +1,25 @@
-'use client';
-import React from 'react'
-import EventDetailsCard from '@/components/events/future/EventDetailsCard';
-import { useParams } from 'next/navigation';
 
-const EventDetails = () => {
-    const {event} = useParams();
-    console.log(event);
+import React from 'react'
+import EventDetailsCard from '@/components/events/EventDetailsCard';
+
+type Params = {
+    params: {
+        event: string
+    }
+}
+
+const Page = ({params: {event}}: Params) => {
     return (
-        <div className='flex flex-col items-center relative'>
-            <img
-                src="/events/Background-img.png"
-                className='w-screen h-screen object-cover'
-                alt='background'
-            />
-            <div className='absolute top-5 h-1/2 md:h-1/3 lg:h-1/2 w-11/12 md:w-4/5 lg:w-3/4'>
-                <EventDetailsCard />
+        <div className='flex flex-col items-center gap-10 relative w-full min-h-screen py-20 px-10 bg-no-repeat bg-center' style={{
+            background: 'url("/events/Background-img.png")',
+            backgroundSize: "cover",
+            backgroundAttachment: "fixed",
+        }}>
+            <div className='w-full md:w-[80%] lg:w-[70%]'>
+                <EventDetailsCard eventId={event} />
             </div>
         </div>
     )
 }
 
-export default EventDetails
+export default Page;
