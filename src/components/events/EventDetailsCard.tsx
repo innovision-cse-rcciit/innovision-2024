@@ -41,7 +41,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
               {eventDetails.event_name.toUpperCase()}
             </span>
           </h1>
-          <div className="border-4 backdrop-blur hover:backdrop-blur-0 rounded-xl  border-white flex w-full flex-row font-Chakra_Petch  justify-center gap-5 md:px-10 py-5 max-md:flex-wrap-reverse md:items-start lg:items-center">
+          <div className="border-4 backdrop-blur hover:backdrop-blur-0 rounded-xl border-white flex w-full flex-row font-Chakra_Petch  justify-center gap-5 px-5 md:px-10 py-5 max-md:flex-wrap-reverse md:items-start lg:items-center">
             <div className="items-left text-white flex w-full flex-col justify-center gap-5 md:w-[5/6] lg:w-[70%]">
               <h1
                 id="glow"
@@ -51,7 +51,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
               </h1>
               <div className="flex flex-col-reverse justify-between gap-5 text-lg md:flex-row">
                 <div className=" space-y-5">
-                  <div className="items-left flex flex-col justify-center gap-5 text-white  text-sm tracking-widest md:text-xs lg:text-base">
+                  <div className="items-left flex flex-col justify-center gap-5 text-white text-sm tracking-widest md:text-xs lg:text-base">
                     {parse(eventDetails.description)}
                   </div>
 
