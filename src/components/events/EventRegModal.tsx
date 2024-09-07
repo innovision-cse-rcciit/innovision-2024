@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BeatLoader, ClipLoader, PuffLoader } from "react-spinners";
-import FormElement from "./FormeElement";
+import FormElement from "./FormElement";
 import { clickSound } from "@/utils/functions/clickSound";
 import { useUser } from "@/lib/store/user";
 import { validateReg } from "@/utils/functions/validateReg";
@@ -22,11 +22,13 @@ const EventRegForm = ({
   const router = useRouter();
   const eventId = eventDetails?.id;
   const [disabled, setDisabled] = useState<boolean>(false);
+  const [requirement, setRequirement] = useState<any>([]);
   const [inputs, setInputs] = useState<any>({
     teamName: "",
     teamLeadPhone: "",
     teamLeadEmail: "",
     teamLeadName: "",
+    teamLeadRoll: "",
     regMode: "",
   });
 
@@ -39,7 +41,7 @@ const EventRegForm = ({
         ...prevInputs,
         teamLeadPhone: user.phone,
         teamLeadEmail: user.email,
-        teamName: maxTeamMember > 1 ? "" : user.name, // Set teamName as blank if maxTeamMember > 1
+        teamName: maxTeamMember > 1 ? "" : user.name, 
         teamLeadName: user.name,
       }));
     }
@@ -49,12 +51,14 @@ const EventRegForm = ({
   useEffect(() => {
     if (minTeamMember !== undefined && minTeamMember !== null) {
       const blankParticipants = [];
+
       for (let i = 0; i < minTeamMember; i++) {
         blankParticipants.push({ phone: "", email: "", name: "" });
       }
       setParticipants(blankParticipants);
     }
   }, [minTeamMember]);
+  
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | any>
   ) => {
@@ -95,8 +99,18 @@ const EventRegForm = ({
   };
 
   const addParticipant = () => {
-    setParticipants([...participants, { phone: "", name: "", email: "" }]);
+    const newParticipant:any = {
+      phone: "",
+      name: "",
+      email: ""
+    };
+    requirement.forEach((req: any) => {
+      const fieldKey = req.toLowerCase().replace(/ /g, "_");
+      newParticipant[fieldKey] = "";
+    });
+    setParticipants((prevParticipants:any) => [...prevParticipants, newParticipant]);
   };
+
   const removeParticipant = (index: number) => {
     const updatedParticipants = [...participants];
     updatedParticipants.splice(index, 1);
@@ -140,6 +154,27 @@ const EventRegForm = ({
       toast.error("Registration Failed !");
     }
   };
+
+  useEffect(() => {
+    setRequirement(eventDetails?.requirements);
+  
+    setParticipants((prevParticipants: any) => {
+      const updatedParticipants = prevParticipants.map((participant: any) => {
+        const updatedParticipant = { ...participant };
+        eventDetails?.requirements?.length > 0 &&  eventDetails?.requirements.forEach((req: any) => {
+          const fieldKey = req.toLowerCase().replace(/ /g, "_");
+          console.log(fieldKey)
+            updatedParticipant[fieldKey] = "";
+          
+        });
+  
+        return updatedParticipant;
+      });
+      console.log(updatedParticipants);
+      return updatedParticipants;
+    });
+  }, [eventDetails]);
+  
 
   console.log(inputs);
   console.log(participants);
@@ -218,6 +253,19 @@ const EventRegForm = ({
                 {generalErrors.teamLeadEmail}
               </h1>
 
+              <FormElement
+                type="text"
+                disabled={maxTeamMember > 1 ? true : true}
+                name={maxTeamMember > 1 ? "Team Lead Roll" : "College Roll"}
+                value={inputs.teamLeadRoll}
+                id="teamLeadRoll"
+                onChange={handleInputChange}
+                width="100%"
+              />
+              <h1 className="text-xs font-semibold text-red-600">
+                {generalErrors.teamLeadRoll}
+              </h1>
+
               {maxTeamMember > 1 && (
                 <div className="flex flex-col items-center gap-5">
                   <h1 className="font-semibold text-[#B51C69]">
@@ -270,6 +318,34 @@ const EventRegForm = ({
                               </h1>
                             )}
                           </div>
+
+                          {requirement?.map((req:any,index:number)=>{
+                            return(
+                              <div key={index} className="flex flex-row flex-wrap gap-2 font-semibold">
+                              <label
+                                htmlFor="riot_id"
+                                className="text-[#B51C69] tracking-widest"
+                              >
+                                {req.toUpperCase()} :
+                              </label>
+                              <input
+                                type="text"
+                                id={req.toLowerCase().replace(/ /g, "_")}
+                                value={participant[req.toLowerCase().replace(/ /g, "_")] || ""}
+                                disabled={index == 0 ? true : false}
+                                onChange={(e) =>
+                                  handleEmailChange(index, e.target.value)
+                                }
+                                className="w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full"
+                              />
+                              {teamErrors && teamErrors[index] && (
+                                <h1 className="text-xs font-semibold text-red-600">
+                                  {teamErrors[index].email}
+                                </h1>
+                              )}
+                            </div>
+                            )
+                          })}
 
                           <div className="flex flex-row flex-wrap gap-2 font-semibold">
                             <label

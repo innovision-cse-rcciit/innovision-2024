@@ -10,11 +10,13 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ClipLoader from "react-spinners/ClipLoader";
 import EventRegForm from "./EventRegModal";
+import { TiTick } from "react-icons/ti";
 const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   const [eventDetails, setEventDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [openRegister, setOpenRegister] = useState(false);
   const [registeredEvent, setRegisteredEvent] = useState<boolean>(false);
+  const [openResult, setOpenResult] = useState(false);
   const user = useUser((state) => state.user);
   console.log(eventId);
 
@@ -129,7 +131,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                 className=" mx-auto rounded-2xl object-cover object-left-top"
               />
               {
-                // !registeredEvent! &&
+                !registeredEvent! &&
                 eventDetails! && eventDetails!.is_open && (
                   <button
                     disabled={!eventDetails.is_open}
@@ -155,7 +157,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                   </button>
                 )
               }
-              {/* {eventDetails?.result_out === true ? (
+              {eventDetails?.result_out === true ? (
                   <button
                     onClick={() => setOpenResult(true)}
                     className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
@@ -181,8 +183,8 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                       </span>
                     </button>
                   )
-                )} */}
-              {/* {registeredEvent! && (
+                )}
+              {registeredEvent! && (
                   <button
                     className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
                     onClick={() => {
@@ -195,7 +197,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                       <TiTick size={24} />
                     </span>
                   </button>
-                )} */}
+                )}
             </div>
           </div>
           <EventRegForm

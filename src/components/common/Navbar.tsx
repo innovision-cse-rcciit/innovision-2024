@@ -167,7 +167,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="sticky left-0 top-0 z-[100] bg-pink-950 text-white w-screen overflow-x-hidden font-hollirood lg:w-full ">
+      <div className="sticky left-0 top-0 z-[100] bg-black text-white w-screen overflow-x-hidden font-hollirood lg:w-full ">
         <div
           className={`${
             scrolling || isMenuOpen

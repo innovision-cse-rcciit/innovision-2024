@@ -91,10 +91,13 @@ interface teamError {
   export const validateUserReg = (inputs: any) => {
     const errors = {
       name: "",
+      email: "",
+      collegeRoll: "",
+      department: "",
+      section: "",
       phone: "",
-      college: "",
-      roll: "",
       gender: "",
+      year: "",
     };
     const regexPhone =
       /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
@@ -106,10 +109,20 @@ interface teamError {
     } else if (!regexPhone.test(clearSpaces(inputs.phone).trim())) {
       errors.phone = "Invalid Phone Number";
     }
-  
-    if (inputs.college === "") {
-      errors.college = "College is required";
+
+    if(inputs.collegeRoll === "") {
+      errors.collegeRoll = "College Roll is required";
     }
+    if (inputs.department === "") {
+      errors.department = "Department is required";
+    }
+    if (inputs.section === "") {
+      errors.section = "Section is required";
+    }
+    if (inputs.year === "") {
+      errors.year = "Year is required";
+    }
+
     if (inputs.gender === "") {
       errors.gender = "Gender is required";
     }

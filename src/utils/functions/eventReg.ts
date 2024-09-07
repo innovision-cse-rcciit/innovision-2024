@@ -67,13 +67,8 @@ export const eventReg = async (
       })
       .select();
     if (individualError || participantError) {
-      // console.log(individualError, participantError);
+      console.log(individualError, participantError);
     }
     // console.log(individualData, participantData);
   }
   }
-
-
-
-  // console.log(uploadFile);
-
