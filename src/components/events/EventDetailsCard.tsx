@@ -11,10 +11,12 @@ import toast from "react-hot-toast";
 import ClipLoader from "react-spinners/ClipLoader";
 import EventRegForm from "./EventRegModal";
 import { TiTick } from "react-icons/ti";
+import RulesModal from "./RulesModal";
 const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   const [eventDetails, setEventDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [openRegister, setOpenRegister] = useState(false);
+  const [openRules, setOpenRules] = useState<boolean>(false);
   const [registeredEvent, setRegisteredEvent] = useState<boolean>(false);
   const [openResult, setOpenResult] = useState(false);
   const user = useUser((state) => state.user);
@@ -117,7 +119,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                 </div>
               </div>
               <div className=" flex flex-row space-x-5">
-                <button className="text-white px-2 py-2 w-40 md:w-48 lg:w-64 rounded-lg text-xs lg:text-md font-Chakra_Petch italic bg-[#B51C69] shadow-[4.0px_8.0px_8.0px_gray]">
+                <button onClick={()=>setOpenRules(true)} className="text-white px-2 py-2 w-40 md:w-48 lg:w-64 rounded-lg text-xs lg:text-md font-Chakra_Petch italic bg-[#B51C69] shadow-[4.0px_8.0px_8.0px_gray]">
                   View Rules and Regulations
                 </button>
               </div>
@@ -204,6 +206,11 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
         isOpen={openRegister}
         onClose={()=>setOpenRegister(false)}
         eventDetails={eventDetails}
+      />
+        <RulesModal
+        isOpen={openRules}
+        onClose={()=>setOpenRules(false)}
+        rules={eventDetails?.rules}
       />
         </div>
       )}
