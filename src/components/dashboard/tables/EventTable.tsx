@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/table"
 import { Event } from '@/utils/constants/admin-dashboard';
 import { useRouter } from 'next/navigation';
+import parse from 'html-react-parser';
 
 
 export const columns: ColumnDef<Event>[] = [
@@ -72,7 +73,7 @@ export const columns: ColumnDef<Event>[] = [
         accessorKey: "duration",
         header: "Duration",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("duration")}</div>
+            <div className="capitalize">{parse(row.getValue("duration"))}</div>
         ),
     },
     {
@@ -162,7 +163,7 @@ const EventTable = ({ data }: Props) => {
                 />
                 <div className="ml-auto flex gap-x-4">
                     <Button
-                        onClick={() => router.push('/dashboard/add-event')}
+                        onClick={() => router.push('/admin/manage-events/add-event')}
                     >
                         Add Event
                     </Button>

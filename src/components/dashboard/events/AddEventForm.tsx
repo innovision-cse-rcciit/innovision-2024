@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod"
-import { addEventSchema, EventMode } from '@/lib/schema/add-event-schema';
+import { addEventSchema, EventCategory, EventMode } from '@/lib/schema/add-event-schema';
 import {
     Form,
     FormControl,
@@ -26,9 +26,10 @@ import { Label } from '../../ui/label';
 import { Input } from '../../ui/input';
 import AddCoordinatorForm from './AddCoordinatorForm';
 import { CoordinatorList } from './CoordinatorList';
-// import { addEvent } from '../../../../actions/admin/add-event';
 import { ICoordinator } from '@/lib/types/coordinator';
 import { Switch } from '../../ui/switch';
+import { addEvent } from '@/utils/functions/addEvent';
+import { addCoordinator } from '@/utils/functions/addCoordinator';
 
 // Dynamically import ReactQuill with no SSR
 const ReactQuill = dynamic(() => import('react-quill'), {
@@ -53,7 +54,8 @@ const AddEventForm = (props: Props) => {
             schedule: '',
             coordinator: [],
             event_type: EventMode.ONLINE,
-            isOpen: true
+            isOpen: true,
+            event_category: EventCategory.TECHNICAL
         },
     });
     const {
@@ -73,8 +75,12 @@ const AddEventForm = (props: Props) => {
             return;
         }
         const roles = coordinator;
-        console.log('Add event:', values);
-        // const res: any = await addEvent(values, roles);
+        // console.log('Events:', values);
+        // console.log('Roles:', roles);
+        const eventResponse = await addEvent({ event: values });
+        // console.log('Add event res:', eventResponse);
+        const coordinatorResponse = await addCoordinator({ coordinators: roles, eventId: eventResponse.id });
+        // console.log('Add coordinator res:', coordinatorResponse);
         reset();
     }
 
@@ -229,38 +235,73 @@ const AddEventForm = (props: Props) => {
                             )}
                         />
 
-                        {/* Event Type */}
-                        <FormField
-                            control={form.control}
-                            name="event_type"
-                            render={({ field }) => (
-                                <FormItem className='w-full'>
-                                    <Label>Event Mode</Label>
-                                    <Select
-                                        disabled={field.disabled}
-                                        onValueChange={field.onChange}
-                                        defaultValue={field.value}
-                                    >
-                                        <SelectTrigger className="bg-zinc-300/50 border-0 text-black focus:ring-0 ring-offset-0 capitalize outline-none focus:ring-offset-0">
-                                            <SelectValue placeholder="Select an event type" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {
-                                                Object.values(EventMode).map((channel) => (
-                                                    <SelectItem
-                                                        key={channel}
-                                                        value={channel}
-                                                        className="capitalize cursor-pointer"
-                                                    >
-                                                        {channel.toLowerCase()}
-                                                    </SelectItem>
-                                                ))
-                                            }
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
+                        <div className="flex gap-x-4">
+                            {/* Event Type */}
+                            <FormField
+                                control={form.control}
+                                name="event_type"
+                                render={({ field }) => (
+                                    <FormItem className='w-full'>
+                                        <Label>Event Mode</Label>
+                                        <Select
+                                            disabled={field.disabled}
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <SelectTrigger className="bg-zinc-300/50 border-0 text-black focus:ring-0 ring-offset-0 capitalize outline-none focus:ring-offset-0">
+                                                <SelectValue placeholder="Select an event type" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {
+                                                    Object.values(EventMode).map((channel) => (
+                                                        <SelectItem
+                                                            key={channel}
+                                                            value={channel}
+                                                            className="capitalize cursor-pointer"
+                                                        >
+                                                            {channel.toLowerCase()}
+                                                        </SelectItem>
+                                                    ))
+                                                }
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* Event Category */}
+                            <FormField
+                                control={form.control}
+                                name="event_category"
+                                render={({ field }) => (
+                                    <FormItem className='w-full'>
+                                        <Label>Event Category</Label>
+                                        <Select
+                                            disabled={field.disabled}
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <SelectTrigger className="bg-zinc-300/50 border-0 text-black focus:ring-0 ring-offset-0 capitalize outline-none focus:ring-offset-0">
+                                                <SelectValue placeholder="Select an event type" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {
+                                                    Object.values(EventCategory).map((channel) => (
+                                                        <SelectItem
+                                                            key={channel}
+                                                            value={channel}
+                                                            className="capitalize cursor-pointer"
+                                                        >
+                                                            {channel.toLowerCase()}
+                                                        </SelectItem>
+                                                    ))
+                                                }
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
                         {/* Registration */}
                         <FormField

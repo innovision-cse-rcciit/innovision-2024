@@ -9,9 +9,10 @@ type Props = {
     coordinatorList: Coordinator[];
     participantList: Participant[];
     eventList: Event[];
+    isAdmin: boolean;
 }
 
-const Dashboard = ({ coordinatorList, participantList, eventList }: Props) => {
+const Dashboard = ({ coordinatorList, participantList, eventList, isAdmin }: Props) => {
 
     return (
         <>
@@ -34,6 +35,7 @@ const Dashboard = ({ coordinatorList, participantList, eventList }: Props) => {
                 <TabsContent value={AdminTabs.PARTICIPANTS}>
                     <ParticipationTable
                         data={participantList}
+                        isAdmin={isAdmin}
                     />
                 </TabsContent>
             </Tabs>

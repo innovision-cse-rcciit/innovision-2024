@@ -5,7 +5,12 @@ export async function getUserInfo() {
 
   const userDetails = await supabase
     .from("users")
-    .select()
+    .select(`
+      * , 
+      roles (
+      role,
+      event_id
+      )`)
     .eq("id", data.session?.user.id);
 
   if (error) {

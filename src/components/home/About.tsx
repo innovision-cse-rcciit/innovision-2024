@@ -5,10 +5,10 @@ const About = () => {
   return (
     <div
       className=" relative min-h-1/2 font-Chakra_Petch flex items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: "url('/about_background.png')" }}
+      // style={{ backgroundImage: "url('/home/events-bg.png')" }}
     >
       <div className="relative top-0 left-0 z-10"></div>
-      <div className=" flex flex-col md:flex-row items-center text-white p-6 md:p-16 ">
+      <div className=" flex flex-col md:flex-row-reverse items-center text-white p-6 md:p-16 ">
         <div className="w-full md:w-1/2 flex flex-col justify-center items-center">
           <Image
             width={400}
@@ -16,12 +16,7 @@ const About = () => {
             src="/home/about/about_logo.png"
             alt="Main Logo"
           />
-          <Image
-            width={400}
-            height={400}
-            src="/home/about/innovision_logo.png"
-            alt="Innovision Logo"
-          />
+          
         </div>
         <div className="w-full md:w-1/2 mt-8 md:mt-0 text-left md:pl-12">
           <h2 className="text-3xl md:text-4xl font-semibold mb-4">ABOUT US</h2>
