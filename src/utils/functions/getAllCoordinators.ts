@@ -1,15 +1,38 @@
 import { supabase } from "@/lib/supabase-client";
 import { Role } from "@/lib/schema/add-coordinator-volunteer-schema";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
-export async function getAllCoordinators() {
+type ICoordinators = {
+    eventId: string | null;
+}
+
+export async function getAllCoordinators({ eventId }: ICoordinators) {
     try {
         const { data, error } = await supabase.auth.getSession();
         if (!data.session)
             throw new Error("User must be logged in");
 
-        const coordinators = await supabase
-            .from("roles")
-            .select(`
+        let coordinators: PostgrestSingleResponse<any[]>;
+        if (eventId) {
+            coordinators = await supabase
+                .from("roles")
+                .select(`
+                    role,
+                    id (
+                    id,
+                    name,
+                    email
+                    ),
+                    event_id (
+                    event_name
+                    )
+                    `)
+                .in("role", ["COORDINATOR", "VOLUNTEER"])
+                .eq("event_id", eventId);
+        } else {
+            coordinators = await supabase
+                .from("roles")
+                .select(`
             role,
             id (
             id,
@@ -20,7 +43,24 @@ export async function getAllCoordinators() {
             event_name
             )
             `)
-            .in("role", ["COORDINATOR", "VOLUNTEER"]);
+                .in("role", ["COORDINATOR", "VOLUNTEER"]);
+        }
+        console.log(coordinators)
+
+        // const coordinators = await supabase
+        //     .from("roles")
+        //     .select(`
+        //     role,
+        //     id (
+        //     id,
+        //     name,
+        //     email
+        //     ),
+        //     event_id (
+        //     event_name
+        //     )
+        //     `)
+        //     .in("role", ["COORDINATOR", "VOLUNTEER"]);
 
         if (coordinators.data?.length === 0)
             return [];
