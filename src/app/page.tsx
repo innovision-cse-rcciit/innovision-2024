@@ -5,10 +5,17 @@ import Hero from "@/components/home/Hero";
 
 export default function Home() {
   return (
-   <main className="relative h-full w-full">
-    <Hero />
-    <About />
-    <Events />
-   </main>
-    );
+    <main className="relative h-full w-full">
+      <Hero />
+      <div
+        style={{
+          background: "url('/home/events-bg.png')", 
+          backgroundSize: "cover",
+        }}
+      >
+        <About />
+        <Events />
+      </div>
+    </main>
+  );
 }
