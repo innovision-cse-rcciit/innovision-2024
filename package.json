@@ -28,6 +28,7 @@
     "@tanstack/react-table": "^8.20.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "ejs": "^3.1.10",
     "emailjs-com": "^3.2.0",
     "formidable": "^3.5.1",
     "googleapis": "^144.0.0",
@@ -52,6 +53,7 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@types/ejs": "^3.1.5",
     "@types/formidable": "^3.4.5",
     "@types/node": "^20.16.1",
     "@types/nodemailer": "^6.4.15",
