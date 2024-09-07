@@ -5,7 +5,7 @@ const EventDashboardCard = ({ event }: {event: any }) => {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
-        <Link href={`/events/${event?.id}`}
+        <Link href={`/coordinator/${event?.id}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             className={`relative border-4 border-[#B61B69] max-w-xs mx-auto rounded-xl overflow-hidden`}
