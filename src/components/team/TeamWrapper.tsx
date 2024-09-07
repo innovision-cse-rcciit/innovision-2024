@@ -15,7 +15,7 @@ const TeamWrapper = ({children}: Props) => {
           {/* <span className=" font-Chakra_Petch text-white"> INNOVISION 2024</span> */}
         </div>
       </div>
-      <div className="mx-auto flex w-full flex-row flex-wrap items-center justify-center gap-2 md:gap-4 lg:gap-6 ">
+      <div className="mx-auto md:px-2 flex w-full flex-row flex-wrap items-center justify-center gap-2 md:gap-4 lg:gap-6 ">
         {teams.map((teamItem, index) => (
           <TeamTab key={index} team={teamItem} />
         ))}
