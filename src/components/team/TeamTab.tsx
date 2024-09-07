@@ -11,16 +11,18 @@ type Props = {
   }
 }
 
-const TeamTab = ({team}: Props) => {
+const TeamTab = ({ team }: Props) => {
 
   const pathname = usePathname();
   return (
     <Link href={team.path} className="cursor-pointer">
-      <Button
-        className={`text-white px-5 md:px-7 lg:px-10 py-1 md:py-2 lg:py-3 font-Keania_One font-semibold text-lg data-[state=active]:bg-[#B51C69] data-[state=active]:text-white hover:scale-95 hover:border-2 ${ pathname === team.path && 'border-yellow-300 border-2' }`}
-      >
-        {team.category}
-      </Button>
+      <div className='p-0.5 rounded-md bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 '>
+        <Button
+          className={`text-white px-5 md:px-7 py-1 md:py-2 keania-one-regular font-semibold text-sm md:text-lg bg-black hover:bg-zinc-900 focus:bg-zinc-900`}
+        >
+          {team.category}
+        </Button>
+      </div>
     </Link>
   );
 }

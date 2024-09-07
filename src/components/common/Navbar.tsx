@@ -167,7 +167,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="sticky left-0 top-0 z-[100] bg-pink-950 text-white w-screen overflow-x-hidden font-hollirood lg:w-full ">
+      <div className="sticky left-0 top-0 z-[100] bg-black text-white w-screen overflow-x-hidden font-hollirood lg:w-full ">
         <div
           className={`${
             scrolling || isMenuOpen
@@ -184,7 +184,7 @@ const Navbar = () => {
               onClick={clickSound}
               className="flex flex-row items-end"
             >
-              <Image src="/home/image.png" height={220} width={300} alt="rcc" />
+              <Image src="/home/image1.png" height={220} width={300} alt="rcc" />
             </Link>
           </div>
           <div className="flex flex-row-reverse items-center justify-between gap-4 md:flex-row">
