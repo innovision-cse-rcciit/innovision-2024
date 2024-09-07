@@ -9,9 +9,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ClipLoader from "react-spinners/ClipLoader";
+import EventRegForm from "./EventRegModal";
 const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   const [eventDetails, setEventDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [openRegister, setOpenRegister] = useState(false);
   const [registeredEvent, setRegisteredEvent] = useState<boolean>(false);
   const user = useUser((state) => state.user);
   console.log(eventId);
@@ -136,7 +138,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                         login();
                       }
                       clickSound();
-                      // setOpenRegister(true);
+                      setOpenRegister(true);
                     }}
                     className="relative flex flex-row mx-auto items-center"
                   >
@@ -196,6 +198,11 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                 )} */}
             </div>
           </div>
+          <EventRegForm
+        isOpen={openRegister}
+        onClose={()=>setOpenRegister(false)}
+        eventDetails={eventDetails}
+      />
         </div>
       )}
     </>
