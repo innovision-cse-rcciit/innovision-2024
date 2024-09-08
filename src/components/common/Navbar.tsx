@@ -254,7 +254,7 @@ const Navbar = () => {
               {user && showAdminDashboard && (
                 <Link
                   // onMouseEnter={hoverSound}
-                  href={"/dashboard"}
+                  href={"/admin/manage-events"}
                   onClick={() => {
                     clickSound();
                     setIsMenuOpen(false);
