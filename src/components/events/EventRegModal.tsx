@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { BeatLoader, ClipLoader, PuffLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import FormElement from "./FormElement";
 import { clickSound } from "@/utils/functions/clickSound";
 import { useUser } from "@/lib/store/user";
