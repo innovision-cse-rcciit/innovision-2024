@@ -55,15 +55,17 @@ const Event = () => {
 
   // const handleUpload = async () => {
 
-  //   const response = await fetch('/api/upload', {
-  //     method: 'POST',
-  //     body: JSON.stringify({
-  //       to: 'sayanadh123@gmail.com',
-  //       subject: 'Event Registration',
-  //       fileName: 'send-mail.ejs',
-  //       data: {}
-  //     }),
-  //   });
+    // const response = await fetch('/api/upload', {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     to: 'sayanadh123@gmail.com',
+    //     subject: 'Event Registration',
+    //     fileName: 'send-mail.ejs',
+    //     data: {
+    //       eventName:"Codathon"
+    //     }
+    //   }),
+    // });
 
   //   const result = await response.json();
   //   console.log(result);
