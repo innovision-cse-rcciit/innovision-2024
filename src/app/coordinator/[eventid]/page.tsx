@@ -29,7 +29,7 @@ const EventDashboard = ({params: {eventid}}: Params) => {
 
     useEffect(() => {
         const fetchAllData = async () => {
-            const events = await getAllEvents();
+            const events:any = await getAllEvents();
             setEventList(events);
             const participants = await getAllParticipants({ eventId: eventid });
             setParticipantList(participants as Participant[]);

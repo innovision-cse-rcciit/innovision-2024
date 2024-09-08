@@ -363,7 +363,7 @@ const AdminPage = (props: Props) => {
 
     useEffect(() => {
         const fetchAllData = async () => {
-            const events = await getAllEvents();
+            const events:any = await getAllEvents();
             setEventList(events);
             const participants = await getAllParticipants({ eventId: null });
             setParticipantList(participants as Participant[]);
