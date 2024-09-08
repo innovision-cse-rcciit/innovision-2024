@@ -48,7 +48,7 @@ export const eventReg = async (
           name: participant.name,
           email: participant.email,
           college_roll: clearSpaces(participant.roll).trim(),
-          requirement: participant?.extra,
+          requirement: participant?.extra ?? null,
         })
         .select();
     });
@@ -91,7 +91,7 @@ export const eventReg = async (
         email: team.teamLeadEmail,
         college_roll: clearSpaces(team.teamLeadRoll).trim(),
         attendance: null,
-        requirement: team?.extra,
+        requirement: team?.extra ?? null,
       })
       .select();
 

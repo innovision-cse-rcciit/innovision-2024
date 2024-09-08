@@ -32,12 +32,12 @@ const LandingPage = () => {
                         height={400}
                         width={440}
                         src='https://i.postimg.cc/JnPs7b2s/Innovision-logo-landing.png'
-                        className=' max-md:w-40 max-md:h-42 md:w-56 md:h-48 xl:w-80 xl:h-72'
+                        className=' max-md:w-48 max-md:h-42 md:w-56 md:h-48 xl:w-80 xl:h-72'
                         alt='Logo'
                     />
                     <div className='flex flex-col gap-4 items-center'>
                         <div className='bg-white px-10 py-2 border rounded-xl'>
-                            <h1 className='keania-one-regular text-2xl md:text-4xl text-[#B61B69]'>INNOVISION 2024</h1>
+                            <h1 className='keania-one-regular text-2xl md:text-4xl lg:text-6xl text-[#B61B69]'>INNOVISION 2024</h1>
                         </div>
                         <div className='flex flex-col gap-2 items-center lg:items-end px-5'>
                             <h1 className='text-white font-semibold text-md md:text-xl text-center'>THE ANNUAL DEPARTMENTAL FEST OF CSE DEPARTMENT</h1>
@@ -64,7 +64,7 @@ const LandingPage = () => {
                                         height={110}
                                         alt='Register'
                                         src='/nba.png'
-                                        className='w-15 h-12 md:h-20 md:w-30'
+                                        className='w-20 h-16 md:h-20 md:w-30'
                                     />
                                 </button>
                             </Link>
@@ -75,7 +75,7 @@ const LandingPage = () => {
                                         height={110}
                                         alt='Register'
                                         src='/rcciit.png'
-                                        className='w-28 md:w-40'
+                                        className='w-40 md:w-40'
                                     />
                                 </button>
                             </Link>

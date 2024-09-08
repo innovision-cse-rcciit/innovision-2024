@@ -157,7 +157,7 @@ const Navbar = () => {
         `}
         >
           <Toaster position="bottom-right" />
-          <div className="flex cursor-pointer items-center  font-hollirood text-3xl font-bold    duration-500 hover:scale-105 hover:text-yellow-400">
+          <div className="flex cursor-pointer items-center  font-hollirood text-3xl font-bold    duration-500 hover:scale-105 ">
             <Link
               href={"/"}
               // onMouseEnter={hoverSound}
