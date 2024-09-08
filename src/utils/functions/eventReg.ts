@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase-client";
 import { clearSpaces } from "./validateReg";
+import { ContentType } from "../constants/wall-events";
 
 export const eventReg = async (
   team: any,
@@ -28,7 +29,7 @@ export const eventReg = async (
     let teamId = "";
     const eventType =
       eventResponse.data![0].min_team_size > 1 ? "team" : "individual";
-    
+
     if (eventType === "team") {
       const { data, error: teamInsertError } = await supabase
         .from("teams")
@@ -42,7 +43,7 @@ export const eventReg = async (
       if (teamInsertError) throw teamInsertError;
 
       teamId = data![0].team_id!;
-      
+
       participants.forEach(async (participant: any) => {
         try {
           console.log(participant);
@@ -89,26 +90,48 @@ export const eventReg = async (
       console.log("Hi")
       if (fileSubmission && file) {
         try {
+          let foldername;
+          switch (eventResponse.data![0].event_name) {
+            case 'The Wall : Article':
+              foldername = ContentType.ARTICLE;
+              break;
+            case 'The Wall : Poetry':
+              foldername = ContentType.POETRY;
+              break;
+            case 'The Wall: ArtWork':
+              foldername = ContentType.ART;
+              break;
+            case 'Shutterbugs':
+              foldername = ContentType.SHUTTERBUGS;
+              break;
+            case 'Reel-lens':
+              foldername = ContentType.REELLENS;
+              break;
+            default:
+              foldername = ContentType.ART;
+              break;
+          }
           console.log(fileSubmission)
           console.log("Selected File:", file);
-          const formData = new FormData();
-          formData.append("file", file);
-          formData.append(
-            "folderName",
-            eventResponse.data![0].event_name + " - " + "SUBMISSIONS"
-          );
+          file?.forEach(async (f: any) => {
+            const formData = new FormData();
+            formData.append("file", f);
+            formData.append("folderName", foldername);
+            const mimeType = f.type.split("/")[1];
+            formData.append("mimeType", mimeType);
 
-          const response:any = await fetch("/api/upload", {
-            method: "POST",
-            body: formData,
+            const response: any = await fetch("/api/upload", {
+              method: "POST",
+              body: formData,
+            });
+            const fileId = response;
+            console.log(fileId);
+            team.extra = {
+              fileId
+            }
+            const result = await response.json();
+            console.log(result);
           });
-        const fileId = response;
-        console.log(fileId);
-        team.extra = {
-          fileId
-        }
-          const result = await response.json();
-          console.log(result);
         } catch (fileUploadError) {
           console.error("Error uploading file:", fileUploadError);
         }
@@ -146,7 +169,7 @@ export const eventReg = async (
         const response = await fetch("/api/sendMail", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json", 
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             to: team.teamLeadEmail,

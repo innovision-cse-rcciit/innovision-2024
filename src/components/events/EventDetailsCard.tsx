@@ -137,12 +137,13 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                 width={350}
                 className=" mx-auto rounded-2xl object-cover object-left-top"
               />
-              {EVENT_CATEGORIES?.NONTECHNICAL ===
-              eventDetails?.event_category_id ? (
-                <h1 className="text-white text-4xl text-center">
-                  Register Soon
-                </h1>
-              ) : (
+              {
+              // EVENT_CATEGORIES?.NONTECHNICAL ===
+              // eventDetails?.event_category_id ? (
+              //   <h1 className="text-white text-4xl text-center">
+              //     Register Soon
+              //   </h1>
+              // ) : (
                 !registeredEvent! &&
                 eventDetails! &&
                 eventDetails!.is_open && (
@@ -174,7 +175,8 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                     </h1>
                   </button>
                 )
-              )}
+              // )
+              }
               {eventDetails?.result_out === true ? (
                 <button
                   onClick={() => setOpenResult(true)}
