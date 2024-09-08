@@ -66,28 +66,28 @@ export const columns: ColumnDef<Event>[] = [
         accessorKey: "name",
         header: "Name",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("name")}</div>
+            <div className="capitalize">{row?.getValue("name")}</div>
         ),
     },
     {
         accessorKey: "duration",
         header: "Duration",
         cell: ({ row }) => (
-            <div className="capitalize">{parse(row.getValue("duration"))}</div>
+            <div className="capitalize">{parse(row?.getValue("duration"))}</div>
         ),
     },
     {
         accessorKey: "type",
         header: "Event Mode",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("type")}</div>
+            <div className="capitalize">{row?.getValue("type")}</div>
         ),
     },
     {
         accessorKey: "isOpen",
         header: "Registration",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("isOpen") ? "Open" : "Closed"}</div>
+            <div className="capitalize">{row?.getValue("isOpen") ? "Open" : "Closed"}</div>
         ),
     },
     {

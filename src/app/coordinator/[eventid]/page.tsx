@@ -25,7 +25,6 @@ const EventDashboard = ({params: {eventid}}: Params) => {
     const [participantList, setParticipantList] = useState<Participant[]>([]);
     const [coordinatorList, setCoordinatorList] = useState<Coordinator[]>([]);
     const [isAdmin, setIsAdmin] = useState(false);
-    console.log(eventid)
 
     useEffect(() => {
         const fetchAllData = async () => {
@@ -33,10 +32,10 @@ const EventDashboard = ({params: {eventid}}: Params) => {
             setEventList(events);
             const participants = await getAllParticipants({ eventId: eventid });
             setParticipantList(participants as Participant[]);
-            console.log(participantList)
+
             const coordinators = await getAllCoordinators({ eventId: eventid });
             setCoordinatorList(coordinators as unknown as Coordinator[]);
-            console.log(coordinatorList)
+
         }
         fetchAllData();
         const admin = user.user?.roles.some((roleObj: any) => roleObj.role === "ADMIN");

@@ -67,38 +67,18 @@ const Navbar = () => {
       console.log(roleData);
       if (roleData) {
         for (const obj of roleData!) {
-          if (obj.role === "super_admin") {
+          if (obj.role === "ADMIN") {
             isSuperAdmin = true;
           }
-          if (obj.role === "event_coordinator") {
-            if (
-              obj.events &&
-              obj.events.fest_name === "Regalia" &&
-              obj.events.year == 2024
-            ) {
+          if (obj.role === "COORDINATOR") {
+
               isCoordinator = true;
-            }
+            
           }
-          if (obj.role === "volunteer") {
-            if (
-              obj.events &&
-              obj.events.fest_name === "Regalia" &&
-              obj.events.year == 2024
-            ) {
+          if (obj.role === "VOLUNTEER") {
+
               isVolunteer = true;
-            }
-          }
-          if (obj.role === "convenor") {
-            if (
-              obj.event_categories &&
-              obj.event_categories.fest_name === "Regalia" &&
-              obj.event_categories.year == 2024
-            ) {
-              isConvenor = true;
-            }
-          }
-          if (obj.role === "registrar") {
-            isRegistrar = true;
+            
           }
         }
 
@@ -177,14 +157,14 @@ const Navbar = () => {
         `}
         >
           <Toaster position="bottom-right" />
-          <div className="flex cursor-pointer items-center  font-hollirood text-3xl font-bold    duration-500 hover:scale-105 hover:text-yellow-400">
+          <div className="flex cursor-pointer items-center  font-hollirood text-3xl font-bold    duration-500 hover:scale-105 ">
             <Link
               href={"/"}
               // onMouseEnter={hoverSound}
               onClick={clickSound}
               className="flex flex-row items-end"
             >
-              <Image src="/home/image1.png" height={220} width={300} alt="rcc" />
+              <Image src="https://i.postimg.cc/W4p806NH/image1.png" height={20} width={300} alt="rcc" className="w-80" />
             </Link>
           </div>
           <div className="flex flex-row-reverse items-center justify-between gap-4 md:flex-row">
@@ -271,10 +251,10 @@ const Navbar = () => {
                     />
                   </div>
                 )} */}
-              {user && showDashboard && (
+              {user && showAdminDashboard && (
                 <Link
                   // onMouseEnter={hoverSound}
-                  href={"/dashboard"}
+                  href={"/admin/manage-events"}
                   onClick={() => {
                     clickSound();
                     setIsMenuOpen(false);
@@ -290,7 +270,7 @@ const Navbar = () => {
                 </Link>
               )}
               <div className=" block flex-row items-center md:hidden xl:flex">
-                {user && showCoordinatorDashboard && (
+                {/* {user && showCoordinatorDashboard && (
                   <Link
                     // onMouseEnter={hoverSound}
                     href={"/coordinator"}
@@ -307,9 +287,9 @@ const Navbar = () => {
                       Coordinator
                     </li>
                   </Link>
-                )}
+                )} */}
 
-                {user && showConvenorDashboard && (
+                {/* {user && showConvenorDashboard && (
                   <Link
                     // onMouseEnter={hoverSound}
                     href={"/coordinator"}
@@ -326,9 +306,9 @@ const Navbar = () => {
                       Convenor
                     </li>
                   </Link>
-                )}
+                )} */}
 
-                {user && showVolunteerDashboard && (
+                {/* {user && showVolunteerDashboard && (
                   <Link
                     // onMouseEnter={hoverSound}
                     href={"/coordinator"}
@@ -345,7 +325,7 @@ const Navbar = () => {
                       Volunteer
                     </li>
                   </Link>
-                )}
+                )} */}
                 {/* {user && showRegisterDashboard && (
                   <Link
                     // onMouseEnter={hoverSound}
@@ -365,7 +345,7 @@ const Navbar = () => {
                   </Link>
                 )} */}
 
-                {user && showAdminDashboard && (
+                {/* {user && showAdminDashboard && (
                   <Link
                     // onMouseEnter={hoverSound}
                     href={"/admin"}
@@ -382,7 +362,7 @@ const Navbar = () => {
                       Admin
                     </li>
                   </Link>
-                )}
+                )} */}
               </div>
 
               <div className="flex cursor-pointer flex-row items-center gap-5  md:ml-5 ">

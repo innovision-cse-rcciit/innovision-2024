@@ -20,7 +20,7 @@ const Event = () => {
     const fetchEvents = async () => {
       const events: any = await getAllEvents();
       setAllEvents(events);
-      console.log(events);
+      // console.log(events);
       setLoading(false);
     };
     fetchEvents();
@@ -53,28 +53,14 @@ const Event = () => {
   //   }
   // };
 
-  // const handleUpload = async () => {
 
-  //   const response = await fetch('/api/upload', {
-  //     method: 'POST',
-  //     body: JSON.stringify({
-  //       to: 'sayanadh123@gmail.com',
-  //       subject: 'Event Registration',
-  //       fileName: 'send-mail.ejs',
-  //       data: {}
-  //     }),
-  //   });
-
-  //   const result = await response.json();
-  //   console.log(result);
-  // };
 
   return (
     <>
       <div
         className="flex flex-col items-center  py-4 bg-black w-full min-h-screen bg-no-repeat bg-center"
         style={{
-          backgroundImage: "url('/home/events-bg.png')",
+          backgroundImage: "url('https://i.postimg.cc/MZ5HX7cL/events-bg.png')",
           backgroundSize: "cover",
           backgroundAttachment: "fixed",
         }}

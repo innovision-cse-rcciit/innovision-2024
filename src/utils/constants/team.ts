@@ -163,6 +163,17 @@ export const teams = [
             "https://i.postimg.cc/NGPpqH0h/IMG-20240704-WA0259-Adrita-Chakraborty.jpg",
         },
         {
+          name: "Palas Saha",
+          role: "Modelify : Coordinator",
+          image:
+            "https://i.postimg.cc/8Cc8RnTF/IMG-20230827-131314.jpg",
+        },
+        {
+          name: "Urjita Ray",
+          role: "Modelify : Coordinator",
+          image: "https://i.postimg.cc/XJN10mNy/Urjita-Ray.jpg",
+        },
+        {
           name: "Subhadeep Dhar",
           role: "Webify : Coordinator",
           image: "https://i.postimg.cc/t47zrCbq/1720191675352.jpg",
@@ -196,17 +207,6 @@ export const teams = [
           role: "Hackathon : Coordinator",
           image:
             "https://i.postimg.cc/qRmzmF39/1709667778312-SAGNIK-DATTA.jpg",
-        },
-        {
-          name: "Palas Saha",
-          role: "Modelify : Coordinator",
-          image:
-            "https://i.postimg.cc/8Cc8RnTF/IMG-20230827-131314.jpg",
-        },
-        {
-          name: "Urjita Ray",
-          role: "Modelify : Coordinator",
-          image: "https://i.postimg.cc/XJN10mNy/Urjita-Ray.jpg",
         },
         {
           name: "Sayan Adhikari",
@@ -537,7 +537,7 @@ export const teams = [
           name: "Swastika Tikader",
           role: "Graphics Team Lead",
           image:
-            "https://i.postimg.cc/pTm5DpM8/IMG-20240906-WA0000-Swastika-Tikader.jpg",
+            "https://i.postimg.cc/15HnynkK/Whats-App-Image-2024-09-08-at-17-29-06.jpg",
         },
         {
           name: "Swastik Bhattacharya",
@@ -655,9 +655,9 @@ export const teams = [
           image: "https://i.postimg.cc/yx8wk6Nv/SOHOM-MITTER.jpg",
         },
         {
-          name: "Dip Paul",
+          name: "Sandip Dutta",
           role: "Logistics Team Member",
-          image: "https://i.postimg.cc/hjhQ9M7p/IMG-20240301-WA0195-DIP-PAUL.jpg",
+          image: "https://i.postimg.cc/rspFzv9f/Whats-App-Image-2024-09-08-at-15-04-28.jpg",
         },
         {
           name: "Snehansh Yadav",
