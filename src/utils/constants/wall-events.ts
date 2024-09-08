@@ -1,4 +1,4 @@
-type ContentTypes = {
+type Types = {
     [key: string]: string; // Index signature
     ARTICLE: string;
     POETRY: string;
@@ -7,7 +7,15 @@ type ContentTypes = {
     REELLENS: string;
 };
 
-export const CONTENT_TYPES: ContentTypes = {
+export enum ContentType {
+    ARTICLE = "ARTICLE",
+    POETRY = "POETRY",
+    ART = "ART",
+    SHUTTERBUGS = "SHUTTERBUGS",
+    REELLENS = "REELLENS"
+}
+
+export const CONTENT_TYPES: Types = {
     ARTICLE: process.env.ARTICLE_FOLDER_ID as string,
     POETRY: process.env.POETRY_FOLDER_ID as string,
     ART: process.env.ART_FOLDER_ID as string,
