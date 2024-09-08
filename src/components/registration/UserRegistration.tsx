@@ -14,10 +14,12 @@ import Image from "next/image";
 const departmentOptions = [
   { value: "CSE", label: "Computer Science and Engineering" },
   { value: "IT", label: "Information Technology" },
+  { value: "CSE AIML", label: "Computer Science and Engineering : Artificial Intelligence & Machine Learning" },
   { value: "ECE", label: "Electronics and Communication Engineering" },
   { value: "EE", label: "Electrical Engineering" },
   { value: "AEIE", label: "Applied Electronics & Instrumentation Engineering" },
   { value: "BCA", label: "Bachelor Of Computer Application" },
+
 ];
 
 export default function Register() {
