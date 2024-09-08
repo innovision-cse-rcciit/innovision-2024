@@ -63,8 +63,8 @@ export const uploadToGoogleDrive = async (file: any, folderName: string) => {
             body: fileStream,
         };
         console.log('File metadata:', fileMetadata);
-        const response = await drive.files.create({
-            resource: fileMetadata,
+        const response:any = await drive.files.create({
+            requestBody: fileMetadata,
             media: media,
             fields: 'id',
         });
