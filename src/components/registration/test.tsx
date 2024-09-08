@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useUser } from "@/lib/store/user";
 import { supabase } from "@/lib/supabase-client";
 import { clickSound } from "@/utils/functions/clickSound";
@@ -9,7 +8,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-// import QRCode from "react-qr-code";
 import { PuffLoader } from "react-spinners";
 import Heading from "../common/Heading";
 
@@ -27,7 +25,6 @@ const EventRegCard = ({ teams }: { teams: any }) => {
         .eq("id", teams.event_id);
       setEvent(data![0].event_name);
       setEventImage(data![0].banner_url);
-      console.log(teams)
       setMembers(teams.participants);
     };
     getEventName();
@@ -42,21 +39,20 @@ const EventRegCard = ({ teams }: { teams: any }) => {
   });
   return (
     <div className="px-5 lg:px-0 md:w-[70%] lg:w-[40%] border-2 border-white rounded-xl backdrop-blur-md xl:w-[25%] 2xl:h-auto">
-        <div className="flex w-[100%] flex-col items-center justify-around gap-5 rounded-xl  bg-body p-12 font-Chakra_Petch  text-sm font-semibold tracking-widest  ">
+      <div className="flex w-[100%] flex-col items-center justify-around gap-5 rounded-xl  bg-body p-12 font-Chakra_Petch  text-sm font-semibold tracking-widest  ">
         {eventImage! && (
           <Image src={eventImage!} width={150} height={100} alt="" />
         )}
 
-     
-        <div className="flex flex-row text-base xl:text-lg flex-wrap items-center gap-2">
+        <div className="flex flex-row text-xl xl:text-lg flex-wrap items-center gap-2">
           <h1>Event :</h1> <span>{event!}</span>
         </div>
 
-        <div className="flex flex-row flex-wrap items-center text-base xl:text-lg justify-center gap-2">
+        <div className="flex flex-row flex-wrap items-center text-xl xl:text-lg justify-center gap-2">
           <h1>{members! && members?.length > 1 ? "Team Name" : "Name"} :</h1>{" "}
           <span>{teams.team_name}</span>
         </div>
-        <div className="flex flex-row flex-wrap items-center text-base xl:text-lg justify-center gap-2">
+        <div className="flex flex-row flex-wrap items-center text-xl xl:text-lg justify-center gap-2">
           <h1>
             {members! && members?.length > 1 ? "Team Lead Email" : "Email"}:
           </h1>{" "}
@@ -64,24 +60,23 @@ const EventRegCard = ({ teams }: { teams: any }) => {
         </div>
         {members! && members?.length > 1 && (
           <button
-            onClick={() =>{ 
+            onClick={() => {
               clickSound();
-              setIsOpen(true)}}
+              setIsOpen(true);
+            }}
             className="rounded-xl border hover:cursor-pointer border-[#B51C69] bg-[#B51C69] px-3 py-1 text-white hover:bg-black hover:text-regalia hover:border-[#B51C69] "
           >
             View Members
           </button>
         )}
-       
-     
       </div>
-  
+
       <MemberModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         members={teams.participants}
       />
-          </div>
+    </div>
   );
 };
 
@@ -97,17 +92,15 @@ const MemberModal = ({
   return (
     <>
       {isOpen && (
-        <div className="fixed  inset-0 flex items-center  tracking-widest justify-center bg-black bg-opacity-50 z-[50]"
-        
-        >
+        <div className="fixed  inset-0 flex items-center  tracking-widest justify-center bg-black bg-opacity-50 z-[50]">
           <div
             className={`flex h-auto max-h-[50vh] md:max-h-[40vh] lg:max-h-[50vh] 2xl:max-h-[60vh] w-[90%] flex-col
              items-start rounded-lg bg-body border-y-2 border-[#B51C69] p-4 md:w-[35%] lg:w-[100%] `}
-             style={{ background: 'url("/events/Background-img.png")' }}
+            style={{ background: 'url("/events/Background-img.png")' }}
           >
             <div className="mb-2 flex w-full flex-row items-center justify-between">
-              <h2 className="text-lg font-semibold">Members</h2> 
- 
+              <h2 className="text-lg font-semibold">Members</h2>
+
               <h2
                 onClick={onClose}
                 className="cursor-pointer rounded-xl border border-[#B51C69] bg-regalia px-3 py-1 text-white hover:bg-black bg-[#B51C69] hover:text-[#B51C69] hover:border-[#B51C69]"
@@ -130,7 +123,6 @@ const MemberModal = ({
                     >
                       {member.phone}
                     </a>
-                    
                   </div>
                 );
               })}
@@ -166,29 +158,41 @@ const Page = () => {
     getData();
   }, [user]);
 
- 
   return (
     <>
-      <div className="flex py-10 text-white min-h-[80vh] w-full flex-col items-center gap-5 px-2 lg:px-10"
-             style={{ background: 'url("/events/Background-img.png")' }}
+      <div
+        className="flex py-10 text-white min-h-[80vh] w-full flex-col items-center gap-5 px-2 lg:px-10"
+        style={{ background: 'url("/events/Background-img.png")' }}
       >
         <Heading text="Registrations" />
-        <div className="flex flex-row flex-wrap items-center justify-evenly gap-5 text-center font-hollirood text-sm md:gap-8 lg:text-xl xl:gap-20">
-          <h1>Name : {user?.name}</h1>
-          <h1>Email : {user?.email}</h1>
-          <h1>Phone: {user?.phone}</h1>
-          <Link href={'/profile/edit'} className='flex flex-row bg-transparent items-center hover:opacity-90 relative'>
-                                <Image 
-                                    width={112}
-                                    height={110}
-                                    alt='Register' 
-                                    src='https://i.postimg.cc/kXR0L9dy/Button.png'
-                                    className='w-40 md:w-48'
-                                />
-                                <h1 className='absolute text-center w-full font-Chakra_Petch text-[#B61B69] text-sm md:text-xl font-bold'>
-                                    EDIT PROFILE
-                                </h1>
-                            </Link>
+        <div className="flex flex-row flex-wrap items-center justify-evenly gap-5 text-center font-hollirood  md:gap-8 text-xl lg:text-2xl xl:gap-20">
+          <h1>
+            <span id="glow">Name : </span>
+            {user?.name.toUpperCase()}
+          </h1>
+          <h1>
+            <span id="glow">Email : </span>
+            {user?.email}
+          </h1>
+          <h1>
+            <span id="glow">Phone: </span>
+            {user?.phone}
+          </h1>
+          <Link
+            href={"/profile/edit"}
+            className="flex flex-row bg-transparent items-center hover:opacity-90 relative"
+          >
+            <Image
+              width={112}
+              height={110}
+              alt="Register"
+              src="https://i.postimg.cc/kXR0L9dy/Button.png"
+              className="w-40 md:w-48"
+            />
+            <h1 className="absolute text-center w-full font-Chakra_Petch text-[#B61B69] text-sm md:text-xl font-bold">
+              EDIT PROFILE
+            </h1>
+          </Link>
         </div>
 
         <div className="flex flex-row flex-wrap items-center justify-center gap-20 lg:w-[80%]">
