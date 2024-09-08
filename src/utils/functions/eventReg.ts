@@ -91,8 +91,9 @@ export const eventReg = async (
         try {
           console.log(fileSubmission)
           console.log("Selected File:", file);
-          const formData = new FormData();
-          formData.append("file", file);
+          file?.forEach(async (f: any) => {
+            const formData = new FormData();
+          formData.append("file", f);
           formData.append(
             "folderName",
             eventResponse.data![0].event_name + " - " + "SUBMISSIONS"
@@ -109,6 +110,7 @@ export const eventReg = async (
         }
           const result = await response.json();
           console.log(result);
+          });
         } catch (fileUploadError) {
           console.error("Error uploading file:", fileUploadError);
         }
