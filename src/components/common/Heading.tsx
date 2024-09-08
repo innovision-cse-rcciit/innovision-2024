@@ -1,7 +1,7 @@
 const Heading = ({ text }: { text: string }) => {
     const letters = text.split("");
     return (
-        <div className="text-center"
+        <div className="text-center z-10 text-white"
 
         >
             {letters.map((letter, index) => (

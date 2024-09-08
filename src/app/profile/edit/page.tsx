@@ -1,9 +1,11 @@
+'use client';
 import React from 'react'
 import UserRegistration from '@/components/registration/UserRegistration'
 
 const page = () => {
   return (
-    <div>
+    <div
+    >
     <UserRegistration/>
     </div>
   )
