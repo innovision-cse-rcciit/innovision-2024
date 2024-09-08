@@ -73,6 +73,14 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
     };
     fetchEvent();
   }, [eventId, user]);
+
+  useEffect(() => {
+    if (openRegister && openRules && openResult) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  });
   return (
     <>
       {loading ? (
