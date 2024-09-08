@@ -104,9 +104,9 @@ export async function middleware(req: NextRequest) {
 
     if (
       !checkUserDetails(userDetails?.data?.[0]!) &&
-      url.pathname !== "/profile"
+      url.pathname !== "/profile/edit"
     ) {
-      return NextResponse.redirect(new URL("/profile", req.url));
+      return NextResponse.redirect(new URL("/profile/edit", req.url));
     }
 
     if (superAdmin && url.pathname.startsWith("/dashboard" || "/coordinator")) {

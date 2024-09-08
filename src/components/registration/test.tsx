@@ -1,90 +1,224 @@
-import React from "react";
-import EventCard from "./EventCard";
+"use client";
 
-const ProfilePage = () => {
-  const participant = {
-    name: "Sutanuka Chakraborty",
-    collegeRoll: "CSE2023062",
-    phoneNumber: "000000000",
-    department: "CSE",
-    section: "A",
-    registeredEvents: [
-      {
-        id: 1,
-        name: "Webify",
-        teamName: "abc",
-        teamLead: "abc",
-      },
-      {
-        id: 2,
-        name: "Modelify",
-        teamName: "abc",
-        teamLead: "abc",
-      },
-      {
-        id: 3,
-        name: "Codathon",
-        teamName: "abc",
-        teamLead: "abc",
-      },
-      {
-        id: 4,
-        name: "Hackathon",
-        teamName: "abc",
-        teamLead: "abc",
-      },
-      {
-        id: 5,
-        name: "Tech C",
-        teamName: "abc",
-        teamLead: "abc",
-      },
-      {
-        id: 6,
-        name: "Extempore",
-        teamName: "abc",
-        teamLead: "abc",
-      },
-    ],
-  };
 
+import { useUser } from "@/lib/store/user";
+import { supabase } from "@/lib/supabase-client";
+import { clickSound } from "@/utils/functions/clickSound";
+import { getIndividualRegs } from "@/utils/functions/getIndividualRegs";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+// import QRCode from "react-qr-code";
+import { PuffLoader } from "react-spinners";
+import Heading from "../common/Heading";
+
+const EventRegCard = ({ teams }: { teams: any }) => {
+  const [verified, setVerified] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [eventImage, setEventImage] = useState<string>("");
+  const [event, setEvent] = useState<any>("");
+  const [members, setMembers] = useState<any>([]);
+  useEffect(() => {
+    const getEventName = async () => {
+      const { data, error } = await supabase
+        .from("events")
+        .select("event_name,banner_url")
+        .eq("id", teams.event_id);
+      setEvent(data![0].event_name);
+      setEventImage(data![0].banner_url);
+      console.log(teams)
+      setMembers(teams.participants);
+    };
+    getEventName();
+  }, [teams]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  });
   return (
-    <div
-      className="min-h-screen bg-cover bg-center text-white p-8"
-      style={{
-        backgroundImage: "url('/registered_events.png')",
-      }}
-    >
-      <div className="max-w-5xl mx-auto">
-        <div className="flex flex-col sm:flex-row justify-between mb-8">
-          <div>
-            <h2 className="text-xl font-bold">Name: <span className="text-pink-400">{participant.name}</span></h2>
-            <p className="text-lg">College Roll: <span className="text-pink-400">{participant.collegeRoll}</span></p>
-            <p className="text-lg">Phone Number: <span className="text-pink-400">{participant.phoneNumber}</span></p>
-          </div>
-          <div>
-            <p className="text-lg">Department: <span className="text-pink-400">{participant.department}</span></p>
-            <p className="text-lg">Section: <span className="text-pink-400">{participant.section}</span></p>
-          </div>
+    <div className="px-5 lg:px-0 md:w-[70%] lg:w-[40%] border-2 border-white rounded-xl backdrop-blur-md xl:w-[25%] 2xl:h-auto">
+        <div className="flex w-[100%] flex-col items-center justify-around gap-5 rounded-xl  bg-body p-12 font-Chakra_Petch  text-sm font-semibold tracking-widest  ">
+        {eventImage! && (
+          <Image src={eventImage!} width={150} height={100} alt="" />
+        )}
+
+     
+        <div className="flex flex-row text-base xl:text-lg flex-wrap items-center gap-2">
+          <h1>Event :</h1> <span>{event!}</span>
         </div>
 
-        <h3 className="text-2xl font-semibold mb-6 text-center">Registered Events:</h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {participant.registeredEvents.map((event) => (
-            <EventCard
-              key={event.id}
-              eventName={event.name}
-              teamName={event.teamName}
-              teamLead={event.teamLead}
-              imageUrl="/path/to/image.jpg" 
-            />
-          ))}
+        <div className="flex flex-row flex-wrap items-center text-base xl:text-lg justify-center gap-2">
+          <h1>{members! && members?.length > 1 ? "Team Name" : "Name"} :</h1>{" "}
+          <span>{teams.team_name}</span>
         </div>
+        <div className="flex flex-row flex-wrap items-center text-base xl:text-lg justify-center gap-2">
+          <h1>
+            {members! && members?.length > 1 ? "Team Lead Email" : "Email"}:
+          </h1>{" "}
+          <span>{teams.team_lead_email}</span>
+        </div>
+        {members! && members?.length > 1 && (
+          <button
+            onClick={() =>{ 
+              clickSound();
+              setIsOpen(true)}}
+            className="rounded-xl border hover:cursor-pointer border-[#B51C69] bg-[#B51C69] px-3 py-1 text-white hover:bg-black hover:text-regalia hover:border-[#B51C69] "
+          >
+            View Members
+          </button>
+        )}
+       
+     
       </div>
-    </div>
+  
+      <MemberModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        members={teams.participants}
+      />
+          </div>
   );
 };
 
-export default ProfilePage;
+const MemberModal = ({
+  isOpen,
+  onClose,
+  members,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  members: any;
+}) => {
+  return (
+    <>
+      {isOpen && (
+        <div className="fixed  inset-0 flex items-center  tracking-widest justify-center bg-black bg-opacity-50 z-[50]"
+        
+        >
+          <div
+            className={`flex h-auto max-h-[50vh] md:max-h-[40vh] lg:max-h-[50vh] 2xl:max-h-[60vh] w-[90%] flex-col
+             items-start rounded-lg bg-body border-y-2 border-[#B51C69] p-4 md:w-[35%] lg:w-[100%] `}
+             style={{ background: 'url("/events/Background-img.png")' }}
+          >
+            <div className="mb-2 flex w-full flex-row items-center justify-between">
+              <h2 className="text-lg font-semibold">Members</h2> 
+ 
+              <h2
+                onClick={onClose}
+                className="cursor-pointer rounded-xl border border-[#B51C69] bg-regalia px-3 py-1 text-white hover:bg-black bg-[#B51C69] hover:text-[#B51C69] hover:border-[#B51C69]"
+              >
+                X
+              </h2>
+            </div>
 
+            <div className="my-1 flex  w-full flex-col items-center gap-2 overflow-y-auto px-1 py-2 text-center">
+              {members.map((member: any, index: number) => {
+                return (
+                  <div
+                    key={index}
+                    className="flex w-full flex-col flex-wrap justify-around bg-body text-center font-semibold md:flex-row"
+                  >
+                    <h1>{member.name}</h1>
+                    <a
+                      className="text-red-500 hover:cursor-pointer hover:opacity-70"
+                      href={`tel:${member.phone}`}
+                    >
+                      {member.phone}
+                    </a>
+                    
+                  </div>
+                );
+              })}
+            </div>
+            <button
+              className="mt-3 rounded-xl border border-[#B51C69] bg-[#B51C69] px-3 py-1 text-white hover:bg-black hover:text-[#B51C69] hover:border-[#B51C69]"
+              onClick={onClose}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+const Page = () => {
+  const [teamData, setTeamData] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [userImage, setUserImage] = useState<string>("");
+  const user = useUser((state: any) => state.user);
+  const router = useRouter();
+  const [search, setSearch] = useState<string>("");
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getIndividualRegs(user?.email!);
+      const { data: userData, error } = await supabase.auth.getSession();
+      setUserImage(userData?.session?.user?.user_metadata?.avatar_url!);
+      setTeamData(data);
+      setLoading(false);
+    };
+    getData();
+  }, [user]);
+
+ 
+  return (
+    <>
+      <div className="flex py-10 text-white min-h-[80vh] w-full flex-col items-center gap-5 px-2 lg:px-10"
+             style={{ background: 'url("/events/Background-img.png")' }}
+      >
+        <Heading text="Registrations" />
+        <div className="flex flex-row flex-wrap items-center justify-evenly gap-5 text-center font-hollirood text-sm md:gap-8 lg:text-xl xl:gap-20">
+          <h1>Name : {user?.name}</h1>
+          <h1>Email : {user?.email}</h1>
+          <h1>Phone: {user?.phone}</h1>
+          <Link href={'/profile/edit'} className='flex flex-row bg-transparent items-center hover:opacity-90 relative'>
+                                <Image 
+                                    width={112}
+                                    height={110}
+                                    alt='Register' 
+                                    src='/Landing/Button.png'
+                                    className='w-40 md:w-48'
+                                />
+                                <h1 className='absolute text-center w-full font-Chakra_Petch text-[#B61B69] text-sm md:text-xl font-bold'>
+                                    EDIT PROFILE
+                                </h1>
+                            </Link>
+        </div>
+
+        <div className="flex flex-row flex-wrap items-center justify-center gap-20 lg:w-[80%]">
+          {loading ? (
+            <div className="mx-auto flex min-h-[80vh] w-full flex-col items-center justify-center">
+              <PuffLoader color="" size={30} />
+            </div>
+          ) : teamData?.length > 0 ? (
+            teamData?.map((team: any, index: number) => {
+              return (
+                <>
+                  <EventRegCard key={index} teams={team} />
+                </>
+              );
+            })
+          ) : (
+            <div className="justfiy-center mx-auto mt-20 flex flex-col items-center gap-5 font-hollirood">
+              <h1 className="text-xl font-semibold">No Registrations Yet !</h1>
+              {/* <EventButton
+                name="Register"
+                onClick={() => {
+                  router.push("/events");
+                }}
+              /> */}
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Page;

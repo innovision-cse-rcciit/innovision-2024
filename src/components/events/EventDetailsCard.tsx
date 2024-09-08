@@ -20,19 +20,20 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   const [registeredEvent, setRegisteredEvent] = useState<boolean>(false);
   const [openResult, setOpenResult] = useState(false);
   const user = useUser((state) => state.user);
-  console.log(eventId);
 
   useEffect(() => {
     const fetchEvent = async () => {
-      console.log(eventId);
-      const event = await getEventById(eventId);
-      const registered: any = await checkIfRegistered(eventId, user?.id!);
-      setEventDetails(event);
+      const registered: any = await checkIfRegistered(eventId, user!);
+      console.log(registered)
       setRegisteredEvent(registered);
+      const event = await getEventById(eventId);
+
+      setEventDetails(event);
+   
       setLoading(false);
     };
     fetchEvent();
-  }, [eventId]);
+  }, [eventId,user]);
   return (
     <>
       {loading ? (
