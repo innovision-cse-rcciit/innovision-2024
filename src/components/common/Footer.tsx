@@ -18,7 +18,7 @@ export const Footer = () => {
         <span className="hidden sm:inline text-white">|</span>
         <Link href="/gallery" className="text-white text-sm sm:text-lg font-Chakra_Petch">GALLERY</Link>
         <span className="hidden sm:inline text-white">|</span>
-        <Link href="/team/swc" className="text-white text-sm sm:text-lg font-Chakra_Petch">TEAM</Link>
+        <Link href="/team/leads" className="text-white text-sm sm:text-lg font-Chakra_Petch">TEAM</Link>
         <span className="hidden sm:inline text-white">|</span>
         <Link href="/profile" className="text-white text-sm sm:text-lg font-Chakra_Petch">MY PROFILE</Link>
       </div>
