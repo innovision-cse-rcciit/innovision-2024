@@ -44,12 +44,10 @@ export const eventReg = async (
 
       teamId = data![0].team_id!;
 
-      participants.forEach(async (participant: any) => {
-        try {
-          console.log(participant);
-          await supabase
-            .from("participants")
-            .insert({
+      await Promise.all(
+        participants.map(async (participant: any) => {
+          try {
+            await supabase.from("participants").insert({
               team_id: teamId,
               event_id: eventId,
               phone: clearSpaces(participant.phone).trim(),
@@ -57,82 +55,85 @@ export const eventReg = async (
               email: participant.email,
               college_roll: clearSpaces(participant.roll).trim(),
               requirement: participant?.extra ?? null,
-            })
-            .select();
-        } catch (participantError) {
-          console.error("Error adding participant:", participantError);
-        }
-      });
+            });
+          } catch (participantError) {
+            console.error("Error adding participant:", participantError);
+          }
+        })
+      );
 
-      participantEmails?.forEach(async (email: string) => {
-        try {
-          const response = await fetch("/api/sendMail", {
-            method: "POST",
-            body: JSON.stringify({
-              to: email,
-              subject: "Event Registration",
-              fileName: "send-mail.ejs",
-              data: {
-                eventName: eventResponse.data![0]?.event_name,
-              },
-            }),
-          });
+      await Promise.all(
+        participantEmails?.map(async (email: string) => {
+          try {
+            const response = await fetch("/api/sendMail", {
+              method: "POST",
+              body: JSON.stringify({
+                to: email,
+                subject: "Event Registration",
+                fileName: "send-mail.ejs",
+                data: {
+                  eventName: eventResponse.data![0]?.event_name,
+                },
+              }),
+            });
 
-          const result = await response.json();
-          console.log(result);
-        } catch (mailError) {
-          console.error("Error sending email:", mailError);
-        }
-      });
+            const result = await response.json();
+            console.log(result);
+          } catch (mailError) {
+            console.error("Error sending email:", mailError);
+          }
+        })
+      );
     }
 
     if (eventType === "individual") {
-      console.log("Hi")
       if (fileSubmission && file) {
         try {
           let foldername;
           switch (eventResponse.data![0].event_name) {
-            case 'The Wall : Article':
+            case "The Wall : Article":
               foldername = ContentType.ARTICLE;
               break;
-            case 'The Wall : Poetry':
+            case "The Wall : Poetry":
               foldername = ContentType.POETRY;
               break;
-            case 'The Wall: ArtWork':
+            case "The Wall: ArtWork":
               foldername = ContentType.ART;
               break;
-            case 'Shutterbugs':
+            case "Shutterbugs":
               foldername = ContentType.SHUTTERBUGS;
               break;
-            case 'Reel-lens':
+            case "Reel-lens":
               foldername = ContentType.REELLENS;
               break;
             default:
               foldername = ContentType.ART;
               break;
           }
-          console.log(fileSubmission)
-          console.log("Selected File:", file);
-          file?.forEach(async (f: any) => {
-            const formData = new FormData();
-            formData.append("file", f);
-            formData.append("folderName", foldername);
-            const mimeType = f.type.split("/")[1];
-            formData.append("mimeType", mimeType);
 
-            const response: any = await fetch("/api/upload", {
-              method: "POST",
-              body: formData,
-            });
-            const fileId = response?.data?.id;
-            console.log(response?.data);
-            console.log(fileId);
-            team.extra = {
-              fileId
-            }
-            const result = await response.json();
-            console.log(result);
-          });
+          // Upload files in parallel
+          const fileUploadResults = await Promise.all(
+            file?.map(async (f: any) => {
+              const formData = new FormData();
+              formData.append("file", f);
+              formData.append("folderName", foldername);
+              const mimeType = f.type.split("/")[1];
+              formData.append("mimeType", mimeType);
+
+              const response = await fetch("/api/upload", {
+                method: "POST",
+                body: formData,
+              });
+
+              const result = await response.json();
+              return result?.fileId;
+            })
+          );
+
+          team.extra = {
+            fileIds: fileUploadResults,
+          };
+          console.log("team.extra:", team.extra);
         } catch (fileUploadError) {
           console.error("Error uploading file:", fileUploadError);
         }

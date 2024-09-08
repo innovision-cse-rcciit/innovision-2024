@@ -13,6 +13,7 @@ import EventRegForm from "./EventRegModal";
 import { TiTick } from "react-icons/ti";
 import RulesModal from "./RulesModal";
 import { EVENT_CATEGORIES } from "@/utils/constants/event-categories";
+import { supabase } from "@/lib/supabase-client";
 const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   const [eventDetails, setEventDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -20,15 +21,29 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   const [openRules, setOpenRules] = useState<boolean>(false);
   const [throughPortal, setThroughPortal] = useState<boolean>(false);
   const [registeredEvent, setRegisteredEvent] = useState<boolean>(false);
+  const [submissionEntry, setSubmissionEntry] = useState<boolean>(false);
+  const [totalSubmission, setTotalSubmission] = useState<number>(1);
   const [openResult, setOpenResult] = useState(false);
   const user = useUser((state) => state.user);
 
   useEffect(() => {
     const fetchEvent = async () => {
       const registered: any = await checkIfRegistered(eventId, user!);
-      // console.log(registered)
+      if (eventId === "08242c79-6478-478a-ad9b-4ed6d089c02d") {
+        const { data, error } = await supabase
+          .from("participants")
+          .select("*")
+          .eq("event_id", eventId)
+          .eq("email", user?.email!)
+          .eq("college_roll", user?.college_roll!);
+        console.log(data)
+        if (data!.length > 1) {
+          setSubmissionEntry(true);
+        }
+      }
       setRegisteredEvent(registered);
       const event = await getEventById(eventId);
+      setTotalSubmission(event?.file_submission ?? 1);
       setEventDetails(event);
 
       setLoading(false);
@@ -138,15 +153,9 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                 className=" mx-auto rounded-2xl object-cover object-left-top"
               />
               {
-              // EVENT_CATEGORIES?.NONTECHNICAL ===
-              // eventDetails?.event_category_id ? (
-              //   <h1 className="text-white text-4xl text-center">
-              //     Register Soon
-              //   </h1>
-              // ) : (
-                !registeredEvent! &&
-                eventDetails! &&
-                eventDetails!.is_open && (
+                  (eventId === "08242c79-6478-478a-ad9b-4ed6d089c02d"
+                    ? !submissionEntry
+                    : !registeredEvent) && eventDetails! && eventDetails!.is_open && (
                   <button
                     disabled={!eventDetails.is_open}
                     onClick={async () => {
@@ -175,7 +184,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                     </h1>
                   </button>
                 )
-              // )
+                // )
               }
               {eventDetails?.result_out === true ? (
                 <button
@@ -204,7 +213,9 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                   </button>
                 )
               )}
-              {registeredEvent! && (
+              {(eventId === "08242c79-6478-478a-ad9b-4ed6d089c02d"
+                ? submissionEntry
+                : registeredEvent) && (
                 <button
                   className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
                   onClick={() => {}}
