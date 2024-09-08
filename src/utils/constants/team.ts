@@ -88,7 +88,7 @@ export const teams = [
         },
         {
           name: "Adrita Chakraborty",
-          role: "Developer",
+          role: "Tech Team Lead",
           image:
             "https://i.postimg.cc/NGPpqH0h/IMG-20240704-WA0259-Adrita-Chakraborty.jpg",
         },
