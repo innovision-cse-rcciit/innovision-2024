@@ -159,7 +159,7 @@ const EventRegForm = ({
         setDisabled(true); // Disable the submit button
         await eventReg(inputs, participants, eventId, user);
         toast.success("Registration Successful");
-        // onClose();
+        onClose();
         // router.push("/dashboard");
         setDisabled(false);
       } else {
