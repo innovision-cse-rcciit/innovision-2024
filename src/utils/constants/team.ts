@@ -537,7 +537,7 @@ export const teams = [
           name: "Swastika Tikader",
           role: "Graphics Team Lead",
           image:
-            "https://i.postimg.cc/pTm5DpM8/IMG-20240906-WA0000-Swastika-Tikader.jpg",
+            "https://i.postimg.cc/15HnynkK/Whats-App-Image-2024-09-08-at-17-29-06.jpg",
         },
         {
           name: "Swastik Bhattacharya",
