@@ -9,7 +9,7 @@ export default function Home() {
       <Hero />
       <div
         style={{
-          background: "url('/home/events-bg.png')", 
+          background: "url('https://i.postimg.cc/MZ5HX7cL/events-bg.png')", 
           backgroundSize: "cover",
         }}
       >

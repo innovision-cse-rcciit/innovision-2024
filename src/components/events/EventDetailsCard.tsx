@@ -150,7 +150,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                     <Image
                       width={100}
                       height={40}
-                      src="/landing/Button.png"
+                      src="https://i.postimg.cc/kXR0L9dy/Button.png"
                       className="h-10 w-28 lg:h-14 lg:w-36 lg:text-sm"
                       alt="Register Now"
                     />
