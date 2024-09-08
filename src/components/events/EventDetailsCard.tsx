@@ -17,6 +17,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   const [loading, setLoading] = useState(true);
   const [openRegister, setOpenRegister] = useState(false);
   const [openRules, setOpenRules] = useState<boolean>(false);
+  const [throughPortal, setThroughPortal] = useState<boolean>(false);
   const [registeredEvent, setRegisteredEvent] = useState<boolean>(false);
   const [openResult, setOpenResult] = useState(false);
   const user = useUser((state) => state.user);
@@ -27,7 +28,6 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
       console.log(registered)
       setRegisteredEvent(registered);
       const event = await getEventById(eventId);
-
       setEventDetails(event);
    
       setLoading(false);
@@ -95,6 +95,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                     eventDetails?.roles
                       .filter((role: any) => role.role !== "VOLUNTEER")
                       ?.map((coordinator: any, index: number) => {
+                        console.log(eventDetails?.roles.filter((role: any) => role.role !== "VOLUNTEER"))
                         return (
                           <div
                             key={index}
@@ -143,7 +144,13 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                         login();
                       }
                       clickSound();
-                      setOpenRegister(true);
+                      if(eventDetails?.register_through_portal === false){
+                        setThroughPortal(true);
+                        setOpenRegister(true);
+                      }else{
+                        setOpenRegister(true);
+                      }
+                    
                     }}
                     className="relative flex flex-row mx-auto items-center"
                   >
@@ -207,6 +214,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
         isOpen={openRegister}
         onClose={()=>setOpenRegister(false)}
         eventDetails={eventDetails}
+        throughPortal={throughPortal}
       />
         <RulesModal
         isOpen={openRules}

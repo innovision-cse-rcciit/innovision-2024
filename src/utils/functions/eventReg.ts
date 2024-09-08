@@ -52,22 +52,22 @@ export const eventReg = async (
         })
         .select();
     });
-    participantEmails?.forEach(async (email: string) => {
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: JSON.stringify({
-          to: email,
-          subject: "Event Registration",
-          fileName: "send-mail.ejs",
-          data: {
-            eventName: eventResponse.data![0]?.event_name,
-          },
-        }),
-      });
+    // participantEmails?.forEach(async (email: string) => {
+    //   const response = await fetch("/api/upload", {
+    //     method: "POST",
+    //     body: JSON.stringify({
+    //       to: email,
+    //       subject: "Event Registration",
+    //       fileName: "send-mail.ejs",
+    //       data: {
+    //         eventName: eventResponse.data![0]?.event_name,
+    //       },
+    //     }),
+    //   });
 
-      const result = await response.json();
-      console.log(result);
-    });
+    //   const result = await response.json();
+    //   console.log(result);
+    // });
   }
 
   if (eventType === "individual") {
@@ -95,20 +95,23 @@ export const eventReg = async (
       })
       .select();
 
-    const response = await fetch("/api/upload", {
-      method: "POST",
-      body: JSON.stringify({
-        to: team.teamLeadEmail,
-        subject: "Event Registration",
-        fileName: "send-mail.ejs",
-        data: {
-          eventName: eventResponse.data![0]?.event_name,
-        },
-      }),
-    });
+    // const response = await fetch("/api/upload", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json", // Set content type to JSON
+    //   },
+    //   body: JSON.stringify({
+    //     to: team.teamLeadEmail,
+    //     subject: "Event Registration",
+    //     fileName: "send-mail.ejs",
+    //     data: {
+    //       eventName: eventResponse.data![0]?.event_name,
+    //     },
+    //   }),
+    // });
 
-    const result = await response.json();
-    console.log(result);
+    // const result = await response.json();
+    // console.log(result);
     if (individualError || participantError) {
       console.log(individualError, participantError);
     }
