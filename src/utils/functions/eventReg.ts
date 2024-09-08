@@ -124,7 +124,8 @@ export const eventReg = async (
               method: "POST",
               body: formData,
             });
-            const fileId = response;
+            const fileId = response?.data?.id;
+            console.log(response?.data);
             console.log(fileId);
             team.extra = {
               fileId
