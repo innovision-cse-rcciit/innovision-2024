@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BeatLoader, ClipLoader, PuffLoader } from "react-spinners";
 import FormElement from "./FormElement";
 import { clickSound } from "@/utils/functions/clickSound";
@@ -43,6 +43,7 @@ const EventRegForm = ({
         teamLeadEmail: user.email,
         teamName: maxTeamMember > 1 ? "" : user.name, 
         teamLeadName: user.name,
+        teamLeadRoll : user.college_roll,
       }));
     }
   }, [user, maxTeamMember]);
@@ -53,7 +54,7 @@ const EventRegForm = ({
       const blankParticipants = [];
 
       for (let i = 0; i < minTeamMember; i++) {
-        blankParticipants.push({ phone: "", email: "", name: "" });
+        blankParticipants.push({ phone: "", email: "", name: "", roll: "" });
       }
       setParticipants(blankParticipants);
     }
@@ -83,6 +84,28 @@ const EventRegForm = ({
     }
     setParticipants(updatedParticipants);
   };
+
+  const handleRollChange = (index: number, value: string) => {
+    const updatedParticipants = [...participants];
+    updatedParticipants[index].roll = value;
+    if (index == 0) {
+      updatedParticipants[0].roll = inputs.teamLeadRoll;
+    }
+    setParticipants(updatedParticipants);
+  };
+
+  const handleExtraChange = (participantIndex: number, fieldName: string, fieldValue: string) => {
+    setParticipants((prevParticipants: any) => {
+      const updatedParticipants = [...prevParticipants];
+      updatedParticipants[participantIndex] = {
+        ...updatedParticipants[participantIndex],
+        extra : {[fieldName]: fieldValue},
+      };
+      return updatedParticipants;
+    });
+  };
+  
+
   const handleNameChange = (index: number, value: string) => {
     const updatedParticipants = [...participants];
     updatedParticipants[index].name = value;
@@ -102,7 +125,8 @@ const EventRegForm = ({
     const newParticipant:any = {
       phone: "",
       name: "",
-      email: ""
+      email: "",
+      roll: "",
     };
     requirement.forEach((req: any) => {
       const fieldKey = req.toLowerCase().replace(/ /g, "_");
@@ -123,8 +147,7 @@ const EventRegForm = ({
   const handleSubmit = async () => {
     clickSound();
     try {
-      const res = validateReg(inputs, participants, maxTeamMember);
-
+      const res = validateReg(inputs, participants, maxTeamMember, requirements);
       const allFieldsEmpty =
         Object.values(res.errors).every((value) => value === "") &&
         res.teamErrors.every(
@@ -134,10 +157,11 @@ const EventRegForm = ({
 
       if (allFieldsEmpty) {
         setDisabled(true); // Disable the submit button
-        await eventReg(inputs, participants, eventId);
+        await eventReg(inputs, participants, eventId, user);
         toast.success("Registration Successful");
-        onClose();
-        router.push("/dashboard");
+        // onClose();
+        // router.push("/dashboard");
+        setDisabled(false);
       } else {
         // If there are errors, enable the submit button
         setDisabled(false);
@@ -155,25 +179,46 @@ const EventRegForm = ({
     }
   };
 
+  const requirements = useMemo(() => eventDetails?.requirements || [], [eventDetails]);
+
   useEffect(() => {
     setRequirement(eventDetails?.requirements);
+    
+    if (maxTeamMember === 1) {
+      setInputs((prevInputs: any) => {
+        const updatedInputs = { ...prevInputs };
+        const extra: any = {}; // Initialize the extra object
+  
+        eventDetails?.requirements?.length > 0 &&
+          eventDetails?.requirements.forEach((req: any) => {
+            const fieldKey = req.toLowerCase().replace(/ /g, "_");
+            extra[fieldKey] = ""; // Add the field to the extra object
+          });
+  
+        updatedInputs.extra = extra; // Add the extra object to updatedInputs
+        return updatedInputs;
+      });
+    }
   
     setParticipants((prevParticipants: any) => {
       const updatedParticipants = prevParticipants.map((participant: any) => {
         const updatedParticipant = { ...participant };
-        eventDetails?.requirements?.length > 0 &&  eventDetails?.requirements.forEach((req: any) => {
-          const fieldKey = req.toLowerCase().replace(/ /g, "_");
-          console.log(fieldKey)
-            updatedParticipant[fieldKey] = "";
-          
-        });
+        const extra: any = {}; // Initialize the extra object for participants
   
+        eventDetails?.requirements?.length > 0 &&
+          eventDetails?.requirements.forEach((req: any) => {
+            const fieldKey = req.toLowerCase().replace(/ /g, "_");
+            extra[fieldKey] = ""; // Add the field to the extra object
+          });
+  
+        updatedParticipant.extra = extra; // Add the extra object to each participant
         return updatedParticipant;
       });
-      console.log(updatedParticipants);
+  
       return updatedParticipants;
     });
   }, [eventDetails]);
+  
   
 
   console.log(inputs);
@@ -266,6 +311,27 @@ const EventRegForm = ({
                 {generalErrors.teamLeadRoll}
               </h1>
 
+              {maxTeamMember === 1 &&
+  requirement?.map((req: any, reqIndex: number) => {
+    return (
+      <div key={reqIndex}>
+        <FormElement
+          type="text"
+          name={req} 
+          value={inputs[req] || ''} 
+          id={req} 
+          onChange={(e) => {}} 
+          width="100%"
+        />
+        <h1 className="text-xs font-semibold text-red-600">
+          {generalErrors[req]}
+        </h1>
+      </div>
+    );
+  })
+}
+
+
               {maxTeamMember > 1 && (
                 <div className="flex flex-col items-center gap-5">
                   <h1 className="font-semibold text-[#B51C69]">
@@ -279,7 +345,7 @@ const EventRegForm = ({
                   {participants.map((participant: any, index: number) => (
                     <div
                       key={index}
-                      className="flex flex-row   flex-wrap items-center gap-10 rounded-lg border-2  border-regalia px-10 py-2 pb-5 text-sm"
+                      className="flex flex-row   flex-wrap items-center gap-10 rounded-lg border-2  border-[#B51C69] px-10 py-2 pb-5 text-sm"
                     >
                       <div className="flex flex-col  items-start gap-2">
                         <label
@@ -310,7 +376,6 @@ const EventRegForm = ({
                                 handleEmailChange(index, e.target.value)
                               }
                               className="w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full"
-                              placeholder="Email"
                             />
                             {teamErrors && teamErrors[index] && (
                               <h1 className="text-xs font-semibold text-red-600">
@@ -319,9 +384,37 @@ const EventRegForm = ({
                             )}
                           </div>
 
-                          {requirement?.map((req:any,index:number)=>{
+                          <div className="flex flex-row flex-wrap gap-2 font-semibold">
+                            <label
+                              htmlFor="email"
+                              className="text-[#B51C69] tracking-widest"
+                            >
+                              COLLEGE ROLL :
+                            </label>
+                            <input
+                              type="text"
+                              id="email"
+                              value={
+                                index == 0
+                                  ? (participant.roll = inputs.teamLeadRoll)
+                                  : participant.roll
+                              }
+                              disabled={index == 0 ? true : false}
+                              onChange={(e) =>
+                                handleRollChange(index, e.target.value)
+                              }
+                              className="w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full"
+                            />
+                            {teamErrors && teamErrors[index] && (
+                              <h1 className="text-xs font-semibold text-red-600">
+                                {teamErrors[index].roll}
+                              </h1>
+                            )}
+                          </div>
+
+                          {requirement?.map((req:any,reqIndex:number)=>{
                             return(
-                              <div key={index} className="flex flex-row flex-wrap gap-2 font-semibold">
+                              <div key={reqIndex} className="flex flex-row flex-wrap gap-2 font-semibold">
                               <label
                                 htmlFor="riot_id"
                                 className="text-[#B51C69] tracking-widest"
@@ -331,16 +424,15 @@ const EventRegForm = ({
                               <input
                                 type="text"
                                 id={req.toLowerCase().replace(/ /g, "_")}
-                                value={participant[req.toLowerCase().replace(/ /g, "_")] || ""}
-                                disabled={index == 0 ? true : false}
+                                value={participant.extra[req.toLowerCase().replace(/ /g, "_")] || ""}
                                 onChange={(e) =>
-                                  handleEmailChange(index, e.target.value)
+                                  handleExtraChange(index, req.toLowerCase().replace(/ /g, "_"), e.target.value)
                                 }
                                 className="w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full"
                               />
                               {teamErrors && teamErrors[index] && (
                                 <h1 className="text-xs font-semibold text-red-600">
-                                  {teamErrors[index].email}
+                                  {teamErrors[index].req}
                                 </h1>
                               )}
                             </div>

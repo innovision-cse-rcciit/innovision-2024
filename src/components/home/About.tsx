@@ -4,7 +4,7 @@ import React from "react";
 const About = () => {
   return (
     <div
-      className=" relative min-h-1/2 font-Chakra_Petch flex items-center justify-center bg-cover bg-center"
+      className=" lg:w-[90%] mx-auto relative min-h-1/2 font-Chakra_Petch flex items-center justify-center bg-cover bg-center"
       // style={{ backgroundImage: "url('/home/events-bg.png')" }}
     >
       <div className="relative top-0 left-0 z-10"></div>

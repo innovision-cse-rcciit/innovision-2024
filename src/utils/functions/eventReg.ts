@@ -4,6 +4,7 @@ export const eventReg = async (
   team: any,
   participants: any,
   eventId: any,
+  user: any
 ) => {
   let combinedEmails = "";
   const participantEmails = participants.map((participant: any) => participant.email);
@@ -12,7 +13,7 @@ export const eventReg = async (
   } else {
     combinedEmails = team.teamLeadEmail;
   }
-  console.log(combinedEmails)
+  console.log(participants)
 
   const eventResponse = await supabase
     .from("events")
@@ -21,26 +22,30 @@ export const eventReg = async (
 
   let teamId = "";
   const eventType =
-    eventResponse.data![0].max_team_member > 1 ? "team" : "individual";
+    eventResponse.data![0].min_team_size > 1 ? "team" : "individual";
   if (eventType === "team") {
     const { data } = await supabase
       .from("teams")
       .insert({
         team_name: team.teamName,
         event_id: eventId,
-        team_lead_phone: clearSpaces(team.teamLeadPhone).trim(),
-        reg_mode: team.regMode,
+        team_lead_id: user?.id,
+        team_lead_email: user?.email,
       })
       .select();
     teamId = data![0].team_id!;
     participants.forEach(async (participant: any) => {
+      console.log(participant)
       await supabase
-        .from("participations")
+        .from("participants")
         .insert({
           team_id: teamId,
+          event_id: eventId,
           phone: clearSpaces(participant.phone).trim(),
           name: participant.name,
           email: participant.email,
+          college_roll: clearSpaces(participant.roll).trim(),
+          requirement: participant?.extra,
         })
         .select();
     });
@@ -52,18 +57,22 @@ export const eventReg = async (
       .insert({
         team_name: team.teamName,
         event_id: eventId,
-        team_lead_phone: clearSpaces(team.teamLeadPhone).trim(),
-        reg_mode: team.regMode,
+        team_lead_id: user?.id,
+        team_lead_email: user?.email,
       })
       .select();
     teamId = individualData![0].team_id!;
     const { data: participantData, error: participantError } = await supabase
-      .from("participations")
+      .from("participants")
       .insert({
         team_id: individualData![0].team_id!,
+        event_id: eventId,
         phone: clearSpaces(team.teamLeadPhone).trim(),
         name: team.teamLeadName,
         email: team.teamLeadEmail,
+        college_roll: clearSpaces(team.teamLeadRoll).trim(),
+        attendance: null,
+        requirement: team?.extra,
       })
       .select();
     if (individualError || participantError) {
