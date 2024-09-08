@@ -9,7 +9,7 @@ const Gallery: React.FC = () => {
       <div
         className="flex flex-col items-center py-4 bg-black w-full min-h-screen bg-no-repeat bg-center"
         style={{
-          backgroundImage: "url('/home/events-bg.png')",
+          backgroundImage: "url('https://i.postimg.cc/MZ5HX7cL/events-bg.png')",
           backgroundSize: "cover",
           backgroundAttachment: "fixed",
         }}

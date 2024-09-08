@@ -123,7 +123,7 @@ export default function Register() {
             <Image
               width={400}
               height={400}
-              src="/home/about/about_logo.png"
+              src="https://i.postimg.cc/G297YJLj/about-logo.png"
               alt="Main Logo"
               className="mx-auto w-40 h-40 sm:w-60 sm:h-60 lg:w-80 lg:h-80 xl:w-[500px] xl:h-[500px]"
             />
