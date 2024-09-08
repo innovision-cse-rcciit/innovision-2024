@@ -655,9 +655,9 @@ export const teams = [
           image: "https://i.postimg.cc/yx8wk6Nv/SOHOM-MITTER.jpg",
         },
         {
-          name: "Dip Paul",
+          name: "Sandip Dutta",
           role: "Logistics Team Member",
-          image: "https://i.postimg.cc/hjhQ9M7p/IMG-20240301-WA0195-DIP-PAUL.jpg",
+          image: "https://i.postimg.cc/rspFzv9f/Whats-App-Image-2024-09-08-at-15-04-28.jpg",
         },
         {
           name: "Snehansh Yadav",

@@ -18,7 +18,6 @@ const EventRegForm = ({
   onClose: () => void;
   eventDetails: any;
 }) => {
-  console.log(eventDetails);
   const router = useRouter();
   const eventId = eventDetails?.id;
   const [disabled, setDisabled] = useState<boolean>(false);
@@ -59,7 +58,6 @@ const EventRegForm = ({
       setParticipants(blankParticipants);
     }
   }, [minTeamMember]);
-  
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | any>
   ) => {
@@ -75,6 +73,21 @@ const EventRegForm = ({
       }));
     }
   };
+
+  const handleExtraMainChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setInputs((prevInputs: any) => ({
+      ...prevInputs,
+      extra: {
+        ...prevInputs.extra,
+        [name]: value, 
+      },
+    }));
+  };
+  
+  
 
   const handleEmailChange = (index: number, value: string) => {
     const updatedParticipants = [...participants];
@@ -159,7 +172,7 @@ const EventRegForm = ({
         setDisabled(true); // Disable the submit button
         await eventReg(inputs, participants, eventId, user);
         toast.success("Registration Successful");
-        // onClose();
+        onClose();
         // router.push("/dashboard");
         setDisabled(false);
       } else {
@@ -218,11 +231,6 @@ const EventRegForm = ({
       return updatedParticipants;
     });
   }, [eventDetails]);
-  
-  
-
-  console.log(inputs);
-  console.log(participants);
   return (
     <>
       {isOpen && (
@@ -230,7 +238,7 @@ const EventRegForm = ({
           <div
             className={`rounded-lg border-y-2 border-[#B51C69] bg-body p-4 ${
               maxTeamMember > 1 ? "h-[80vh] md:h-[70vh]" : ""
-            }   flex w-[95%] flex-col items-start lg:w-[40%] lg:px-32 lg:py-8`}
+            }   flex w-[95%] flex-col items-start lg:w-[60%] 2xl:w-[50%] lg:px-32 lg:py-8`}
             style={{ background: 'url("/events/Background-img.png")' }}
           >
             <div className="mb-2 flex w-full flex-row items-center justify-between">
@@ -318,9 +326,11 @@ const EventRegForm = ({
         <FormElement
           type="text"
           name={req} 
-          value={inputs[req] || ''} 
-          id={req} 
-          onChange={(e) => {}} 
+          value={inputs?.extra[req.toLowerCase().replace(/ /g, "_")] || ''} 
+          id={req.toLowerCase().replace(/ /g, "_")} 
+          onChange={(e) => {
+            handleExtraMainChange(e);
+          }} 
           width="100%"
         />
         <h1 className="text-xs font-semibold text-red-600">
@@ -334,7 +344,7 @@ const EventRegForm = ({
 
               {maxTeamMember > 1 && (
                 <div className="flex flex-col items-center gap-5">
-                  <h1 className="font-semibold text-[#B51C69]">
+                  <h1 id="glow" className="font-semibold text-[#B51C69]">
                    {"Add Team Participants".toUpperCase()}
                   </h1>
                   {teamMemberCountError !== "" && (
@@ -350,6 +360,7 @@ const EventRegForm = ({
                       <div className="flex flex-col  items-start gap-2">
                         <label
                           htmlFor=""
+                          id="glow"
                           className=" text-[#B51C69]  font-semibold tracking-widest"
                         >
                           {(index == 0 ? "Team Lead" : `Person ${index + 1}`).toUpperCase()}
@@ -359,6 +370,7 @@ const EventRegForm = ({
                           <div className="flex flex-row flex-wrap gap-2 font-semibold">
                             <label
                               htmlFor="email"
+                              id="glow"
                               className="text-[#B51C69] tracking-widest"
                             >
                               EMAIL :
@@ -387,6 +399,7 @@ const EventRegForm = ({
                           <div className="flex flex-row flex-wrap gap-2 font-semibold">
                             <label
                               htmlFor="email"
+                              id="glow"
                               className="text-[#B51C69] tracking-widest"
                             >
                               COLLEGE ROLL :
@@ -416,7 +429,8 @@ const EventRegForm = ({
                             return(
                               <div key={reqIndex} className="flex flex-row flex-wrap gap-2 font-semibold">
                               <label
-                                htmlFor="riot_id"
+                              id="glow"
+                                htmlFor={req.toLowerCase().replace(/ /g, "_")}
                                 className="text-[#B51C69] tracking-widest"
                               >
                                 {req.toUpperCase()} :
@@ -442,6 +456,7 @@ const EventRegForm = ({
                           <div className="flex flex-row flex-wrap gap-2 font-semibold">
                             <label
                               htmlFor="name"
+                              id="glow"
                               className="text-[#B51C69] tracking-widest"
                             >
                               NAME :
@@ -470,6 +485,7 @@ const EventRegForm = ({
                           <div className="flex flex-row flex-wrap gap-2 font-semibold">
                             <label
                               htmlFor="phone"
+                              id="glow"
                               className="text-[#B51C69] tracking-widest"
                             >
                               PHONE :

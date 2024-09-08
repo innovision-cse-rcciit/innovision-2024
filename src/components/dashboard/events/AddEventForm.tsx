@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -36,28 +36,58 @@ const ReactQuill = dynamic(() => import('react-quill'), {
     ssr: false,
 });
 
-type Props = {}
+type Props = {
+    event_name?: string,
+    description?: string,
+    banner_url?: string,
+    max_team_size?: number,
+    min_team_size?: number,
+    rules?: string,
+    schedule?: string,
+    coordinatorProps?: [],
+    event_type?: EventMode,
+    is_open?: boolean,
+    event_category?: EventCategory
+}
 
-const AddEventForm = (props: Props) => {
+const AddEventForm = ({
+    banner_url,
+    coordinatorProps,
+    description,
+    event_category,
+    event_name,
+    event_type,
+    is_open,
+    max_team_size,
+    min_team_size,
+    rules,
+    schedule,
+}: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [coordinator, setCoordinator] = useState<ICoordinator[]>([]);
 
     const form = useForm<z.infer<typeof addEventSchema>>({
         resolver: zodResolver(addEventSchema),
         defaultValues: {
-            event_name: "",
-            description: "",
-            image_path: "",
-            max_team_size: 4,
-            min_team_size: 1,
-            rules: "",
-            schedule: '',
-            coordinator: [],
-            event_type: EventMode.ONLINE,
-            isOpen: true,
-            event_category: EventCategory.TECHNICAL
+            event_name: event_name ?? "",
+            description: description ?? "",
+            image_path: banner_url ?? "",
+            max_team_size: max_team_size ?? 4,
+            min_team_size: min_team_size ?? 1,
+            rules: rules ?? "",
+            schedule: schedule ?? '',
+            coordinator: coordinator ?? [],
+            event_type: event_type ?? EventMode.ONLINE,
+            isOpen: is_open ?? true,
+            event_category: event_category ?? EventCategory.TECHNICAL
         },
     });
+
+    useEffect(() => {
+        if(coordinatorProps)
+            setCoordinator(coordinatorProps);
+    },[coordinatorProps]);
+
     const {
         handleSubmit,
         reset,

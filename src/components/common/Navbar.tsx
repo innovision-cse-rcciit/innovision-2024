@@ -157,7 +157,7 @@ const Navbar = () => {
         `}
         >
           <Toaster position="bottom-right" />
-          <div className="flex cursor-pointer items-center  font-hollirood text-3xl font-bold    duration-500 hover:scale-105 hover:text-yellow-400">
+          <div className="flex cursor-pointer items-center  font-hollirood text-3xl font-bold    duration-500 hover:scale-105 ">
             <Link
               href={"/"}
               // onMouseEnter={hoverSound}
@@ -254,7 +254,7 @@ const Navbar = () => {
               {user && showAdminDashboard && (
                 <Link
                   // onMouseEnter={hoverSound}
-                  href={"/dashboard"}
+                  href={"/admin/manage-events"}
                   onClick={() => {
                     clickSound();
                     setIsMenuOpen(false);
@@ -270,7 +270,7 @@ const Navbar = () => {
                 </Link>
               )}
               <div className=" block flex-row items-center md:hidden xl:flex">
-                {user && showCoordinatorDashboard && (
+                {/* {user && showCoordinatorDashboard && (
                   <Link
                     // onMouseEnter={hoverSound}
                     href={"/coordinator"}
@@ -287,9 +287,9 @@ const Navbar = () => {
                       Coordinator
                     </li>
                   </Link>
-                )}
+                )} */}
 
-                {user && showConvenorDashboard && (
+                {/* {user && showConvenorDashboard && (
                   <Link
                     // onMouseEnter={hoverSound}
                     href={"/coordinator"}
@@ -306,9 +306,9 @@ const Navbar = () => {
                       Convenor
                     </li>
                   </Link>
-                )}
+                )} */}
 
-                {user && showVolunteerDashboard && (
+                {/* {user && showVolunteerDashboard && (
                   <Link
                     // onMouseEnter={hoverSound}
                     href={"/coordinator"}
@@ -325,7 +325,7 @@ const Navbar = () => {
                       Volunteer
                     </li>
                   </Link>
-                )}
+                )} */}
                 {/* {user && showRegisterDashboard && (
                   <Link
                     // onMouseEnter={hoverSound}
@@ -345,7 +345,7 @@ const Navbar = () => {
                   </Link>
                 )} */}
 
-                {user && showAdminDashboard && (
+                {/* {user && showAdminDashboard && (
                   <Link
                     // onMouseEnter={hoverSound}
                     href={"/admin"}
@@ -362,7 +362,7 @@ const Navbar = () => {
                       Admin
                     </li>
                   </Link>
-                )}
+                )} */}
               </div>
 
               <div className="flex cursor-pointer flex-row items-center gap-5  md:ml-5 ">

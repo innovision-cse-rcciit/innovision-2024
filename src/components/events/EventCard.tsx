@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -10,7 +11,7 @@ const EventCard = ({ event }: {event: any }) => {
             onMouseLeave={() => setIsHovered(false)}
             className={`relative border-4 border-[#B61B69] max-w-xs mx-auto rounded-xl overflow-hidden`}
         >
-            <img src={event?.banner_url} className='rounded-lg' />
+            <Image width={500} height={500} alt='' src={event?.banner_url} className='rounded-lg' />
             <div
                 className={`absolute top-0 w-full h-full bg-[#A31A5F] bg-opacity-50 transform ${isHovered ? 'opacity-100 scale-100 transition-transform duration-1000 ease-out' : 'opacity-0 scale-110'} transition-transform duration-1000 ease-out`}
             >

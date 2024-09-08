@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase-client";
 import { clearSpaces } from "./validateReg";
+
 export const eventReg = async (
   team: any,
   participants: any,
@@ -7,13 +8,15 @@ export const eventReg = async (
   user: any
 ) => {
   let combinedEmails = "";
-  const participantEmails = participants.map((participant: any) => participant.email);
+  const participantEmails = participants.map(
+    (participant: any) => participant.email
+  );
   if (participantEmails.length > 1) {
-    combinedEmails = participantEmails.join(' , ');
+    combinedEmails = participantEmails.join(" , ");
   } else {
     combinedEmails = team.teamLeadEmail;
   }
-  console.log(participants)
+  console.log(participants);
 
   const eventResponse = await supabase
     .from("events")
@@ -35,7 +38,7 @@ export const eventReg = async (
       .select();
     teamId = data![0].team_id!;
     participants.forEach(async (participant: any) => {
-      console.log(participant)
+      console.log(participant);
       await supabase
         .from("participants")
         .insert({
@@ -45,9 +48,25 @@ export const eventReg = async (
           name: participant.name,
           email: participant.email,
           college_roll: clearSpaces(participant.roll).trim(),
-          requirement: participant?.extra,
+          requirement: participant?.extra ?? null,
         })
         .select();
+    });
+    participantEmails?.forEach(async (email: string) => {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: JSON.stringify({
+          to: email,
+          subject: "Event Registration",
+          fileName: "send-mail.ejs",
+          data: {
+            eventName: eventResponse.data![0]?.event_name,
+          },
+        }),
+      });
+
+      const result = await response.json();
+      console.log(result);
     });
   }
 
@@ -72,12 +91,27 @@ export const eventReg = async (
         email: team.teamLeadEmail,
         college_roll: clearSpaces(team.teamLeadRoll).trim(),
         attendance: null,
-        requirement: team?.extra,
+        requirement: team?.extra ?? null,
       })
       .select();
+
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: JSON.stringify({
+        to: team.teamLeadEmail,
+        subject: "Event Registration",
+        fileName: "send-mail.ejs",
+        data: {
+          eventName: eventResponse.data![0]?.event_name,
+        },
+      }),
+    });
+
+    const result = await response.json();
+    console.log(result);
     if (individualError || participantError) {
       console.log(individualError, participantError);
     }
     // console.log(individualData, participantData);
   }
-  }
+};
