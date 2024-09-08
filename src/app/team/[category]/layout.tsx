@@ -11,14 +11,8 @@ export const metadata: Metadata = {
   description: "INNOVISION  2K24 Organizing Team Description",
 };
 
-const TeamLayout = ({ children }: Props) => {
-  return (
-    <>
-      <TeamWrapper>
-        {children}
-      </TeamWrapper>
-    </>
-  );
+const TeamCategoryLayout = ({ children }: Props) => {
+  return <div>{children}</div>;
 };
 
-export default TeamLayout;
+export default TeamCategoryLayout;

@@ -1,10 +1,5 @@
 
 
-interface teamError {
-    email: string;
-    phone: string;
-    name: string;
-  }
   export function clearSpaces(str:string) {
     return str.replace(/\s/g, '');
   }
@@ -12,33 +7,34 @@ interface teamError {
     inputs: any,
     participants: any,
     maxTeamMember: number,
+    requirements: string[]
   ) => {
-    let errors = {
+    let errors: any = {
       teamName: "",
       teamLeadPhone: "",
       teamLeadEmail: "",
-      college: ""
+      teamLeadRoll: "",
     };
-    // const uniqueEmails = new Set<string>();
   
     let uniquePhones = new Set<string>();
-    
     let uniqueEmails = new Set<string>();
-    const teamErrors: teamError[] = [];
+    const teamErrors: any[] = [];
+  
     const regexPhone =
       /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
     const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   
+    // Basic validation for team info
     if (inputs.teamName === "") {
       errors.teamName = "Team Name is required";
     } else if (inputs.teamName.length < 3) {
       errors.teamName = "Team Name is too short";
     }
   
-    if(inputs.college === "") {
+    if (inputs.college === "") {
       errors.college = "College is required";
     }
-
+  
     if (inputs.teamLeadPhone === "") {
       errors.teamLeadPhone = "Phone is required";
     } else if (!regexPhone.test(clearSpaces(inputs.teamLeadPhone).trim())) {
@@ -50,12 +46,19 @@ interface teamError {
     } else if (!regexEmail.test(inputs.teamLeadEmail)) {
       errors.teamLeadEmail = "Invalid Email";
     }
+
+    if (inputs.teamLeadEmail === "") {
+      errors.teamLeadRoll = "College Roll is required";
+    }
+  
+    // Validation logic for team members if maxTeamMember > 1
     if (maxTeamMember > 1) {
       participants.forEach((participant: any, index: number) => {
         teamErrors[index] = {
           email: "",
           phone: "",
           name: "",
+          roll: "",
         };
   
         if (participant.email === "") {
@@ -66,6 +69,10 @@ interface teamError {
           teamErrors[index].email = `Email is already used in the team`;
         } else {
           uniqueEmails.add(participant.email);
+        }
+
+        if (participant.roll === "") {
+          teamErrors[index].roll = "College Roll is required";
         }
   
         if (participant.phone === "") {
@@ -82,11 +89,27 @@ interface teamError {
         if (participant.name === "") {
           teamErrors[index].name = "Name is required";
         }
+  
+        // Add requirements check for each participant
+        requirements.forEach((field) => {
+          console.log(field, "participant[field]");
+          if (participant[field] === "") {
+            teamErrors[index][field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
+          }
+        });
+      });
+    } else {
+      // If maxTeamMember === 1, apply the requirements to the main errors object
+      requirements.forEach((field) => {
+        if (inputs[field] === "") {
+          errors[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
+        }
       });
     }
   
     return { errors, teamErrors };
   };
+  
   
   export const validateUserReg = (inputs: any) => {
     const errors = {
