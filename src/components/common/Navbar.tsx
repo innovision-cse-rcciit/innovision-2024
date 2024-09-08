@@ -164,7 +164,7 @@ const Navbar = () => {
               onClick={clickSound}
               className="flex flex-row items-end"
             >
-              <Image src="/home/image1.png" height={20} width={300} alt="rcc" className="w-80" />
+              <Image src="https://i.postimg.cc/W4p806NH/image1.png" height={20} width={300} alt="rcc" className="w-80" />
             </Link>
           </div>
           <div className="flex flex-row-reverse items-center justify-between gap-4 md:flex-row">
