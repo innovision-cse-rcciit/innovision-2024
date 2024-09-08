@@ -102,14 +102,6 @@ const LandingPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='max-md:pb-10 px-5'>
-                        <Image
-                            height={100}
-                            width={1300}
-                            src='/Landing/lines.png'
-                            alt='Logo'
-                        />
-                    </div>
                 </div>
             </div>
         </div>
