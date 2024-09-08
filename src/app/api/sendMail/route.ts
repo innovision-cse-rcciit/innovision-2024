@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendMail } from "@/utils/functions/sendMail";
 
-// This is required to handle file uploads
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
-
 
 // Handle file upload directly
 export async function POST(req: NextRequest) {
