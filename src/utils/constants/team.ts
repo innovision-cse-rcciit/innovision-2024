@@ -84,7 +84,7 @@ export const teams = [
           name: "Soumyaraj Bag",
           role: "Tech Team Lead",
           image:
-            "https://i.postimg.cc/PJX2qLNR/SOUMYARAJ-BAG.png",
+            "https://i.postimg.cc/sfMTwqxz/bag.jpg",
         },
         {
           name: "Adrita Chakraborty",
@@ -194,7 +194,7 @@ export const teams = [
           name: "Soumyaraj Bag",
           role: "Hackathon : Coordinator",
           image:
-            "https://i.postimg.cc/PJX2qLNR/SOUMYARAJ-BAG.png",
+            "https://i.postimg.cc/sfMTwqxz/bag.jpg",
         },
         {
           name: "Swapnendu Banerjee",
