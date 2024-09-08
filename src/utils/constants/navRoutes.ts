@@ -15,4 +15,8 @@ export const navRoutes = [
       name: "Team",
       path: "/team/leads",
     },
+    {
+      name: "Contact",
+      path: "/contacts",
+    },
   ];
