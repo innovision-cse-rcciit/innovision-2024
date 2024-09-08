@@ -25,7 +25,8 @@ const EventRegForm = ({
   const eventId = eventDetails?.id;
   const [disabled, setDisabled] = useState<boolean>(false);
   const [requirement, setRequirement] = useState<any>([]);
-  const [files, setFiles] = useState<any>(null);
+  const [maxFiles, setMaxFiles] = useState<number>(1);
+  const [totalSubmission, setTotalSubmission] = useState<number>(1);
   const [inputs, setInputs] = useState<any>({
     teamName: "",
     teamLeadPhone: "",
@@ -33,7 +34,6 @@ const EventRegForm = ({
     teamLeadName: "",
     teamLeadRoll: "",
     regMode: "",
-    file: "",
   });
 
   const user = useUser((state) => state.user);
@@ -80,15 +80,21 @@ const EventRegForm = ({
   };
 
   const [file, setFile] = useState<any>(null);
+
+  useEffect(() => {
+    if(file == 0){
+      setFile(null);
+    }
+  }, [file]);
   const handleFileChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | any>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | any>
   ) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-    setInputs((prevInputs: any) => ({
-      ...prevInputs,
-      file: user?.college_roll + (selectedFile?.name || ""),
-    }));
+    let selectedFiles =
+      maxFiles > 1 ? Array.from(e.target.files) : [e.target.files[0]];
+    if (selectedFiles.length > maxFiles) {
+      selectedFiles = selectedFiles.slice(0, maxFiles);
+    }
+    setFile(selectedFiles);
   };
 
   const handleExtraMainChange = (
@@ -178,6 +184,7 @@ const EventRegForm = ({
   const [generalErrors, setGeneralErrors] = useState<any>({});
   const [teamErrors, setTeamErrors] = useState<any>({});
   const [fileSubmission, setFileSubmission] = useState<boolean>(false);
+  console.log(file);
   let teamMemberCountError = "";
   const handleSubmit = async () => {
     clickSound();
@@ -187,7 +194,7 @@ const EventRegForm = ({
         participants,
         maxTeamMember,
         requirements,
-        file,
+        file
       );
       const allFieldsEmpty =
         Object.values(res.errors).every((value) => value === "") &&
@@ -198,7 +205,14 @@ const EventRegForm = ({
 
       if (allFieldsEmpty) {
         setDisabled(true); // Disable the submit button
-        await eventReg(inputs, participants, eventId, user, fileSubmission, file);
+        await eventReg(
+          inputs,
+          participants,
+          eventId,
+          user,
+          fileSubmission,
+          file
+        );
         toast.success("Registration Successful");
         onClose();
         router.push("/profile");
@@ -219,7 +233,7 @@ const EventRegForm = ({
       toast.error("Registration Failed !");
     }
   };
-  console.log(inputs)
+  console.log(inputs);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -238,7 +252,17 @@ const EventRegForm = ({
   );
 
   useEffect(() => {
-    setFileSubmission(eventDetails?.file_submission);
+    setFileSubmission(
+      (eventDetails?.file_submission && eventDetails?.file_submission?.file) ||
+        false
+    );
+    setMaxFiles(
+      (eventDetails?.file_submission && eventDetails?.file_submission?.max) || 1
+    );
+    setTotalSubmission(
+      (eventDetails?.file_submission && eventDetails?.file_submission?.total) ||
+        1
+    );
     setRequirement(eventDetails?.requirements);
 
     if (maxTeamMember === 1) {
@@ -290,7 +314,10 @@ const EventRegForm = ({
             style={{ background: 'url("/events/Background-img.png")' }}
           >
             <div className="mb-2 flex w-full flex-row items-center justify-between">
-              <h2 id="glow" className="text-md font-Chakra_Petch  text-[#B51C69]  font-semibold tracking-widest lg:text-2xl">
+              <h2
+                id="glow"
+                className="text-md font-Chakra_Petch  text-[#B51C69]  font-semibold tracking-widest lg:text-2xl"
+              >
                 {"Registration of Event".toUpperCase()}
               </h2>
               <h2
@@ -379,28 +406,57 @@ const EventRegForm = ({
                   {generalErrors.teamLeadRoll}
                 </h1>
 
-                {
-                  fileSubmission && (
-                    <div className="flex flex-row flex-wrap text-white items-center gap-2 text-xl">
-                      <label
-                        htmlFor="file"
-                        id="glow"
-                        className=" font-semibold tracking-widest"
-                      >
-                        Submission :
-                      </label>
-                      <input
-                        type="file"
-                        id="file"
-                        className="bg-transparent font-Chakra_Petch font-semibold tracking-widest text-white"
-                        onChange={handleFileChange}
-                      />
-                      <h1 className="text-xs font-semibold text-red-600">
-                        {generalErrors.file}
-                      </h1>
+                {fileSubmission && (
+                  <div className="flex w-full flex-row flex-wrap text-white items-center gap-2 text-xl">
+                    <label
+                      htmlFor="file"
+                      id="glow"
+                      className="font-semibold tracking-widest"
+                    >
+                      Submission:
+                    </label>
+                    <input
+                      type="file"
+                      id="file"
+                      multiple={maxFiles > 1}
+                      max={maxFiles}
+                      className="bg-transparent font-Chakra_Petch font-semibold tracking-widest text-white"
+                      onChange={handleFileChange}
+                    />
+                    <h1 className="text-xs font-semibold text-red-600">
+                      {generalErrors.file}
+                    </h1>
+
+                    <div className="flex flex-col w-full text-lg items-center justify-start gap-2">
+                      {file &&
+                        Array.isArray(file) &&
+                        file.length > 0 &&
+                        file.map((f: any, index: number) => (
+                          <h1
+                            key={index}
+                            className=" flex flex-row w-full gap-5 font-semibold text-white"
+                          >
+                            <span>{f.name}</span>
+                            <button
+                              onClick={() => {
+                                setFile((prevFile: any) => {
+                                  const updatedFile = [...prevFile];
+                                  updatedFile.splice(index, 1);
+                                  return updatedFile;
+                                });
+                                if (file.length == 0) {
+                                  setFile(null);
+                                }
+                              }}
+                              className="bg-red-500 text-white rounded-xl"
+                            >
+                              X
+                            </button>
+                          </h1>
+                        ))}
                     </div>
-                  )
-                }
+                  </div>
+                )}
 
                 {maxTeamMember === 1 &&
                   requirement?.map((req: any, reqIndex: number) => {
@@ -635,27 +691,31 @@ const EventRegForm = ({
                 )}
               </div>
             )}
-{
-  !throughPortal &&
-            <div className="flex w-full flex-row flex-wrap items-center justify-between pt-5">
-              <button
-                className="mt-3 rounded-full border-2 border-regalia bg-regalia  px-5 py-1    border-[#B51C69] bg-[#B51C69] font-semibold text-white hover:border-regalia hover:bg-black hover:text-[#B51C69]"
-                onClick={onClose}
-              >
-                Close
-              </button>
-              <button
-                disabled={disabled}
-                className={`${
-                  disabled
-                    ? "border-regalia bg-black text-regalia"
-                    : "border-[#B51C69] bg-[#B51C69] font-semibold text-white hover:border-regalia hover:bg-black hover:text-[#B51C69]"
-                } mt-3 rounded-full border-2 px-5   py-1    tracking-widest `} // hover:bg-white hover:text-black
-                onClick={handleSubmit}
-              >
-                {disabled ? <ClipLoader color="#c9a747" size={20} /> : "Submit"}
-              </button>
-            </div>}
+            {!throughPortal && (
+              <div className="flex w-full flex-row flex-wrap items-center justify-between pt-5">
+                <button
+                  className="mt-3 rounded-full border-2 border-regalia bg-regalia  px-5 py-1    border-[#B51C69] bg-[#B51C69] font-semibold text-white hover:border-regalia hover:bg-black hover:text-[#B51C69]"
+                  onClick={onClose}
+                >
+                  Close
+                </button>
+                <button
+                  disabled={disabled}
+                  className={`${
+                    disabled
+                      ? "border-regalia bg-black text-regalia"
+                      : "border-[#B51C69] bg-[#B51C69] font-semibold text-white hover:border-regalia hover:bg-black hover:text-[#B51C69]"
+                  } mt-3 rounded-full border-2 px-5   py-1    tracking-widest `} // hover:bg-white hover:text-black
+                  onClick={handleSubmit}
+                >
+                  {disabled ? (
+                    <ClipLoader color="#c9a747" size={20} />
+                  ) : (
+                    "Submit"
+                  )}
+                </button>
+              </div>
+            )}
           </div>
           <Toaster position="bottom-right" />
         </div>
