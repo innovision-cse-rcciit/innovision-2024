@@ -11,7 +11,6 @@ const Events = () => {
     const getEventDetails = async () => {
       const res = await getEventCategories();
       setEvents(res);
-      console.log(events)
     };
     getEventDetails();
   }, []);
