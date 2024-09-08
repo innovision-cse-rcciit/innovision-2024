@@ -20,7 +20,7 @@ const Event = () => {
     const fetchEvents = async () => {
       const events: any = await getAllEvents();
       setAllEvents(events);
-      console.log(events);
+      // console.log(events);
       setLoading(false);
     };
     fetchEvents();

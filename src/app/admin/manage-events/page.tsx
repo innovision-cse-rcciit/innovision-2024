@@ -28,10 +28,8 @@ const AdminPage = (props: Props) => {
             setEventList(events);
             const participants = await getAllParticipants({ eventId: null });
             setParticipantList(participants as Participant[]);
-            console.log(participantList)
             const coordinators = await getAllCoordinators({ eventId: null });
             setCoordinatorList(coordinators as unknown as Coordinator[]);
-            console.log(coordinatorList)
         }
         fetchAllData();
         const admin = user.user?.roles.some((roleObj: any) => roleObj.role === "ADMIN");
