@@ -71,7 +71,7 @@ export default function Register() {
       [name]: value,
     }));
   };
-
+  const setUser = useUser((state) => state.setUser);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -82,7 +82,7 @@ export default function Register() {
       console.log(allFieldsValid);
       console.log(validation);
       if (allFieldsValid) {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from("users")
           .update({
             name: inputs.name,
@@ -93,7 +93,8 @@ export default function Register() {
             year: inputs.year,
             section: inputs.section,
           })
-          .eq("id", user?.id);
+          .eq("id", user?.id).select();
+        setUser(data![0]);
 
         if (error) {
           toast.error("There was an error submitting the form");

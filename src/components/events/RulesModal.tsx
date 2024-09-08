@@ -14,13 +14,13 @@ const RulesModal = ({
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[50]">
           <div
-            className="bg-body border-y-2 border-[#B51C69] p-4 rounded-lg h-3/4 w-[90%] md:w-[50%] lg:w-[35%] flex flex-col items-start"
+            className={` ${rules?.length > 1000 ? "h-3/4" : "h-auto"}  border-y-2 border-[#B51C69] p-4 rounded-lg  w-[90%] md:w-[50%] lg:w-[35%] flex flex-col items-start`}
             style={{ backgroundImage: "url('/events/Background-img.png')" }}
           >
             <div className="w-full flex flex-row mb-2 items-center justify-between">
               <h2
                 id="glow"
-                className="text-lg font-Chakra_Petch font-semibold"
+                className="text-xl tracking-wider font-Chakra_Petch font-semibold"
               >
                 RULES OF THE EVENT
               </h2>

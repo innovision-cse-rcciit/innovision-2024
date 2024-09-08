@@ -24,7 +24,30 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   const [submissionEntry, setSubmissionEntry] = useState<boolean>(false);
   const [totalSubmission, setTotalSubmission] = useState<number>(1);
   const [openResult, setOpenResult] = useState(false);
+  const [isForCSE, setIsForCSE] = useState<boolean>(true);
   const user = useUser((state) => state.user);
+
+  const eventsForCSE = [
+    "efe69592-f939-4c62-bc9f-c3a8529d5d5a",
+    "9cb652d2-5026-473b-b562-0bea0c036009",
+    "4506ea8e-c7b5-49dd-a856-60cd96713335",
+    "08242c79-6478-478a-ad9b-4ed6d089c02d",
+  ];
+
+  useEffect(() => {
+    if (user) {
+      console.log(eventsForCSE.includes(eventId))
+      if (user?.department === "CSE" && eventsForCSE.includes(eventId)) {
+        setIsForCSE(true);
+      }
+      else if(!eventsForCSE.includes(eventId)){
+        setIsForCSE(true);
+      } 
+      else {
+        setIsForCSE(false);
+      }
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -36,7 +59,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
           .eq("event_id", eventId)
           .eq("email", user?.email!)
           .eq("college_roll", user?.college_roll!);
-        console.log(data)
+        console.log(data);
         if (data!.length > 1) {
           setSubmissionEntry(true);
         }
@@ -94,19 +117,21 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                         eventDetails?.max_team_size
                       : 1 + " (Solo)"}
                   </div>
-                  <div className="items-left flex flex-row flex-wrap  gap-5   tracking-widest">
+                  {/* <div className="items-left flex flex-row flex-wrap  gap-5   tracking-widest">
                     <h1 id="glow" className="italic">
                       VENUE
                     </h1>
                     {parse(eventDetails.schedule)}
-                  </div>
+                  </div> */}
                   <div className="items-left flex flex-row flex-wrap  gap-5   tracking-widest">
                     <h1 id="glow" className="italic">
                       EVENT MODE
                     </h1>
                     {parse(eventDetails.event_mode)}
                   </div>
-                  <h1 className="  text-lg">Coordinators :</h1>
+                  <h1 className="text-xl font-Chakra_Petch italic" id="glow">
+                    COORDINATORS :
+                  </h1>
                   {!loading && eventDetails?.roles.length > 0 ? (
                     eventDetails?.roles
                       .filter((role: any) => role.role !== "VOLUNTEER")
@@ -116,11 +141,11 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                             key={index}
                             className="flex flex-col items-start gap-2   text-white"
                           >
-                            <span className="flex flex-row items-center gap-4 text-sm font-semibold tracking-widest ">
-                              {coordinator?.users?.name}
+                            <span className="flex flex-row items-center gap-4 text-base font-semibold tracking-widest ">
+                              {coordinator?.users?.name.toUpperCase()}
                               <a
                                 href={`tel:${coordinator?.users?.phone}`}
-                                className="text-lg font-semibold tracking-widest text-regalia hover:text-green-500 lg:text-sm"
+                                className="text-lg font-semibold tracking-widest text-white hover:text-green-500 lg:text-base"
                               >
                                 {coordinator?.users?.phone}
                               </a>
@@ -152,10 +177,12 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                 width={350}
                 className=" mx-auto rounded-2xl object-cover object-left-top"
               />
-              {
-                  (eventId === "08242c79-6478-478a-ad9b-4ed6d089c02d"
-                    ? !submissionEntry
-                    : !registeredEvent) && eventDetails! && eventDetails!.is_open && (
+              {isForCSE ? (
+                (eventId === "08242c79-6478-478a-ad9b-4ed6d089c02d"
+                  ? !submissionEntry
+                  : !registeredEvent) &&
+                eventDetails! &&
+                eventDetails!.is_open && (
                   <button
                     disabled={!eventDetails.is_open}
                     onClick={async () => {
@@ -184,8 +211,27 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                     </h1>
                   </button>
                 )
-                // )
-              }
+              ) : (
+                <button
+                  onClick={() => {
+                    toast.success(
+                      "Only CSE Departments can register for this event !"
+                    );
+                  }}
+                  className="relative flex flex-row mx-auto items-center"
+                >
+                  <Image
+                    width={100}
+                    height={40}
+                    src="https://i.postimg.cc/kXR0L9dy/Button.png"
+                    className="h-10 w-28 lg:h-14 lg:w-36 lg:text-sm"
+                    alt="Events for CSE Only"
+                  />
+                  <h1 className="absolute mx-3 lg:mx-5 font-Chakra_Petch text-[#B61B69] text-xs lg:text-sm font-bold">
+                    Events for CSE Only
+                  </h1>
+                </button>
+              )}
               {eventDetails?.result_out === true ? (
                 <button
                   onClick={() => setOpenResult(true)}

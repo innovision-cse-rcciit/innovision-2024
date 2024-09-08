@@ -7,7 +7,6 @@ import { useUser } from "@/lib/store/user";
 import { validateReg } from "@/utils/functions/validateReg";
 import { eventReg } from "@/utils/functions/eventReg";
 import toast, { Toaster } from "react-hot-toast";
-import Link from "next/link";
 import DevfolioButton from "./DevfolioButton";
 
 const EventRegForm = ({
@@ -270,15 +269,15 @@ const EventRegForm = ({
     if (maxTeamMember === 1) {
       setInputs((prevInputs: any) => {
         const updatedInputs = { ...prevInputs };
-        const extra: any = {}; // Initialize the extra object
+        const extra: any = {}; 
 
         eventDetails?.requirements?.length > 0 &&
           eventDetails?.requirements.forEach((req: any) => {
             const fieldKey = req.toLowerCase().replace(/ /g, "_");
-            extra[fieldKey] = ""; // Add the field to the extra object
+            extra[fieldKey] = ""; 
           });
 
-        updatedInputs.extra = extra; // Add the extra object to updatedInputs
+        updatedInputs.extra = extra; 
         return updatedInputs;
       });
     }
@@ -286,15 +285,15 @@ const EventRegForm = ({
     setParticipants((prevParticipants: any) => {
       const updatedParticipants = prevParticipants.map((participant: any) => {
         const updatedParticipant = { ...participant };
-        const extra: any = {}; // Initialize the extra object for participants
+        const extra: any = {}; 
 
         eventDetails?.requirements?.length > 0 &&
           eventDetails?.requirements.forEach((req: any) => {
             const fieldKey = req.toLowerCase().replace(/ /g, "_");
-            extra[fieldKey] = ""; // Add the field to the extra object
+            extra[fieldKey] = ""; 
           });
 
-        updatedParticipant.extra = extra; // Add the extra object to each participant
+        updatedParticipant.extra = extra; 
         return updatedParticipant;
       });
 
