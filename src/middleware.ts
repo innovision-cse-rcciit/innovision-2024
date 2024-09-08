@@ -110,7 +110,7 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/profile/edit", req.url));
     }
 
-    if (superAdmin && url.pathname.startsWith("/admin" || "/coordinator")) {
+    if (superAdmin && (url.pathname.startsWith("/admin") || url.pathname.startsWith("/coordinator"))) {
       return NextResponse.next();
     }
 
