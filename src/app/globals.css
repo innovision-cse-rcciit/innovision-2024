@@ -194,6 +194,12 @@ body,
   box-shadow: 0 0 5px #ff4da6, 0 0 10px #ff4da6, 0 0 15px #ff4da6, 0 0 20px #ff4da6;
 }
 
+.registration-bg {
+  background-image: url('/events/Background-img.png');
+  background-size: cover;
+  background-position: center;
+}
+
 
 ::-webkit-scrollbar {
   width: 10px;

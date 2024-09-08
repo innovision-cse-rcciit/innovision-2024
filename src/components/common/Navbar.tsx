@@ -67,38 +67,18 @@ const Navbar = () => {
       console.log(roleData);
       if (roleData) {
         for (const obj of roleData!) {
-          if (obj.role === "super_admin") {
+          if (obj.role === "ADMIN") {
             isSuperAdmin = true;
           }
-          if (obj.role === "event_coordinator") {
-            if (
-              obj.events &&
-              obj.events.fest_name === "Regalia" &&
-              obj.events.year == 2024
-            ) {
+          if (obj.role === "COORDINATOR") {
+
               isCoordinator = true;
-            }
+            
           }
-          if (obj.role === "volunteer") {
-            if (
-              obj.events &&
-              obj.events.fest_name === "Regalia" &&
-              obj.events.year == 2024
-            ) {
+          if (obj.role === "VOLUNTEER") {
+
               isVolunteer = true;
-            }
-          }
-          if (obj.role === "convenor") {
-            if (
-              obj.event_categories &&
-              obj.event_categories.fest_name === "Regalia" &&
-              obj.event_categories.year == 2024
-            ) {
-              isConvenor = true;
-            }
-          }
-          if (obj.role === "registrar") {
-            isRegistrar = true;
+            
           }
         }
 
@@ -271,7 +251,7 @@ const Navbar = () => {
                     />
                   </div>
                 )} */}
-              {user && showDashboard && (
+              {user && showAdminDashboard && (
                 <Link
                   // onMouseEnter={hoverSound}
                   href={"/dashboard"}
