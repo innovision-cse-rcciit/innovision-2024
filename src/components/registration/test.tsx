@@ -161,11 +161,11 @@ const Page = () => {
   return (
     <>
       <div
-        className="flex py-10 text-white min-h-[80vh] w-full flex-col items-center gap-5 px-2 lg:px-10"
+        className="flex py-10 text-white min-h-[80vh] bg-cover w-full h-full  bg-no-repeat flex-col items-center gap-5 px-2 lg:px-10"
         style={{ background: 'url("/events/Background-img.png")' }}
       >
         <Heading text="Registrations" />
-        <div className="flex flex-row flex-wrap items-center justify-evenly gap-5 text-center font-hollirood  md:gap-8 text-xl lg:text-2xl xl:gap-20">
+        <div className="flex flex-row flex-wrap items-center justify-evenly gap-5 text-center font-Chakra_Petch  md:gap-8 text-xl lg:text-2xl xl:gap-20">
           <h1>
             <span id="glow">Name : </span>
             {user?.name.toUpperCase()}
