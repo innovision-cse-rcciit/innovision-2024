@@ -106,7 +106,7 @@ export const teams = [
         {
           name: "Soumyaraj Sarkar",
           role: "Developer",
-          image: "https://i.postimg.cc/9FSt6gPS/Soumyaraj-Sarkar.jpg",
+          image: "https://i.postimg.cc/RVKr1xH9/Soumyaraj-Sarkar2.jpg",
         },
         {
           name: "Sutanuka Chakraborty",
