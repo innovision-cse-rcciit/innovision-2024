@@ -47,7 +47,7 @@ const LandingPage = () => {
                                         width={112}
                                         height={110}
                                         alt='Register'
-                                        src='/Landing/Button.png'
+                                        src='https://i.postimg.cc/kXR0L9dy/Button.png'
                                         className='w-32 h-15 md:w-44'
                                     />
                                     <h1 className='absolute text-center w-full font-Chakra_Petch text-[#B61B69] text-sm md:text-lg font-bold'>
@@ -63,8 +63,8 @@ const LandingPage = () => {
                                         width={112}
                                         height={110}
                                         alt='Register'
-                                        src='/nba.png'
-                                        className='w-20 h-16 md:h-20 md:w-30'
+                                        src='https://i.postimg.cc/R0P94Rp1/nba.png'
+                                        className='w-20 h-16 md:h-20 md:w-30 lg:w-52 lg:h-36'
                                     />
                                 </button>
                             </Link>
@@ -74,8 +74,8 @@ const LandingPage = () => {
                                         width={112}
                                         height={110}
                                         alt='Register'
-                                        src='/rcciit.png'
-                                        className='w-40 md:w-40'
+                                        src='https://i.postimg.cc/CMnYpbGD/rcciit.png'
+                                        className='w-40 md:w-40 lg:w-60'
                                     />
                                 </button>
                             </Link>
@@ -101,14 +101,6 @@ const LandingPage = () => {
                                 {`${day} ${month}, ${year}`}
                             </div>
                         </div>
-                    </div>
-                    <div className='max-md:pb-10 px-5'>
-                        <Image
-                            height={100}
-                            width={1240}
-                            src='/Landing/lines.png'
-                            alt='Logo'
-                        />
                     </div>
                 </div>
             </div>

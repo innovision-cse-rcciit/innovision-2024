@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { FaDiscord, FaFacebook, FaInstagram } from "react-icons/fa";
 
 export const Footer = () => {
   return (
@@ -9,9 +10,9 @@ export const Footer = () => {
         <Image
           height={400}
           width={400}
-          src="/home/image.png"
+          src="https://i.postimg.cc/W4p806NH/image1.png"
           alt="Innovision"
-          className="mx-auto object-cover"
+          className="mx-auto object-cover pt-10"
         />
       </div>
 
@@ -19,9 +20,9 @@ export const Footer = () => {
         <Image
           height={250}
           width={250}
-          src="/innovision.svg"
+          src="https://i.postimg.cc/G297YJLj/about_logo.png"
           alt="Innovision bg"
-          className="mx-auto object-cover"
+          className="mx-auto object-cover opacity-25"
         />
       </div>
 
@@ -56,32 +57,14 @@ export const Footer = () => {
       </div>
 
       <div className="flex justify-center space-x-4 sm:space-x-6 mt-6">
-        <Link href="https://www.instagram.com/innovisionrcc/">
-          <Image
-            width={40}
-            height={40}
-            src="/home/socials/instagram.svg"
-            alt="Instagram"
-            className="h-6 w-6 sm:h-8 sm:w-8"
-          />
+        <Link target="_blank" href="https://www.instagram.com/innovisionrcc/">
+        <FaInstagram size={30} color="pink" />
         </Link>
-        <Link href="https://www.facebook.com/innovisionrcc">
-          <Image
-            width={40}
-            height={40}
-            src="/home/socials/facebook.svg"
-            alt="Facebook"
-            className="h-6 w-6 sm:h-8 sm:w-8"
-          />
+        <Link target="_blank" href="https://www.facebook.com/innovisionrcc">
+        <FaFacebook size={30} color="skyblue" />
         </Link>
-        <Link href="https://discord.gg/EHYzPJeYAK">
-          <Image
-            width={40}
-            height={40}
-            src="/home/socials/discord.svg"
-            alt="Discord"
-            className="h-6 w-6 sm:h-8 sm:w-8"
-          />
+        <Link target="_blank" href="https://discord.gg/EHYzPJeYAK">
+        <FaDiscord size={30} color="violet" />
         </Link>
       </div>
 

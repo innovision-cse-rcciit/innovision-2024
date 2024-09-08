@@ -182,7 +182,7 @@ const Page = () => {
                                     width={112}
                                     height={110}
                                     alt='Register' 
-                                    src='/Landing/Button.png'
+                                    src='https://i.postimg.cc/kXR0L9dy/Button.png'
                                     className='w-40 md:w-48'
                                 />
                                 <h1 className='absolute text-center w-full font-Chakra_Petch text-[#B61B69] text-sm md:text-xl font-bold'>

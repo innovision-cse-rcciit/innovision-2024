@@ -5,7 +5,6 @@ const About = () => {
   return (
     <div
       className=" lg:w-[90%] mx-auto relative min-h-1/2 font-Chakra_Petch flex items-center justify-center bg-cover bg-center"
-      // style={{ backgroundImage: "url('/home/events-bg.png')" }}
     >
       <div className="relative top-0 left-0 z-10"></div>
       <div className=" flex flex-col md:flex-row-reverse items-center text-white p-6 md:p-16 ">
@@ -13,7 +12,7 @@ const About = () => {
           <Image
             width={400}
             height={400}
-            src="/home/about/about_logo.png"
+            src="https://i.postimg.cc/G297YJLj/about_logo.png"
             alt="Main Logo"
           />
           
