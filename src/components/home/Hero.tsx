@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useCurrentDateTime } from '@/utils/functions/dateTime';
+import Link from 'next/link';
 
 const LandingPage = () => {
     const { day, month, year, hours, minutes } = useCurrentDateTime();
@@ -31,7 +32,7 @@ const LandingPage = () => {
                         height={400} 
                         width={440}
                         src='https://i.postimg.cc/JnPs7b2s/Innovision-logo-landing.png'
-                        className=' max-md:w-72 max-md:h-60 md:w-56 md:h-48 xl:w-96 xl:h-80'
+                        className=' max-md:w-40 max-md:h-42 md:w-56 md:h-48 xl:w-96 xl:h-80'
                         alt='Logo'
                     />
                     <div className='flex flex-col gap-5 items-center'>
@@ -53,6 +54,18 @@ const LandingPage = () => {
                                 </h1>
                             </button>
                         </div>
+                        <Link href={'https://www.nbaind.org/'} className='flex flex-col gap-2 items-center lg:items-end px-5'>
+                            <h1 className='text-white font-semibold text-lg md:text-2xl text-center'>THE ANNUAL DEPARTMENTAL FEST OF CSE DEPARTMENT</h1>
+                            <button className='flex flex-row bg-transparent items-center hover:opacity-90 relative'>
+                                <Image 
+                                    width={112}
+                                    height={110}
+                                    alt='Register' 
+                                    src='/nba.png'
+                                    className='w-28 md:w-40'
+                                />
+                            </button>
+                        </Link>
                         <div className='flex flex-col gap-5 items-center'>
                             <div className='flex flex-row items-center justify-center'>
                                 {timeDigits.map((digit, index) => (
@@ -70,7 +83,7 @@ const LandingPage = () => {
                                     </div>
                                 ))}
                             </div>
-                            <div className='text-[#DAD7D9] text-4xl keania-one-regular'>
+                            <div className='text-[#DAD7D9] text-2xl lg:text-4xl keania-one-regular'>
                                 {`${day} ${month}, ${year}`}
                             </div>
                         </div>
