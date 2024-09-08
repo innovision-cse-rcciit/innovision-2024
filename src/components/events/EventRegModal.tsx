@@ -1,14 +1,21 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { BeatLoader, ClipLoader, PuffLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import FormElement from "./FormElement";
 import { clickSound } from "@/utils/functions/clickSound";
 import { useUser } from "@/lib/store/user";
 import { validateReg } from "@/utils/functions/validateReg";
 import { eventReg } from "@/utils/functions/eventReg";
 import toast, { Toaster } from "react-hot-toast";
-import Link from "next/link";
 import DevfolioButton from "./DevfolioButton";
+
+const fileTypesByEvent = {
+  "efe69592-f939-4c62-bc9f-c3a8529d5d5a": "pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain,image/*",
+  "9cb652d2-5026-473b-b562-0bea0c036009": "pdf,image/*",
+  "4506ea8e-c7b5-49dd-a856-60cd96713335": "pdf,image/*",
+  "08242c79-6478-478a-ad9b-4ed6d089c02d": "pdf,images/*",
+  "a4c6d277-d77e-45ca-9978-ed6e93337057": "video/*",
+};
 
 const EventRegForm = ({
   isOpen,
@@ -82,7 +89,7 @@ const EventRegForm = ({
   const [file, setFile] = useState<any>(null);
 
   useEffect(() => {
-    if(file == 0){
+    if (file == 0) {
       setFile(null);
     }
   }, [file]);
@@ -196,7 +203,7 @@ const EventRegForm = ({
         requirements,
         file
       );
-      if(fileSubmission === false){
+      if (fileSubmission === false) {
         delete res.errors.file;
       }
       const allFieldsEmpty =
@@ -207,7 +214,7 @@ const EventRegForm = ({
         );
 
       if (allFieldsEmpty) {
-        setDisabled(true); 
+        setDisabled(true);
         await eventReg(
           inputs,
           participants,
@@ -270,15 +277,15 @@ const EventRegForm = ({
     if (maxTeamMember === 1) {
       setInputs((prevInputs: any) => {
         const updatedInputs = { ...prevInputs };
-        const extra: any = {}; // Initialize the extra object
+        const extra: any = {};
 
         eventDetails?.requirements?.length > 0 &&
           eventDetails?.requirements.forEach((req: any) => {
             const fieldKey = req.toLowerCase().replace(/ /g, "_");
-            extra[fieldKey] = ""; // Add the field to the extra object
+            extra[fieldKey] = "";
           });
 
-        updatedInputs.extra = extra; // Add the extra object to updatedInputs
+        updatedInputs.extra = extra;
         return updatedInputs;
       });
     }
@@ -286,15 +293,15 @@ const EventRegForm = ({
     setParticipants((prevParticipants: any) => {
       const updatedParticipants = prevParticipants.map((participant: any) => {
         const updatedParticipant = { ...participant };
-        const extra: any = {}; // Initialize the extra object for participants
+        const extra: any = {};
 
         eventDetails?.requirements?.length > 0 &&
           eventDetails?.requirements.forEach((req: any) => {
             const fieldKey = req.toLowerCase().replace(/ /g, "_");
-            extra[fieldKey] = ""; // Add the field to the extra object
+            extra[fieldKey] = "";
           });
 
-        updatedParticipant.extra = extra; // Add the extra object to each participant
+        updatedParticipant.extra = extra;
         return updatedParticipant;
       });
 
@@ -420,6 +427,11 @@ const EventRegForm = ({
                     <input
                       type="file"
                       id="file"
+                      accept={
+                        fileTypesByEvent[
+                          eventId as keyof typeof fileTypesByEvent
+                        ]
+                      }
                       multiple={maxFiles > 1}
                       max={maxFiles}
                       className="bg-transparent font-Chakra_Petch font-semibold tracking-widest text-white"

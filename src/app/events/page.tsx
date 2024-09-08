@@ -35,23 +35,6 @@ const Event = () => {
     }
   };
 
-  // const handleUpload = async () => {
-  //   if (selectedFile) {
-  //     console.log('Selected File:', selectedFile);
-  //     const formData = new FormData();
-  //     formData.append('file', selectedFile);
-  //     formData.append('folderName', 'ART');
-
-  //     const response = await fetch('/api/upload', {
-  //       method: 'POST',
-  //       body: formData,
-  //     });
-
-  //     const result = await response.json();
-  //     console.log(result);
-  //     // Handle the upload status
-  //   }
-  // };
 
 
 

@@ -88,7 +88,7 @@ export const teams = [
         },
         {
           name: "Adrita Chakraborty",
-          role: "Tech Team Lead",
+          role: "Developer",
           image:
             "https://i.postimg.cc/NGPpqH0h/IMG-20240704-WA0259-Adrita-Chakraborty.jpg",
         },
@@ -440,9 +440,9 @@ export const teams = [
           "image": "https://i.postimg.cc/SKcV8SCg/Shirshika-fancy-Shirshika-Ghosh.jpg"
         },
         {
-          "name": "Manasij Dey",
+          "name": "Manasij De",
           "role": "Volunteer : ShutterBugs",
-          "image": "https://i.postimg.cc/rpHPTVxj/IMG-20230803-080459-MANASIJ-DE.jpg"
+          "image": "https://i.postimg.cc/k5pnvZG2/Whats-App-Image-2024-09-08-at-22-38-12.jpg"
         },
         {
           "name": "Swarnali Nayek",
