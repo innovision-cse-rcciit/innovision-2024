@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 type EventCardProps = {
@@ -19,8 +20,10 @@ const EventCard: React.FC<EventCardProps> = ({
       style={{ background: "rgba(255, 255, 255, 0.4)" }}
     >
       <div className="w-full h-24 bg-gray-300 rounded-lg mb-2 overflow-hidden">
-        <img
+        <Image
           src={imageUrl}
+          width={200}
+          height={200}
           alt="Event"
           className="absolute inset-0 w-full h-full object-cover rounded-md"
         />
