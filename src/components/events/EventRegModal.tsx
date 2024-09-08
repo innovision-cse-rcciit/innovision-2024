@@ -25,6 +25,7 @@ const EventRegForm = ({
   const eventId = eventDetails?.id;
   const [disabled, setDisabled] = useState<boolean>(false);
   const [requirement, setRequirement] = useState<any>([]);
+  const [files, setFiles] = useState<any>(null);
   const [inputs, setInputs] = useState<any>({
     teamName: "",
     teamLeadPhone: "",
@@ -32,6 +33,7 @@ const EventRegForm = ({
     teamLeadName: "",
     teamLeadRoll: "",
     regMode: "",
+    file: "",
   });
 
   const user = useUser((state) => state.user);
@@ -75,6 +77,18 @@ const EventRegForm = ({
         teamLeadName: prevInputs.teamName,
       }));
     }
+  };
+
+  const [file, setFile] = useState<any>(null);
+  const handleFileChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | any>,
+  ) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    setInputs((prevInputs: any) => ({
+      ...prevInputs,
+      file: user?.college_roll + (selectedFile?.name || ""),
+    }));
   };
 
   const handleExtraMainChange = (
@@ -163,6 +177,7 @@ const EventRegForm = ({
 
   const [generalErrors, setGeneralErrors] = useState<any>({});
   const [teamErrors, setTeamErrors] = useState<any>({});
+  const [fileSubmission, setFileSubmission] = useState<boolean>(false);
   let teamMemberCountError = "";
   const handleSubmit = async () => {
     clickSound();
@@ -171,7 +186,8 @@ const EventRegForm = ({
         inputs,
         participants,
         maxTeamMember,
-        requirements
+        requirements,
+        file,
       );
       const allFieldsEmpty =
         Object.values(res.errors).every((value) => value === "") &&
@@ -182,10 +198,10 @@ const EventRegForm = ({
 
       if (allFieldsEmpty) {
         setDisabled(true); // Disable the submit button
-        await eventReg(inputs, participants, eventId, user);
+        await eventReg(inputs, participants, eventId, user, fileSubmission, file);
         toast.success("Registration Successful");
         onClose();
-        router.push("/dashboard");
+        router.push("/profile");
         setDisabled(false);
       } else {
         // If there are errors, enable the submit button
@@ -203,6 +219,7 @@ const EventRegForm = ({
       toast.error("Registration Failed !");
     }
   };
+  console.log(inputs)
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -221,6 +238,7 @@ const EventRegForm = ({
   );
 
   useEffect(() => {
+    setFileSubmission(eventDetails?.file_submission);
     setRequirement(eventDetails?.requirements);
 
     if (maxTeamMember === 1) {
@@ -360,6 +378,29 @@ const EventRegForm = ({
                 <h1 className="text-xs font-semibold text-red-600">
                   {generalErrors.teamLeadRoll}
                 </h1>
+
+                {
+                  fileSubmission && (
+                    <div className="flex flex-row flex-wrap text-white items-center gap-2 text-xl">
+                      <label
+                        htmlFor="file"
+                        id="glow"
+                        className=" font-semibold tracking-widest"
+                      >
+                        Submission :
+                      </label>
+                      <input
+                        type="file"
+                        id="file"
+                        className="bg-transparent font-Chakra_Petch font-semibold tracking-widest text-white"
+                        onChange={handleFileChange}
+                      />
+                      <h1 className="text-xs font-semibold text-red-600">
+                        {generalErrors.file}
+                      </h1>
+                    </div>
+                  )
+                }
 
                 {maxTeamMember === 1 &&
                   requirement?.map((req: any, reqIndex: number) => {

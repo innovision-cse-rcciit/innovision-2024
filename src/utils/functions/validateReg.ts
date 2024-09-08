@@ -7,13 +7,15 @@
     inputs: any,
     participants: any,
     maxTeamMember: number,
-    requirements: string[]
+    requirements: string[],
+    file: any,
   ) => {
     let errors: any = {
       teamName: "",
       teamLeadPhone: "",
       teamLeadEmail: "",
       teamLeadRoll: "",
+      file: "",
     };
   
     let uniquePhones = new Set<string>();
@@ -33,6 +35,10 @@
   
     if (inputs.college === "") {
       errors.college = "College is required";
+    }
+
+    if (file === null) {
+      errors.file = "Submission File is required";
     }
   
     if (inputs.teamLeadPhone === "") {

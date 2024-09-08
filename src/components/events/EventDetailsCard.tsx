@@ -25,7 +25,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   useEffect(() => {
     const fetchEvent = async () => {
       const registered: any = await checkIfRegistered(eventId, user!);
-      console.log(registered)
+      // console.log(registered)
       setRegisteredEvent(registered);
       const event = await getEventById(eventId);
       setEventDetails(event);
@@ -95,7 +95,6 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                     eventDetails?.roles
                       .filter((role: any) => role.role !== "VOLUNTEER")
                       ?.map((coordinator: any, index: number) => {
-                        console.log(eventDetails?.roles.filter((role: any) => role.role !== "VOLUNTEER"))
                         return (
                           <div
                             key={index}
