@@ -345,7 +345,7 @@ const Navbar = () => {
                   </Link>
                 )} */}
 
-                {user && showAdminDashboard && (
+                {/* {user && showAdminDashboard && (
                   <Link
                     // onMouseEnter={hoverSound}
                     href={"/admin"}
@@ -362,7 +362,7 @@ const Navbar = () => {
                       Admin
                     </li>
                   </Link>
-                )}
+                )} */}
               </div>
 
               <div className="flex cursor-pointer flex-row items-center gap-5  md:ml-5 ">

@@ -103,9 +103,8 @@ export async function middleware(req: NextRequest) {
     ) {
       return NextResponse.redirect(new URL("/", req.url));
     }
-
     if (
-      !checkUserDetails(userDetails?.data?.[0]!) &&
+      checkUserDetails(userDetails?.data?.[0]!) === false &&
       url.pathname !== "/profile/edit"
     ) {
       return NextResponse.redirect(new URL("/profile/edit", req.url));
