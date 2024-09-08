@@ -13,9 +13,9 @@ export async function middleware(req: NextRequest) {
   const url = new URL(req.nextUrl);
   if (!session) {
     if (
-      url.pathname.startsWith("/dashboard") ||
+      url.pathname.startsWith("/admin") ||
       url.pathname.startsWith("/profile") ||
-      url.pathname.startsWith("/dashboard") ||
+      url.pathname.startsWith("/admin") ||
       url.pathname.startsWith("/coordinator") ||
       url.pathname.startsWith("/entry")
     ) {
@@ -31,9 +31,10 @@ export async function middleware(req: NextRequest) {
     const userRoles = await supabase
       .from("roles")
       .select(
-        "role,event_id,events(event_name,fest_name,year),event_categories(fest_name,year)",
+        "*",
       )
       .eq("id", session?.user.id);
+
 
     let superAdmin = false;
     let eventCoordinator = false;
@@ -44,6 +45,7 @@ export async function middleware(req: NextRequest) {
     let securityAdmin = false;
     if (userRoles && userRoles.data) {
       for (const obj of userRoles.data) {
+
         if (obj.role === "ADMIN") {
           superAdmin = true;
         } else if (obj.role === "COORDINATOR") {
@@ -109,14 +111,14 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/profile/edit", req.url));
     }
 
-    if (superAdmin && url.pathname.startsWith("/dashboard" || "/coordinator")) {
+    if (superAdmin && url.pathname.startsWith("/admin" || "/coordinator")) {
       return NextResponse.next();
     }
 
     if (
       !superAdmin &&
       url.pathname.startsWith(
-        "/dashboard" || url.pathname.startsWith("/coordinator"),
+        "/admin" || url.pathname.startsWith("/coordinator"),
       )
     ) {
       return NextResponse.redirect(new URL("/", req.url));
