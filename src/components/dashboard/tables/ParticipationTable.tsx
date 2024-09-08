@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/table"
 import { Participant } from '@/utils/constants/admin-dashboard';
 import { useRouter } from 'next/navigation';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 
 export const columns: ColumnDef<Participant>[] = [
@@ -89,6 +90,45 @@ export const columns: ColumnDef<Participant>[] = [
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("event")}</div>
         ),
+    },
+    {
+        accessorKey: "phone",
+        header: "Phone Number",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("phone")}</div>
+        ),
+    },
+    {
+        accessorKey: "team_members",
+        header: "Team Members",
+        cell: ({ row }) => {
+            const team_members = row.original.team_members;
+            return (
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button>
+                            Show Members
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>
+                                Team Members
+                            </DialogTitle>
+                        </DialogHeader>
+                        {team_members.length > 0 ? (
+                            team_members.map((member: any, index) => (
+                                <div key={member.id || index} className='capitalize'>
+                                    {member.name}
+                                </div>
+                            ))
+                        ) : (
+                            <div>No team members</div>
+                        )}
+                    </DialogContent>
+                </Dialog>
+            );
+        },
     },
     // {
     //     id: "actions",

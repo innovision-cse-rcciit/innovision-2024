@@ -20,6 +20,10 @@ export type Participant = {
     name: string;
     email: string;
     event: string;
+    phone: string;
+    team_id: string;
+    team_members: [];
+    team_lead_id: string;
 }
 
 
