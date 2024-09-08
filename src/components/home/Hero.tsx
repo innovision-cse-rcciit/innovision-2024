@@ -55,7 +55,6 @@ const LandingPage = () => {
                             </button>
                         </div>
                         <Link href={'https://www.nbaind.org/'} className='flex flex-col gap-2 items-center lg:items-end px-5'>
-                            <h1 className='text-white font-semibold text-lg md:text-2xl text-center'>THE ANNUAL DEPARTMENTAL FEST OF CSE DEPARTMENT</h1>
                             <button className='flex flex-row bg-transparent items-center hover:opacity-90 relative'>
                                 <Image 
                                     width={112}
