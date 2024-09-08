@@ -440,7 +440,7 @@ export const teams = [
           "image": "https://i.postimg.cc/SKcV8SCg/Shirshika-fancy-Shirshika-Ghosh.jpg"
         },
         {
-          "name": "Manasij Dey",
+          "name": "Manasij De",
           "role": "Volunteer : ShutterBugs",
           "image": "https://i.postimg.cc/rpHPTVxj/IMG-20230803-080459-MANASIJ-DE.jpg"
         },
