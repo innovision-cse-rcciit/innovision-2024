@@ -27,9 +27,8 @@ const EventRegCard = ({ teams }: { teams: any }) => {
         .eq("id", teams.event_id);
       setEvent(data![0].event_name);
       setEventImage(data![0].banner_url);
-
-      setMembers(teams.members);
-      teams?.transaction_verified ? setVerified(true) : setVerified(false);
+      console.log(teams)
+      setMembers(teams.participants);
     };
     getEventName();
   }, [teams]);
@@ -42,61 +41,46 @@ const EventRegCard = ({ teams }: { teams: any }) => {
     }
   });
   return (
-    <div className="px-5 lg:px-0 md:w-[70%] lg:w-[40%] xl:w-auto 2xl:h-auto">
-        <div className="flex w-[100%] flex-col items-center justify-around gap-5 rounded-xl  bg-body p-12 font-hollirood  text-sm font-semibold tracking-widest  ">
+    <div className="px-5 lg:px-0 md:w-[70%] lg:w-[40%] border-2 border-white rounded-xl backdrop-blur-md xl:w-[25%] 2xl:h-auto">
+        <div className="flex w-[100%] flex-col items-center justify-around gap-5 rounded-xl  bg-body p-12 font-Chakra_Petch  text-sm font-semibold tracking-widest  ">
         {eventImage! && (
           <Image src={eventImage!} width={150} height={100} alt="" />
         )}
 
      
-        <div className="flex flex-row flex-wrap items-center gap-2">
+        <div className="flex flex-row text-base xl:text-lg flex-wrap items-center gap-2">
           <h1>Event :</h1> <span>{event!}</span>
         </div>
 
-        <div className="flex flex-row flex-wrap items-center justify-center gap-2">
+        <div className="flex flex-row flex-wrap items-center text-base xl:text-lg justify-center gap-2">
           <h1>{members! && members?.length > 1 ? "Team Name" : "Name"} :</h1>{" "}
           <span>{teams.team_name}</span>
         </div>
-        <div className="flex flex-row flex-wrap items-center justify-center gap-2">
+        <div className="flex flex-row flex-wrap items-center text-base xl:text-lg justify-center gap-2">
           <h1>
-            {members! && members?.length > 1 ? "Team Lead Phone" : "Phone"}:
+            {members! && members?.length > 1 ? "Team Lead Email" : "Email"}:
           </h1>{" "}
-          <span>{teams.team_lead_phone}</span>
+          <span>{teams.team_lead_email}</span>
         </div>
         {members! && members?.length > 1 && (
           <button
             onClick={() =>{ 
               clickSound();
               setIsOpen(true)}}
-            className="rounded-xl border hover:cursor-pointer border-regalia bg-regalia px-3 py-1 text-black hover:bg-black hover:text-regalia hover:border-regalia "
+            className="rounded-xl border hover:cursor-pointer border-[#B51C69] bg-[#B51C69] px-3 py-1 text-white hover:bg-black hover:text-regalia hover:border-[#B51C69] "
           >
             View Members
           </button>
         )}
-        {verified! ? (
-          <h1
-            className="rounded-xl text-black bg-green-300
-         px-3 py-1 font-semibold"
-          >
-            Verified
-          </h1>
-        ) : (
-          <h1
-            className="rounded-xl bg-red-300 text-black
-         px-3 py-1 font-semibold"
-          >
-            Not Verified
-          </h1>
-        )}
        
-            <MemberModal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        members={teams.participations}
-      />
+     
       </div>
   
-   
+      <MemberModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        members={teams.participants}
+      />
           </div>
   );
 };
@@ -113,18 +97,20 @@ const MemberModal = ({
   return (
     <>
       {isOpen && (
-        <div className="fixed  inset-0 z-[50] flex items-center justify-center bg-black bg-opacity-50"
+        <div className="fixed  inset-0 flex items-center  tracking-widest justify-center bg-black bg-opacity-50 z-[50]"
+        
         >
           <div
             className={`flex h-auto max-h-[50vh] md:max-h-[40vh] lg:max-h-[50vh] 2xl:max-h-[60vh] w-[90%] flex-col
-             items-start rounded-lg bg-body border-y-2 border-regalia p-4 md:w-[35%] lg:w-[25%] `}
+             items-start rounded-lg bg-body border-y-2 border-[#B51C69] p-4 md:w-[35%] lg:w-[100%] `}
+             style={{ background: 'url("/events/Background-img.png")' }}
           >
             <div className="mb-2 flex w-full flex-row items-center justify-between">
               <h2 className="text-lg font-semibold">Members</h2> 
  
               <h2
                 onClick={onClose}
-                className="cursor-pointer rounded-xl border border-regalia bg-regalia px-3 py-1 text-black hover:bg-black hover:text-regalia hover:border-regalia"
+                className="cursor-pointer rounded-xl border border-[#B51C69] bg-regalia px-3 py-1 text-white hover:bg-black bg-[#B51C69] hover:text-[#B51C69] hover:border-[#B51C69]"
               >
                 X
               </h2>
@@ -150,7 +136,7 @@ const MemberModal = ({
               })}
             </div>
             <button
-              className="mt-3 rounded-xl border border-regalia bg-regalia px-3 py-1 text-black hover:bg-black hover:text-regalia hover:border-regalia"
+              className="mt-3 rounded-xl border border-[#B51C69] bg-[#B51C69] px-3 py-1 text-white hover:bg-black hover:text-[#B51C69] hover:border-[#B51C69]"
               onClick={onClose}
             >
               Close

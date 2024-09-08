@@ -26,7 +26,8 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
     const fetchEvent = async () => {
       console.log(eventId);
       const event = await getEventById(eventId);
-      const registered: any = await checkIfRegistered(eventId, user?.id!);
+      const registered: any = await checkIfRegistered(eventId, user?.email!);
+      console.log(registered)
       setEventDetails(event);
       setRegisteredEvent(registered);
       setLoading(false);
@@ -193,11 +194,11 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                       
                     }}
                   >
-                    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
-                    <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white backdrop-blur-3xl md:text-sm lg:text-sm">
+
+                
                       Already Registered
                       <TiTick size={24} />
-                    </span>
+
                   </button>
                 )}
             </div>
