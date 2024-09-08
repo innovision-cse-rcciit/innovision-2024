@@ -101,7 +101,6 @@ export default function Register() {
         }
 
         router.push("/events");
-        router.refresh();
         toast.success("Registration Successful");
       } else {
         setErrors(validation);
@@ -114,8 +113,7 @@ export default function Register() {
   };
 
   return (
-    <div className="relative min-h-screen l bg-gray-900  w-full bg-no-repeat bg-cover ">
-      <Image src={"/events/Background-img.png"} alt="" layout="fill" />
+    <div className="relative min-h-screen l bg-gray-900  w-full bg-no-repeat bg-cover registration-bg">
 
       <div className="gap-10 flex flex-col items-center justify-center py-10">
         <Toaster position="bottom-right" />
