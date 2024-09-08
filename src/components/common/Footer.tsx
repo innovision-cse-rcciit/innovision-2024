@@ -49,6 +49,13 @@ export const Footer = () => {
         </Link>
         <span className="hidden sm:inline text-white">|</span>
         <Link
+          href="/contacts"
+          className="text-white text-sm sm:text-lg font-Chakra_Petch"
+        >
+          CONTACT US
+        </Link>
+        <span className="hidden sm:inline text-white">|</span>
+        <Link
           href="/profile"
           className="text-white text-sm sm:text-lg font-Chakra_Petch"
         >

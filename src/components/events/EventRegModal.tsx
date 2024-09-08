@@ -10,7 +10,8 @@ import toast, { Toaster } from "react-hot-toast";
 import DevfolioButton from "./DevfolioButton";
 
 const fileTypesByEvent = {
-  "efe69592-f939-4c62-bc9f-c3a8529d5d5a": "pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain,image/*",
+  "efe69592-f939-4c62-bc9f-c3a8529d5d5a":
+    "pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain,image/*",
   "9cb652d2-5026-473b-b562-0bea0c036009": "pdf,image/*",
   "4506ea8e-c7b5-49dd-a856-60cd96713335": "pdf,image/*",
   "08242c79-6478-478a-ad9b-4ed6d089c02d": "pdf,images/*",
