@@ -86,6 +86,7 @@ export const eventReg = async (
     }
 
     if (eventType === "individual") {
+      console.log("Hi")
       if (fileSubmission && file) {
         try {
           console.log(fileSubmission)

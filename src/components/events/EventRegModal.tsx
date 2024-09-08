@@ -196,6 +196,9 @@ const EventRegForm = ({
         requirements,
         file
       );
+      if(fileSubmission === false){
+        delete res.errors.file;
+      }
       const allFieldsEmpty =
         Object.values(res.errors).every((value) => value === "") &&
         res.teamErrors.every(
@@ -204,7 +207,7 @@ const EventRegForm = ({
         );
 
       if (allFieldsEmpty) {
-        setDisabled(true); // Disable the submit button
+        setDisabled(true); 
         await eventReg(
           inputs,
           participants,
@@ -218,12 +221,11 @@ const EventRegForm = ({
         router.push("/profile");
         setDisabled(false);
       } else {
-        // If there are errors, enable the submit button
         setDisabled(false);
         if (res.errors || res.teamErrors) {
           setGeneralErrors(res.errors);
           setTeamErrors(res.teamErrors);
-          // toast.error("Fill all the fields accurately !");
+          toast.error("Fill all the fields accurately !");
           return;
         }
       }

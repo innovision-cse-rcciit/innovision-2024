@@ -12,6 +12,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import EventRegForm from "./EventRegModal";
 import { TiTick } from "react-icons/ti";
 import RulesModal from "./RulesModal";
+import { EVENT_CATEGORIES } from "@/utils/constants/event-categories";
 const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   const [eventDetails, setEventDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -29,11 +30,11 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
       setRegisteredEvent(registered);
       const event = await getEventById(eventId);
       setEventDetails(event);
-   
+
       setLoading(false);
     };
     fetchEvent();
-  }, [eventId,user]);
+  }, [eventId, user]);
   return (
     <>
       {loading ? (
@@ -120,7 +121,10 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                 </div>
               </div>
               <div className=" flex flex-row space-x-5">
-                <button onClick={()=>setOpenRules(true)} className="text-white px-2 py-2 w-40 md:w-48 lg:w-64 rounded-lg text-xs lg:text-md font-Chakra_Petch italic bg-[#B51C69] shadow-[4.0px_8.0px_8.0px_gray]">
+                <button
+                  onClick={() => setOpenRules(true)}
+                  className="text-white px-2 py-2 w-40 md:w-48 lg:w-64 rounded-lg text-xs lg:text-md font-Chakra_Petch italic bg-[#B51C69] shadow-[4.0px_8.0px_8.0px_gray]"
+                >
                   View Rules and Regulations
                 </button>
               </div>
@@ -133,9 +137,15 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                 width={350}
                 className=" mx-auto rounded-2xl object-cover object-left-top"
               />
-              {
+              {EVENT_CATEGORIES?.NONTECHNICAL ===
+              eventDetails?.event_category_id ? (
+                <h1 className="text-white text-4xl text-center">
+                  Register Soon
+                </h1>
+              ) : (
                 !registeredEvent! &&
-                eventDetails! && eventDetails!.is_open && (
+                eventDetails! &&
+                eventDetails!.is_open && (
                   <button
                     disabled={!eventDetails.is_open}
                     onClick={async () => {
@@ -143,13 +153,12 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                         login();
                       }
                       clickSound();
-                      if(eventDetails?.register_through_portal === false){
+                      if (eventDetails?.register_through_portal === false) {
                         setThroughPortal(true);
                         setOpenRegister(true);
-                      }else{
+                      } else {
                         setOpenRegister(true);
                       }
-                    
                     }}
                     className="relative flex flex-row mx-auto items-center"
                   >
@@ -165,61 +174,59 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                     </h1>
                   </button>
                 )
-              }
+              )}
               {eventDetails?.result_out === true ? (
+                <button
+                  onClick={() => setOpenResult(true)}
+                  className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
+                  disabled={!eventDetails.result_out}
+                >
+                  <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
+                  <span className="text-md inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-12 py-5 font-medium tracking-wider text-white backdrop-blur-3xl md:text-sm lg:px-5 lg:py-3 lg:text-sm">
+                    Result
+                  </span>
+                </button>
+              ) : (
+                eventDetails?.is_open === false && (
                   <button
-                    onClick={() => setOpenResult(true)}
+                    onClick={() => {
+                      toast("Registration Closed !", { icon: "🚫" });
+                    }}
                     className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
-                    disabled={!eventDetails.result_out}
+                    disabled={!eventDetails.is_open}
                   >
                     <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
                     <span className="text-md inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-12 py-5 font-medium tracking-wider text-white backdrop-blur-3xl md:text-sm lg:px-5 lg:py-3 lg:text-sm">
-                      Result
+                      Registration Closed
                     </span>
                   </button>
-                ) : (
-                  eventDetails?.is_open === false && (
-                    <button
-                      onClick={() => {
-                        toast("Registration Closed !", { icon: "🚫" });
-                      }}
-                      className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
-                      disabled={!eventDetails.is_open}
-                    >
-                      <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
-                      <span className="text-md inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-12 py-5 font-medium tracking-wider text-white backdrop-blur-3xl md:text-sm lg:px-5 lg:py-3 lg:text-sm">
-                        Registration Closed
-                      </span>
-                    </button>
-                  )
-                )}
+                )
+              )}
               {registeredEvent! && (
-                  <button
-                    className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
-                    onClick={() => {
-                      
-                    }}
-                  >
-                    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
-                    <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white backdrop-blur-3xl md:text-sm lg:text-sm">
-                      Already Registered
-                      <TiTick size={24} />
-                    </span>
-                  </button>
-                )}
+                <button
+                  className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
+                  onClick={() => {}}
+                >
+                  <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
+                  <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white backdrop-blur-3xl md:text-sm lg:text-sm">
+                    Already Registered
+                    <TiTick size={24} />
+                  </span>
+                </button>
+              )}
             </div>
           </div>
           <EventRegForm
-        isOpen={openRegister}
-        onClose={()=>setOpenRegister(false)}
-        eventDetails={eventDetails}
-        throughPortal={throughPortal}
-      />
-        <RulesModal
-        isOpen={openRules}
-        onClose={()=>setOpenRules(false)}
-        rules={eventDetails?.rules}
-      />
+            isOpen={openRegister}
+            onClose={() => setOpenRegister(false)}
+            eventDetails={eventDetails}
+            throughPortal={throughPortal}
+          />
+          <RulesModal
+            isOpen={openRules}
+            onClose={() => setOpenRules(false)}
+            rules={eventDetails?.rules}
+          />
         </div>
       )}
     </>
