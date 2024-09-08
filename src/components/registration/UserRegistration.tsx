@@ -121,8 +121,8 @@ export default function Register() {
         <div className="relative z-10 flex flex-col-reverse lg:flex-row items-center justify-between w-full max-w-7xl px-8">
           <div className="mb-8 lg:mb-0 lg:order-2 lg:w-1/2">
             <Image
-              width={500}
-              height={500}
+              width={400}
+              height={400}
               src="/home/about/about_logo.png"
               alt="Main Logo"
               className="mx-auto w-40 h-40 sm:w-60 sm:h-60 lg:w-80 lg:h-80 xl:w-[500px] xl:h-[500px]"
