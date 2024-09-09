@@ -134,7 +134,12 @@ export const eventReg = async (
             fileIds: fileUploadResults,
           };
           console.log("team.extra:", team.extra);
-          const { data: individualData, error: individualError } = await supabase
+        } catch (fileUploadError) {
+          console.error("Error uploading file:", fileUploadError);
+        }
+      }
+
+      const { data: individualData, error: individualError } = await supabase
         .from("teams")
         .insert({
           team_name: team.teamName,
@@ -161,12 +166,6 @@ export const eventReg = async (
         })
         .select();
       if (participantError) throw participantError;
-        } catch (fileUploadError) {
-          console.error("Error uploading file:", fileUploadError);
-        }
-      }
-
-      
 
       try {
         const response = await fetch("/api/sendMail", {
