@@ -40,7 +40,12 @@ export const uploadToGoogleDrive = async (file: any, folderName: string) => {
     const keyFilePath = path.join(process.cwd(), 'apikey.json');
     // console.log('Key File Path: ', keyFilePath);
     const auth = new google.auth.GoogleAuth({
-        keyFile: keyFilePath,
+        // keyFile: keyFilePath,
+        credentials: {
+            private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/gm, '\n'),
+            client_email: process.env.GOOGLE_CLIENT_EMAIL,
+          },
+          projectId: process.env.GOOGLE_PROJECT_ID,
         scopes: ['https://www.googleapis.com/auth/drive'],
     });
     // console.log('Auth Instance: ', auth);
