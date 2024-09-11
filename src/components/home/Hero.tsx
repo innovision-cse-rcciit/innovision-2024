@@ -60,7 +60,7 @@ const LandingPage = () => {
                     height={110}
                     alt="Register"
                     src="https://i.postimg.cc/JzyBVdSr/logo.jpg"
-                    className="w-12 h-16 md:h-20 md:w-24 lg:w-36 lg:h-36"
+                    className="w-12 h-8 md:h-12 md:w-24 lg:w-36 lg:h-24"
                   />
                 </button>
               </Link>
@@ -74,7 +74,7 @@ const LandingPage = () => {
                     height={110}
                     alt="Register"
                     src="https://i.postimg.cc/MT0Q3MN1/aicte.jpg"
-                    className="w-12 h-16 md:h-20 md:w-24 lg:w-36 lg:h-36"
+                    className="w-12 h-8 md:h-12 md:w-24 lg:w-36 lg:h-24"
                   />
                 </button>
               </Link>
@@ -88,7 +88,7 @@ const LandingPage = () => {
                     height={110}
                     alt="Register"
                     src="https://i.postimg.cc/jSM0PtXc/iic.png"
-                    className="w-12 h-16 md:h-20 md:w-24 lg:w-36 lg:h-36"
+                    className="w-12 h-8 md:h-12 md:w-24 lg:w-36 lg:h-24"
                   />
                 </button>
               </Link>
@@ -102,7 +102,7 @@ const LandingPage = () => {
                     height={110}
                     alt="Register"
                     src="https://i.postimg.cc/CMnYpbGD/rcciit.png"
-                    className="w-40 md:w-40 lg:w-60"
+                    className="w-20 md:w-24 lg:w-40"
                   />
                 </button>
               </Link>
