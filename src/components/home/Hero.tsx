@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { useCurrentDateTime } from "@/utils/functions/dateTime";
 import Link from "next/link";
+import { FadeIn } from "react-slide-fade-in";
 
 const LandingPage = () => {
   const { day, month, year, hours, minutes } = useCurrentDateTime();
@@ -13,29 +14,38 @@ const LandingPage = () => {
       style={{ backgroundImage: "url('/Landing/Future_landing_page.png')" }}
     >
       <div className="flex items-center justify-center my-auto mx-auto h-full">
-        <div className="rounded-xl backdrop-blur-sm flex flex-row md:pt-10 hover:backdrop-blur-none cursor-pointer flex-wrap border-2 border-white w-[90%]  md:w-4/5 h-4/5 transform -translate-y-1/6 gap-4 items-center justify-around  ">
+        <div className="rounded-xl backdrop-blur-sm flex flex-row md:pt-10 hover:backdrop-blur-none cursor-pointer flex-wrap border-2 border-white w-[90%]  md:w-4/5 h-auto md:h-4/5 lg:h-[90%] 2xl:h-4/5 transform -translate-y-1/6 gap-4 items-center justify-around  ">
           <div className="absolute left-10 top-10 max-md:hidden">
             <Image height={40} width={40} src="/Landing/arrow.png" alt="Logo" />
           </div>
-          <Image
+          <FadeIn
+              from="left"
+              positionOffset={200}
+              triggerOffset={0}
+              delayInMilliseconds={80}
+            >
+                 <Image
             height={400}
             width={450}
             src="https://i.postimg.cc/JnPs7b2s/Innovision-logo-landing.png"
-            className=" max-md:w-48 max-md:h-42 md:w-56 md:h-48 xl:w-80 xl:h-72"
+            className=" max-md:w-80 max-md:h-42 md:w-72 md:h-56 xl:w-96 xl:h-80 avatar"
             alt="Logo"
           />
+              </FadeIn>
+       
           <div className="flex flex-col gap-4 items-center">
             <div className="bg-white px-10 py-2 border rounded-xl">
               <h1 className="keania-one-regular text-2xl md:text-4xl lg:text-6xl text-[#B61B69]">
                 INNOVISION 2024
               </h1>
             </div>
-            <div className="flex flex-col gap-2 items-center lg:items-end px-5">
+            <div className="flex flex-col  items-center lg:items-end px-5">
               <h1 className="text-white font-semibold text-md md:text-xl text-center">
-                THE ANNUAL DEPARTMENTAL FEST OF CSE DEPARTMENT (NBA ACCREDITED)
+                THE ANNUAL DEPARTMENTAL FEST OF CSE DEPARTMENT
               </h1>
+              <h1 className="text-white font-semibold text-md md:text-xl text-center">(NBA ACCREDITED)</h1>
               <Link href={"/events"}>
-                <button className="flex flex-row bg-transparent items-center hover:opacity-90 relative">
+                <button className="flex mt-2 mx-auto w-full flex-row bg-transparent items-center hover:opacity-90 relative">
                   <Image
                     width={112}
                     height={110}
@@ -49,63 +59,90 @@ const LandingPage = () => {
                 </button>
               </Link>
             </div>
-            <div className="flex flex-row items-center">
+            <div className="grid grid-cols-2 md:grid-cols-4 grid-flow-dense mx-auto w-full justify-center  items-center">
+            <FadeIn
+              from="bottom"
+              positionOffset={200}
+              triggerOffset={0}
+              delayInMilliseconds={81}
+            >
               <Link
                 href={"https://www.education.gov.in/"}
                 className="flex items-center lg:items-end px-5"
               >
                 <button className="flex flex-row bg-transparent items-center hover:opacity-90 relative">
                   <Image
-                    width={90}
+                    width={200}
                     height={110}
                     alt="Register"
                     src="https://i.postimg.cc/JzyBVdSr/logo.jpg"
-                    className="w-12 h-8 md:h-12 md:w-24 lg:w-36 lg:h-24"
+                 
                   />
                 </button>
               </Link>
+              </FadeIn>
+              <FadeIn
+              from="bottom"
+              positionOffset={200}
+              triggerOffset={0}
+              delayInMilliseconds={82}
+            >
               <Link
                 href={"https://www.aicte-india.org/"}
                 className="flex items-center lg:items-end px-5"
               >
-                <button className="flex flex-row bg-transparent items-center hover:opacity-90 relative">
+                <button className="flex flex-row justify-center mx-auto bg-transparent items-center hover:opacity-90 relative">
                   <Image
-                    width={90}
+                    width={80}
                     height={110}
                     alt="Register"
                     src="https://i.postimg.cc/MT0Q3MN1/aicte.jpg"
-                    className="w-12 h-8 md:h-12 md:w-24 lg:w-36 lg:h-24"
+                
                   />
                 </button>
               </Link>
+              </FadeIn>
+              <FadeIn
+              from="bottom"
+              positionOffset={200}
+              triggerOffset={0}
+              delayInMilliseconds={83}
+            >
               <Link
                 href={"https://iic.mic.gov.in/login"}
                 className="flex items-center lg:items-end px-5"
               >
-                <button className="flex flex-row bg-transparent items-center hover:opacity-90 relative">
+                <button className="flex flex-row bg-white bg-transparent items-center hover:opacity-90 relative">
                   <Image
-                    width={90}
+                    width={200}
                     height={110}
                     alt="Register"
                     src="https://i.postimg.cc/jSM0PtXc/iic.png"
-                    className="w-12 h-8 md:h-12 md:w-24 lg:w-36 lg:h-24"
+                
                   />
                 </button>
               </Link>
+              </FadeIn>
+              <FadeIn
+              from="bottom"
+              positionOffset={200}
+              triggerOffset={0}
+              delayInMilliseconds={84}
+            >
               <Link
                 href={"https://rcciit.org/"}
                 className="flex items-center lg:items-end px-5"
               >
                 <button className="flex flex-row bg-transparent items-center hover:opacity-90 relative">
                   <Image
-                    width={112}
+                    width={200}
                     height={110}
                     alt="Register"
                     src="https://i.postimg.cc/CMnYpbGD/rcciit.png"
-                    className="w-20 md:w-24 lg:w-40"
                   />
                 </button>
               </Link>
+              </FadeIn>
             </div>
             <div className="flex flex-col gap-3 items-center">
               <div className="flex flex-row items-center justify-center">

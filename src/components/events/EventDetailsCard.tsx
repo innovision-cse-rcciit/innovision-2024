@@ -14,6 +14,8 @@ import { TiTick } from "react-icons/ti";
 import RulesModal from "./RulesModal";
 import { EVENT_CATEGORIES } from "@/utils/constants/event-categories";
 import { supabase } from "@/lib/supabase-client";
+import RegButton from "./RegButton";
+import Link from "next/link";
 const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   const [eventDetails, setEventDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -21,8 +23,6 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   const [openRules, setOpenRules] = useState<boolean>(false);
   const [throughPortal, setThroughPortal] = useState<boolean>(false);
   const [registeredEvent, setRegisteredEvent] = useState<boolean>(false);
-  const [submissionEntry, setSubmissionEntry] = useState<boolean>(false);
-  const [totalSubmission, setTotalSubmission] = useState<number>(1);
   const [openResult, setOpenResult] = useState(false);
   const [isForCSE, setIsForCSE] = useState<boolean>(true);
   const user = useUser((state) => state.user);
@@ -34,16 +34,51 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
     "08242c79-6478-478a-ad9b-4ed6d089c02d",
   ];
 
+  const formLinks = [
+    {
+      id: "08242c79-6478-478a-ad9b-4ed6d089c02d",
+      form: "https://forms.gle/Z1HvYLmv952DLSLeA",
+    },
+    {
+      id: "4506ea8e-c7b5-49dd-a856-60cd96713335",
+      form: "https://forms.gle/xmLY8inhQ6RjY3XK8",
+    },
+    {
+      id: "9cb652d2-5026-473b-b562-0bea0c036009",
+      form: "https://forms.gle/9mmFycEw93sbQDaC8",
+    },
+    {
+      id: "a4c6d277-d77e-45ca-9978-ed6e93337057",
+      form: "https://forms.gle/dmXBKNHzWPJiRViB6",
+    },
+    {
+      id: "efe69592-f939-4c62-bc9f-c3a8529d5d5a",
+      form: "https://forms.gle/2D9Zz482kWUiVMG3A",
+    },
+    {
+      id: "46d522e2-0135-4582-9d45-7f70c8e6fc32",
+      form: "https://techtrek.devfolio.co/",
+    },
+  ];
+
+  const [formLink, setFormLink] = useState<string>("");
+
+  useEffect(() => {
+    if (eventDetails && eventDetails?.register_through_portal === false) {
+      setThroughPortal(false);
+    } else {
+      setThroughPortal(true);
+    }
+  }, [eventDetails]);
+
   useEffect(() => {
     if (user) {
-      console.log(eventsForCSE.includes(eventId))
+      console.log(eventsForCSE.includes(eventId));
       if (user?.department === "CSE" && eventsForCSE.includes(eventId)) {
         setIsForCSE(true);
-      }
-      else if(!eventsForCSE.includes(eventId)){
+      } else if (!eventsForCSE.includes(eventId)) {
         setIsForCSE(true);
-      } 
-      else {
+      } else {
         setIsForCSE(false);
       }
     }
@@ -52,27 +87,20 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
   useEffect(() => {
     const fetchEvent = async () => {
       const registered: any = await checkIfRegistered(eventId, user!);
-      if (eventId === "08242c79-6478-478a-ad9b-4ed6d089c02d") {
-        const { data, error } = await supabase
-          .from("participants")
-          .select("*")
-          .eq("event_id", eventId)
-          .eq("email", user?.email!)
-          .eq("college_roll", user?.college_roll!);
-        console.log(data);
-        if (data!.length > 1) {
-          setSubmissionEntry(true);
-        }
-      }
+
       setRegisteredEvent(registered);
       const event = await getEventById(eventId);
-      setTotalSubmission(event?.file_submission ?? 1);
       setEventDetails(event);
 
+
+      if (!throughPortal) {
+        const matchedFormLink = formLinks.find((link) => link.id === eventId);
+        setFormLink(matchedFormLink?.form!);
+      }
       setLoading(false);
     };
     fetchEvent();
-  }, [eventId, user]);
+  }, [eventId, user, throughPortal]);
 
   useEffect(() => {
     if (openRegister && openRules && openResult) {
@@ -185,102 +213,77 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                 width={350}
                 className=" mx-auto rounded-2xl object-cover object-left-top"
               />
-              {isForCSE ? (
-                (eventId === "08242c79-6478-478a-ad9b-4ed6d089c02d"
-                  ? !submissionEntry
-                  : !registeredEvent) &&
-                eventDetails! &&
-                eventDetails!.is_open && (
-                  <button
-                    disabled={!eventDetails.is_open}
-                    onClick={async () => {
-                      if (!user) {
-                        login();
-                      }
-                      clickSound();
-                      if (eventDetails?.register_through_portal === false) {
-                        setThroughPortal(true);
-                        setOpenRegister(true);
-                      } else {
-                        setOpenRegister(true);
-                      }
-                    }}
-                    className="relative flex flex-row mx-auto items-center"
-                  >
-                    <Image
-                      width={100}
-                      height={40}
-                      src="https://i.postimg.cc/kXR0L9dy/Button.png"
-                      className="h-10 w-28 lg:h-14 lg:w-36 lg:text-sm"
-                      alt="Register Now"
-                    />
-                    <h1 className="absolute mx-3 lg:mx-5 font-Chakra_Petch text-[#B61B69] text-xs lg:text-sm font-bold">
-                      REGISTER NOW
-                    </h1>
-                  </button>
-                )
-              ) : (
-                <button
-                  onClick={() => {
-                    toast.success(
-                      "Only CSE Departments can register for this event !"
-                    );
-                  }}
-                  className="relative flex flex-row mx-auto items-center"
-                >
-                  <Image
-                    width={100}
-                    height={40}
-                    src="https://i.postimg.cc/kXR0L9dy/Button.png"
-                    className="h-10 w-28 lg:h-14 lg:w-36 lg:text-sm"
-                    alt="Events for CSE Only"
-                  />
-                  <h1 className="absolute mx-3 lg:mx-5 font-Chakra_Petch text-[#B61B69] text-xs lg:text-sm font-bold">
-                    Events for CSE Only
-                  </h1>
-                </button>
-              )}
-              {eventDetails?.result_out === true ? (
-                <button
-                  onClick={() => setOpenResult(true)}
-                  className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
-                  disabled={!eventDetails.result_out}
-                >
-                  <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
-                  <span className="text-md inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-12 py-5 font-medium tracking-wider text-white backdrop-blur-3xl md:text-sm lg:px-5 lg:py-3 lg:text-sm">
-                    Result
-                  </span>
-                </button>
-              ) : (
-                eventDetails?.is_open === false && (
-                  <button
-                    onClick={() => {
-                      toast("Register Soon !", { icon: "🚫" });
-                    }}
-                    className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
-                    disabled={!eventDetails.is_open}
-                  >
-                    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
-                    <span className="text-md inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-12 py-5 font-medium tracking-wider text-white backdrop-blur-3xl md:text-sm lg:px-5 lg:py-3 lg:text-sm">
-                      Register Soon
-                    </span>
-                  </button>
-                )
-              )}
-              {(eventId === "08242c79-6478-478a-ad9b-4ed6d089c02d"
-                ? submissionEntry
-                : registeredEvent) && (
-                <button
-                  className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
-                  onClick={() => {}}
-                >
-                  <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
-                  <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white backdrop-blur-3xl md:text-sm lg:text-sm">
-                    Already Registered
-                    <TiTick size={24} />
-                  </span>
-                </button>
-              )}
+              {
+  eventDetails?.result_out ? (
+    <button
+      onClick={() => setOpenResult(true)}
+      className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
+    >
+      <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
+      <span className="text-md inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-12 py-5 font-medium tracking-wider text-white backdrop-blur-3xl md:text-sm lg:px-5 lg:py-3 lg:text-sm">
+        Result
+      </span>
+    </button>
+  ) : eventDetails?.is_open ? (
+    isForCSE ? (
+      !registeredEvent && !throughPortal ? (
+        <Link href={formLink!} target="_blank">
+          <RegButton eventDetails={eventDetails} onClick={() => {}} />
+        </Link>
+      ) : ( !registeredEvent &&
+        <RegButton
+          eventDetails={eventDetails}
+          onClick={async () => {
+            if (!user) login();
+            clickSound();
+            setOpenRegister(true);
+          }}
+        />
+      )
+    ) : (
+      <button
+        onClick={() => toast.success("Only CSE Departments can register for this event!")}
+        className="relative flex flex-row mx-auto items-center"
+      >
+        <Image
+          width={100}
+          height={40}
+          src="https://i.postimg.cc/kXR0L9dy/Button.png"
+          className="h-10 w-28 lg:h-14 lg:w-36 lg:text-sm"
+          alt="Events for CSE Only"
+        />
+        <h1 className="absolute mx-3 lg:mx-5 font-Chakra_Petch text-[#B61B69] text-xs lg:text-sm font-bold">
+          Events for CSE Only
+        </h1>
+      </button>
+    )
+  ) : (
+    <button
+      onClick={() => toast("Registration Closed !", { icon: "🚫" })}
+      className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
+      disabled
+    >
+      <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
+      <span className="text-md inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-12 py-5 font-medium tracking-wider text-white backdrop-blur-3xl md:text-sm lg:px-5 lg:py-3 lg:text-sm">
+        Registration Closed
+      </span>
+    </button>
+  )
+}
+
+{registeredEvent && (
+  <button
+    className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
+    onClick={() => {}}
+  >
+    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
+    <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white backdrop-blur-3xl md:text-sm lg:text-sm">
+      Already Registered
+      <TiTick size={24} />
+    </span>
+  </button>
+)}
+
             </div>
           </div>
           <EventRegForm

@@ -15,11 +15,11 @@ const TeamCard = ({ name, role, imageUrl }: { name: string, role: string, imageU
           className="h-52 w-52 rounded-full object-cover border-4 border-regalia dark:border-zinc-900"
         //   onLoad={() => setLoaded(true)}
         />
-        <p className="mb-2 mt-6  font-hollirood text-center tracking-widest text-base text-white dark:text-neutral-200 sm:text-xl">
+        <p className="mb-2 mt-6 text-center tracking-widest text-base text-white dark:text-neutral-200 sm:text-xl font-Chakra_Petch font-semibold uppercase">
           {name}
         </p>
 
-        <p className="text-md text-center text-wrap text-neutral-300 font-hollirood tracking-widest dark:text-neutral-400">{role || "Member"}</p>
+        <p className="text-md sm:text-lg text-center text-wrap text-neutral-300 font-Chakra_Petch tracking-widest dark:text-neutral-400">{role || "Member"}</p>
       </div>
     </div>
   )

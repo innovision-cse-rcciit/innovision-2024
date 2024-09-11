@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import Heading from "../common/Heading";
 
 const About = () => {
   return (
@@ -18,8 +19,8 @@ const About = () => {
           
         </div>
         <div className="w-full md:w-1/2 mt-8 md:mt-0 text-left md:pl-12">
-          <h2 className="text-3xl md:text-4xl font-semibold mb-4">ABOUT US</h2>
-          <p className="leading-relaxed text-sm md:text-base">
+          <Heading text="ABOUT US" />
+          <p className="leading-relaxed text-sm md:text-xl mt-5">
             INNOVISION 2024, the highly anticipated fest by the CSE Department
             of RCCIIT, celebrates creativity, technology, and innovation. It
             offers a dynamic platform for students to showcase their skills
