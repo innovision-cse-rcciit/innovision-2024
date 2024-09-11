@@ -55,19 +55,19 @@ const Event = () => {
             <TabsList className="grid font-Chakra_Petch w-11/12 md:w-3/4 xl:w-1/2 grid-cols-3 font-semibold rounded-3xl h-14 bg-[#FFFFFF1A]">
               <TabsTrigger
                 value="technical"
-                className="h-12 text-white data-[state=active]:bg-[#B51C69] text-xl font-semibold data-[state=active]:text-white rounded-3xl"
+                className="h-12 text-white data-[state=active]:bg-[#B51C69] lg:text-xl font-semibold data-[state=active]:text-white rounded-3xl"
               >
                 TECHNICAL
               </TabsTrigger>
               <TabsTrigger
                 value="gaming"
-                className="h-12 text-white data-[state=active]:bg-[#B51C69] text-xl font-semibold data-[state=active]:text-white rounded-3xl"
+                className="h-12 text-white data-[state=active]:bg-[#B51C69] lg:text-xl font-semibold data-[state=active]:text-white rounded-3xl"
               >
                 GAMING
               </TabsTrigger>
               <TabsTrigger
                 value="non-technical"
-                className="h-12 text-white data-[state=active]:bg-[#B51C69] text-xl font-semibold data-[state=active]:text-white rounded-3xl"
+                className="h-12 text-white data-[state=active]:bg-[#B51C69] lg:text-xl font-semibold data-[state=active]:text-white rounded-3xl"
               >
                 NON-TECHNICAL
               </TabsTrigger>

@@ -230,7 +230,7 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
         <Link href={formLink!} target="_blank">
           <RegButton eventDetails={eventDetails} onClick={() => {}} />
         </Link>
-      ) : (
+      ) : ( !registeredEvent &&
         <RegButton
           eventDetails={eventDetails}
           onClick={async () => {

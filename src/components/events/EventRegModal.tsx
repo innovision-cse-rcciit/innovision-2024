@@ -336,9 +336,9 @@ const EventRegForm = ({
           <div
             className={`rounded-lg border-y-2 border-[#B51C69] bg-body p-4 ${
               throughPortal
-                ? "h-[80vh] md:h-[70vh]"
+                ? "h-[60vh] md:h-[70vh]"
                 : maxTeamMember > 1
-                ? "h-[80vh] md:h-[60vh]"
+                ? "h-[70vh] md:h-[60vh]"
                 : "h-auto"
             }   flex w-[95%]  flex-col items-start lg:w-[60%] 2xl:w-[50%] lg:px-32 lg:py-8`}
             style={{ background: 'url("/events/Background-img.png")' }}
