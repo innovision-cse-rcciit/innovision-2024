@@ -300,6 +300,12 @@ export const teams = [
         image: "https://i.postimg.cc/tR1xJkc0/ROMIT-GUHA.jpg",
       },
       {
+        name: "Swastika Tikader",
+        role: "Valorant : Coordinator",
+        image:
+          "https://i.postimg.cc/15HnynkK/Whats-App-Image-2024-09-08-at-17-29-06.jpg",
+      },
+      {
         name: "Rudravo Das",
         role: "E-Football (PES) : Coordinator",
         image: "https://i.postimg.cc/nzXCsV0K/RUDRAVO-DAS.jpg",
