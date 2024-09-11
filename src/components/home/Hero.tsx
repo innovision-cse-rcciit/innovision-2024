@@ -32,7 +32,7 @@ const LandingPage = () => {
             </div>
             <div className="flex flex-col gap-2 items-center lg:items-end px-5">
               <h1 className="text-white font-semibold text-md md:text-xl text-center">
-                THE ANNUAL DEPARTMENTAL FEST OF CSE DEPARTMENT
+                THE ANNUAL DEPARTMENTAL FEST OF CSE DEPARTMENT (NBA ACCREDITED)
               </h1>
               <Link href={"/events"}>
                 <button className="flex flex-row bg-transparent items-center hover:opacity-90 relative">
@@ -51,16 +51,44 @@ const LandingPage = () => {
             </div>
             <div className="flex flex-row items-center">
               <Link
-                href={"https://www.nbaind.org/"}
+                href={"https://www.education.gov.in/"}
                 className="flex items-center lg:items-end px-5"
               >
                 <button className="flex flex-row bg-transparent items-center hover:opacity-90 relative">
                   <Image
-                    width={112}
+                    width={90}
                     height={110}
                     alt="Register"
-                    src="https://i.postimg.cc/R0P94Rp1/nba.png"
-                    className="w-20 h-16 md:h-20 md:w-30 lg:w-52 lg:h-36"
+                    src="https://i.postimg.cc/JzyBVdSr/logo.jpg"
+                    className="w-12 h-16 md:h-20 md:w-24 lg:w-36 lg:h-36"
+                  />
+                </button>
+              </Link>
+              <Link
+                href={"https://www.aicte-india.org/"}
+                className="flex items-center lg:items-end px-5"
+              >
+                <button className="flex flex-row bg-transparent items-center hover:opacity-90 relative">
+                  <Image
+                    width={90}
+                    height={110}
+                    alt="Register"
+                    src="https://i.postimg.cc/MT0Q3MN1/aicte.jpg"
+                    className="w-12 h-16 md:h-20 md:w-24 lg:w-36 lg:h-36"
+                  />
+                </button>
+              </Link>
+              <Link
+                href={"https://iic.mic.gov.in/login"}
+                className="flex items-center lg:items-end px-5"
+              >
+                <button className="flex flex-row bg-transparent items-center hover:opacity-90 relative">
+                  <Image
+                    width={90}
+                    height={110}
+                    alt="Register"
+                    src="https://i.postimg.cc/jSM0PtXc/iic.png"
+                    className="w-12 h-16 md:h-20 md:w-24 lg:w-36 lg:h-36"
                   />
                 </button>
               </Link>
@@ -114,7 +142,7 @@ const LandingPage = () => {
                 ))}
               </div>
               <div className="text-[#DAD7D9] text-2xl lg:text-3xl keania-one-regular">
-                {`${day} ${month}, ${year}`}
+                18th - 19th September 2024
               </div>
             </div>
           </div>
