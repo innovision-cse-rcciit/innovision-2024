@@ -7,6 +7,7 @@ import { useUser } from "@/lib/store/user";
 import { validateReg } from "@/utils/functions/validateReg";
 import { eventReg } from "@/utils/functions/eventReg";
 import toast, { Toaster } from "react-hot-toast";
+import Compressor from 'compressorjs';
 import DevfolioButton from "./DevfolioButton";
 
 const fileTypesByEvent = {
@@ -99,10 +100,27 @@ const EventRegForm = ({
   ) => {
     let selectedFiles =
       maxFiles > 1 ? Array.from(e.target.files) : [e.target.files[0]];
+      
     if (selectedFiles.length > maxFiles) {
       selectedFiles = selectedFiles.slice(0, maxFiles);
     }
-    setFile(selectedFiles);
+  
+    const compressedFiles: any[] = []; 
+  
+    selectedFiles.forEach((file) => {
+      new Compressor(file, {
+        quality: 0.6,
+        success: (compressedResult:any) => {
+          console.log(compressedResult);
+          compressedResult.name = file.name;
+          compressedFiles.push(compressedResult); 
+  
+          if (compressedFiles.length === selectedFiles.length) {
+            setFile(compressedFiles); 
+          }
+        },
+      });
+    });
   };
 
   const handleExtraMainChange = (

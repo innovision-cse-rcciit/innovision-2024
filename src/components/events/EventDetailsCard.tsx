@@ -255,14 +255,14 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
                 eventDetails?.is_open === false && (
                   <button
                     onClick={() => {
-                      toast("Registration Closed !", { icon: "🚫" });
+                      toast("Register Soon !", { icon: "🚫" });
                     }}
                     className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
                     disabled={!eventDetails.is_open}
                   >
                     <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
                     <span className="text-md inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-12 py-5 font-medium tracking-wider text-white backdrop-blur-3xl md:text-sm lg:px-5 lg:py-3 lg:text-sm">
-                      Registration Closed
+                      Register Soon
                     </span>
                   </button>
                 )
