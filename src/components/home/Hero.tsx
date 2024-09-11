@@ -14,7 +14,7 @@ const LandingPage = () => {
       style={{ backgroundImage: "url('/Landing/Future_landing_page.png')" }}
     >
       <div className="flex items-center justify-center my-auto mx-auto h-full">
-        <div className="rounded-xl backdrop-blur-sm flex flex-row md:pt-10 hover:backdrop-blur-none cursor-pointer flex-wrap border-2 border-white w-[90%]  md:w-4/5 h-4/5 transform -translate-y-1/6 gap-4 items-center justify-around  ">
+        <div className="rounded-xl backdrop-blur-sm flex flex-row md:pt-10 hover:backdrop-blur-none cursor-pointer flex-wrap border-2 border-white w-[90%]  md:w-4/5 h-auto md:h-4/5 lg:h-[90%] 2xl:h-4/5 transform -translate-y-1/6 gap-4 items-center justify-around  ">
           <div className="absolute left-10 top-10 max-md:hidden">
             <Image height={40} width={40} src="/Landing/arrow.png" alt="Logo" />
           </div>
