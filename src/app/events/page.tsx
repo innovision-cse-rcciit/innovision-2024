@@ -10,6 +10,7 @@ import {
 import { getAllEvents } from "@/utils/functions/getAllEvents";
 import EventCard from "@/components/events/EventCard";
 import EventsHeading from "@/components/events/EventsHeading";
+import Heading from "@/components/common/Heading";
 
 const Event = () => {
   const [allEvents, setAllEvents] = useState<Event[]>([]);
@@ -48,27 +49,27 @@ const Event = () => {
           backgroundAttachment: "fixed",
         }}
       >
-        <EventsHeading />
-        <Tabs defaultValue="technical" className="w-full">
+       <Heading text="EVENTS" />
+        <Tabs defaultValue="technical" className="w-full mt-5">
           <div className="flex justify-center w-full pb-12">
-            <TabsList className="grid w-11/12 md:w-3/4 xl:w-1/2 grid-cols-3 rounded-3xl h-14 bg-[#FFFFFF1A]">
+            <TabsList className="grid font-Chakra_Petch w-11/12 md:w-3/4 xl:w-1/2 grid-cols-3 font-semibold rounded-3xl h-14 bg-[#FFFFFF1A]">
               <TabsTrigger
                 value="technical"
-                className="h-12 text-white data-[state=active]:bg-[#B51C69] data-[state=active]:text-white rounded-3xl"
+                className="h-12 text-white data-[state=active]:bg-[#B51C69] text-xl font-semibold data-[state=active]:text-white rounded-3xl"
               >
-                Technical
+                TECHNICAL
               </TabsTrigger>
               <TabsTrigger
                 value="gaming"
-                className="h-12 text-white data-[state=active]:bg-[#B51C69] data-[state=active]:text-white rounded-3xl"
+                className="h-12 text-white data-[state=active]:bg-[#B51C69] text-xl font-semibold data-[state=active]:text-white rounded-3xl"
               >
-                Gaming
+                GAMING
               </TabsTrigger>
               <TabsTrigger
                 value="non-technical"
-                className="h-12 text-white data-[state=active]:bg-[#B51C69] data-[state=active]:text-white rounded-3xl"
+                className="h-12 text-white data-[state=active]:bg-[#B51C69] text-xl font-semibold data-[state=active]:text-white rounded-3xl"
               >
-                Non-Technical
+                NON-TECHNICAL
               </TabsTrigger>
             </TabsList>
           </div>

@@ -4,7 +4,6 @@ import path from 'path';
 import { Readable } from 'stream';
 import { CONTENT_TYPES } from '../constants/wall-events';
 
-
 async function findOrCreateFolder(folderName: string, drive: any): Promise<string> {
     try {
         const response = await drive.files.list({
