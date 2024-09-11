@@ -7,8 +7,7 @@ import { useUser } from "@/lib/store/user";
 import { validateReg } from "@/utils/functions/validateReg";
 import { eventReg } from "@/utils/functions/eventReg";
 import toast, { Toaster } from "react-hot-toast";
-import Compressor from 'compressorjs';
-import DevfolioButton from "./DevfolioButton";
+import Compressor from "compressorjs";
 
 const fileTypesByEvent = {
   "efe69592-f939-4c62-bc9f-c3a8529d5d5a":
@@ -100,23 +99,23 @@ const EventRegForm = ({
   ) => {
     let selectedFiles =
       maxFiles > 1 ? Array.from(e.target.files) : [e.target.files[0]];
-      
+
     if (selectedFiles.length > maxFiles) {
       selectedFiles = selectedFiles.slice(0, maxFiles);
     }
-  
-    const compressedFiles: any[] = []; 
-  
+
+    const compressedFiles: any[] = [];
+
     selectedFiles.forEach((file) => {
       new Compressor(file, {
         quality: 0.6,
-        success: (compressedResult:any) => {
+        success: (compressedResult: any) => {
           console.log(compressedResult);
           compressedResult.name = file.name;
-          compressedFiles.push(compressedResult); 
-  
+          compressedFiles.push(compressedResult);
+
           if (compressedFiles.length === selectedFiles.length) {
-            setFile(compressedFiles); 
+            setFile(compressedFiles);
           }
         },
       });
@@ -185,20 +184,24 @@ const EventRegForm = ({
   };
 
   const addParticipant = () => {
-    const newParticipant: any = {
-      phone: "",
-      name: "",
-      email: "",
-      roll: "",
-    };
-    requirement.forEach((req: any) => {
-      const fieldKey = req.toLowerCase().replace(/ /g, "_");
-      newParticipant[fieldKey] = "";
+    setParticipants((prevParticipants: any) => {
+      const newParticipant: any = {
+        name: "",
+        email: "",
+        phone: "",
+        roll: "",
+        extra: {},
+      };
+
+      if (eventDetails?.requirements?.length > 0) {
+        eventDetails?.requirements.forEach((req: any) => {
+          const fieldKey = req.toLowerCase().replace(/ /g, "_");
+          newParticipant.extra[fieldKey] = "";
+        });
+      }
+
+      return [...prevParticipants, newParticipant];
     });
-    setParticipants((prevParticipants: any) => [
-      ...prevParticipants,
-      newParticipant,
-    ]);
   };
 
   const removeParticipant = (index: number) => {
@@ -210,7 +213,6 @@ const EventRegForm = ({
   const [generalErrors, setGeneralErrors] = useState<any>({});
   const [teamErrors, setTeamErrors] = useState<any>({});
   const [fileSubmission, setFileSubmission] = useState<boolean>(false);
-  console.log(file);
   let teamMemberCountError = "";
   const handleSubmit = async () => {
     clickSound();
@@ -261,7 +263,7 @@ const EventRegForm = ({
       toast.error("Registration Failed !");
     }
   };
-  console.log(inputs);
+
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -334,11 +336,11 @@ const EventRegForm = ({
           <div
             className={`rounded-lg border-y-2 border-[#B51C69] bg-body p-4 ${
               throughPortal
-                ? "h-auto"
-                : maxTeamMember > 1
                 ? "h-[80vh] md:h-[70vh]"
-                : ""
-            }   flex w-[95%] flex-col items-start lg:w-[60%] 2xl:w-[50%] lg:px-32 lg:py-8`}
+                : maxTeamMember > 1
+                ? "h-[80vh] md:h-[60vh]"
+                : "h-auto"
+            }   flex w-[95%]  flex-col items-start lg:w-[60%] 2xl:w-[50%] lg:px-32 lg:py-8`}
             style={{ background: 'url("/events/Background-img.png")' }}
           >
             <div className="mb-2 flex w-full flex-row items-center justify-between">
@@ -355,376 +357,358 @@ const EventRegForm = ({
                 X
               </h2>
             </div>
+            <div className="flex w-full flex-col items-start gap-4  overflow-x-hidden overflow-y-scroll pt-2 text-sm lg:text-lg">
+              <FormElement
+                type="text"
+                disabled={maxTeamMember > 1 ? false : true}
+                name={maxTeamMember > 1 ? "Team Name" : "Name"}
+                value={inputs.teamName}
+                id="teamName"
+                onChange={handleInputChange}
+                width="100%"
+              />
+              <h1 className="text-xs font-semibold text-red-600">
+                {generalErrors.teamName}
+              </h1>
+              <FormElement
+                type="number"
+                disabled={maxTeamMember > 1 ? true : true}
+                name={maxTeamMember > 1 ? "Team Lead Phone" : "Phone"}
+                value={inputs.teamLeadPhone}
+                id="teamLeadPhone"
+                onChange={handleInputChange}
+                width="100%"
+              />
+              <h1 className="text-xs font-semibold text-red-600">
+                {generalErrors.teamLeadPhone}
+              </h1>
 
-            {throughPortal ? (
-              <div className="flex flex-col items-center justify-center mx-auto gap-2">
-                <div
-                  className="apply-button"
-                  data-hackathon-slug="techtrek"
-                  data-button-theme="light"
-                  style={{ height: "44px", width: "312px" }}
-                >
-                  <DevfolioButton />
-                </div>
-              </div>
-            ) : (
-              <div className="flex w-full flex-col items-start gap-4  overflow-x-hidden overflow-y-scroll pt-2 text-sm lg:text-lg">
+              {maxTeamMember > 1 && (
                 <FormElement
                   type="text"
-                  disabled={maxTeamMember > 1 ? false : true}
-                  name={maxTeamMember > 1 ? "Team Name" : "Name"}
-                  value={inputs.teamName}
-                  id="teamName"
-                  onChange={handleInputChange}
-                  width="100%"
-                />
-                <h1 className="text-xs font-semibold text-red-600">
-                  {generalErrors.teamName}
-                </h1>
-                <FormElement
-                  type="number"
                   disabled={maxTeamMember > 1 ? true : true}
-                  name={maxTeamMember > 1 ? "Team Lead Phone" : "Phone"}
-                  value={inputs.teamLeadPhone}
-                  id="teamLeadPhone"
+                  name={maxTeamMember > 1 ? "Team Lead Name" : "Name"}
+                  value={inputs.teamLeadName}
+                  id="teamLeadName"
                   onChange={handleInputChange}
                   width="100%"
                 />
-                <h1 className="text-xs font-semibold text-red-600">
-                  {generalErrors.teamLeadPhone}
-                </h1>
+              )}
+              <h1 className="text-xs font-semibold text-red-600">
+                {generalErrors.teamLeadName}
+              </h1>
+              <FormElement
+                type="email"
+                disabled={maxTeamMember > 1 ? true : true}
+                name={maxTeamMember > 1 ? "Team Lead Email" : "Email"}
+                value={inputs.teamLeadEmail}
+                id="teamLeadEmail"
+                onChange={handleInputChange}
+                width="100%"
+              />
+              <h1 className="text-xs font-semibold text-red-600">
+                {generalErrors.teamLeadEmail}
+              </h1>
 
-                {maxTeamMember > 1 && (
-                  <FormElement
-                    type="text"
-                    disabled={maxTeamMember > 1 ? true : true}
-                    name={maxTeamMember > 1 ? "Team Lead Name" : "Name"}
-                    value={inputs.teamLeadName}
-                    id="teamLeadName"
-                    onChange={handleInputChange}
-                    width="100%"
+              <FormElement
+                type="text"
+                disabled={maxTeamMember > 1 ? true : true}
+                name={maxTeamMember > 1 ? "Team Lead Roll" : "College Roll"}
+                value={inputs.teamLeadRoll}
+                id="teamLeadRoll"
+                onChange={handleInputChange}
+                width="100%"
+              />
+              <h1 className="text-xs font-semibold text-red-600">
+                {generalErrors.teamLeadRoll}
+              </h1>
+
+              {fileSubmission && (
+                <div className="flex w-full flex-row flex-wrap text-white items-center gap-2 text-xl">
+                  <label
+                    htmlFor="file"
+                    id="glow"
+                    className="font-semibold tracking-widest"
+                  >
+                    Submission:
+                  </label>
+                  <input
+                    type="file"
+                    id="file"
+                    accept={
+                      fileTypesByEvent[eventId as keyof typeof fileTypesByEvent]
+                    }
+                    multiple={maxFiles > 1}
+                    max={maxFiles}
+                    className="bg-transparent font-Chakra_Petch font-semibold tracking-widest text-white"
+                    onChange={handleFileChange}
                   />
-                )}
-                <h1 className="text-xs font-semibold text-red-600">
-                  {generalErrors.teamLeadName}
-                </h1>
-                <FormElement
-                  type="email"
-                  disabled={maxTeamMember > 1 ? true : true}
-                  name={maxTeamMember > 1 ? "Team Lead Email" : "Email"}
-                  value={inputs.teamLeadEmail}
-                  id="teamLeadEmail"
-                  onChange={handleInputChange}
-                  width="100%"
-                />
-                <h1 className="text-xs font-semibold text-red-600">
-                  {generalErrors.teamLeadEmail}
-                </h1>
+                  <h1 className="text-xs font-semibold text-red-600">
+                    {generalErrors.file}
+                  </h1>
 
-                <FormElement
-                  type="text"
-                  disabled={maxTeamMember > 1 ? true : true}
-                  name={maxTeamMember > 1 ? "Team Lead Roll" : "College Roll"}
-                  value={inputs.teamLeadRoll}
-                  id="teamLeadRoll"
-                  onChange={handleInputChange}
-                  width="100%"
-                />
-                <h1 className="text-xs font-semibold text-red-600">
-                  {generalErrors.teamLeadRoll}
-                </h1>
-
-                {fileSubmission && (
-                  <div className="flex w-full flex-row flex-wrap text-white items-center gap-2 text-xl">
-                    <label
-                      htmlFor="file"
-                      id="glow"
-                      className="font-semibold tracking-widest"
-                    >
-                      Submission:
-                    </label>
-                    <input
-                      type="file"
-                      id="file"
-                      accept={
-                        fileTypesByEvent[
-                          eventId as keyof typeof fileTypesByEvent
-                        ]
-                      }
-                      multiple={maxFiles > 1}
-                      max={maxFiles}
-                      className="bg-transparent font-Chakra_Petch font-semibold tracking-widest text-white"
-                      onChange={handleFileChange}
-                    />
-                    <h1 className="text-xs font-semibold text-red-600">
-                      {generalErrors.file}
-                    </h1>
-
-                    <div className="flex flex-col w-full text-lg items-center justify-start gap-2">
-                      {file &&
-                        Array.isArray(file) &&
-                        file.length > 0 &&
-                        file.map((f: any, index: number) => (
-                          <h1
-                            key={index}
-                            className=" flex flex-row w-full gap-5 font-semibold text-white"
+                  <div className="flex flex-col w-full text-lg items-center justify-start gap-2">
+                    {file &&
+                      Array.isArray(file) &&
+                      file.length > 0 &&
+                      file.map((f: any, index: number) => (
+                        <h1
+                          key={index}
+                          className=" flex flex-row w-full gap-5 font-semibold text-white"
+                        >
+                          <span>{f.name}</span>
+                          <button
+                            onClick={() => {
+                              setFile((prevFile: any) => {
+                                const updatedFile = [...prevFile];
+                                updatedFile.splice(index, 1);
+                                return updatedFile;
+                              });
+                              if (file.length == 0) {
+                                setFile(null);
+                              }
+                            }}
+                            className="bg-red-500 text-white rounded-xl"
                           >
-                            <span>{f.name}</span>
-                            <button
-                              onClick={() => {
-                                setFile((prevFile: any) => {
-                                  const updatedFile = [...prevFile];
-                                  updatedFile.splice(index, 1);
-                                  return updatedFile;
-                                });
-                                if (file.length == 0) {
-                                  setFile(null);
-                                }
-                              }}
-                              className="bg-red-500 text-white rounded-xl"
-                            >
-                              X
-                            </button>
-                          </h1>
-                        ))}
-                    </div>
-                  </div>
-                )}
-
-                {maxTeamMember === 1 &&
-                  requirement?.map((req: any, reqIndex: number) => {
-                    return (
-                      <div key={reqIndex}>
-                        <FormElement
-                          type="text"
-                          name={req}
-                          value={
-                            inputs?.extra[
-                              req.toLowerCase().replace(/ /g, "_")
-                            ] || ""
-                          }
-                          id={req.toLowerCase().replace(/ /g, "_")}
-                          onChange={(e) => {
-                            handleExtraMainChange(e);
-                          }}
-                          width="100%"
-                        />
-                        <h1 className="text-xs font-semibold text-red-600">
-                          {generalErrors[req]}
+                            X
+                          </button>
                         </h1>
-                      </div>
-                    );
-                  })}
+                      ))}
+                  </div>
+                </div>
+              )}
 
-                {maxTeamMember > 1 && (
-                  <div className="flex flex-col items-center gap-5">
-                    <h1 id="glow" className="font-semibold text-[#B51C69]">
-                      {"Add Team Participants".toUpperCase()}
-                    </h1>
-                    {teamMemberCountError !== "" && (
+              {maxTeamMember === 1 &&
+                requirement?.map((req: any, reqIndex: number) => {
+                  return (
+                    <div key={reqIndex}>
+                      <FormElement
+                        type="text"
+                        name={req}
+                        value={
+                          inputs?.extra[req.toLowerCase().replace(/ /g, "_")] ||
+                          ""
+                        }
+                        id={req.toLowerCase().replace(/ /g, "_")}
+                        onChange={(e) => {
+                          handleExtraMainChange(e);
+                        }}
+                        width="100%"
+                      />
                       <h1 className="text-xs font-semibold text-red-600">
-                        {teamMemberCountError}
+                        {generalErrors[req]}
                       </h1>
-                    )}
-                    {participants.map((participant: any, index: number) => (
-                      <div
-                        key={index}
-                        className="flex flex-row   flex-wrap items-center gap-10 rounded-lg border-2  border-[#B51C69] px-10 py-2 pb-5 text-sm"
-                      >
-                        <div className="flex flex-col  items-start gap-2">
-                          <label
-                            htmlFor=""
-                            id="glow"
-                            className=" text-[#B51C69]  font-semibold tracking-widest"
-                          >
-                            {(index == 0
-                              ? "Team Lead"
-                              : `Person ${index + 1}`
-                            ).toUpperCase()}
-                          </label>
+                    </div>
+                  );
+                })}
 
-                          <div className="flex flex-col items-start gap-3">
-                            <div className="flex flex-row flex-wrap gap-2 font-semibold">
-                              <label
-                                htmlFor="email"
-                                id="glow"
-                                className="text-[#B51C69] tracking-widest"
+              {maxTeamMember > 1 && (
+                <div className="flex flex-col items-center gap-5">
+                  <h1 id="glow" className="font-semibold text-[#B51C69]">
+                    {"Add Team Participants".toUpperCase()}
+                  </h1>
+                  {teamMemberCountError !== "" && (
+                    <h1 className="text-xs font-semibold text-red-600">
+                      {teamMemberCountError}
+                    </h1>
+                  )}
+                  {participants.map((participant: any, index: number) => (
+                    <div
+                      key={index}
+                      className="flex flex-row   flex-wrap items-center gap-10 rounded-lg border-2  border-[#B51C69] px-10 py-2 pb-5 text-sm"
+                    >
+                      <div className="flex flex-col  items-start gap-2">
+                        <label
+                          htmlFor=""
+                          id="glow"
+                          className=" text-[#B51C69]  font-semibold tracking-widest"
+                        >
+                          {(index == 0
+                            ? "Team Lead"
+                            : `Person ${index + 1}`
+                          ).toUpperCase()}
+                        </label>
+
+                        <div className="flex flex-col items-start gap-3">
+                          <div className="flex flex-row flex-wrap gap-2 font-semibold">
+                            <label
+                              htmlFor="email"
+                              id="glow"
+                              className="text-[#B51C69] tracking-widest"
+                            >
+                              EMAIL :
+                            </label>
+                            <input
+                              type="text"
+                              id="email"
+                              value={
+                                index == 0
+                                  ? (participant.email = inputs.teamLeadEmail)
+                                  : participant.email
+                              }
+                              disabled={index == 0 ? true : false}
+                              onChange={(e) =>
+                                handleEmailChange(index, e.target.value)
+                              }
+                              className="w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full"
+                            />
+                            {teamErrors && teamErrors[index] && (
+                              <h1 className="text-xs font-semibold text-red-600">
+                                {teamErrors[index].email}
+                              </h1>
+                            )}
+                          </div>
+
+                          <div className="flex flex-row flex-wrap gap-2 font-semibold">
+                            <label
+                              htmlFor="email"
+                              id="glow"
+                              className="text-[#B51C69] tracking-widest"
+                            >
+                              COLLEGE ROLL :
+                            </label>
+                            <input
+                              type="text"
+                              id="email"
+                              value={
+                                index == 0
+                                  ? (participant.roll = inputs.teamLeadRoll)
+                                  : participant.roll
+                              }
+                              disabled={index == 0 ? true : false}
+                              onChange={(e) =>
+                                handleRollChange(index, e.target.value)
+                              }
+                              className="w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full"
+                            />
+                            {teamErrors && teamErrors[index] && (
+                              <h1 className="text-xs font-semibold text-red-600">
+                                {teamErrors[index].roll}
+                              </h1>
+                            )}
+                          </div>
+
+                          {requirement?.map((req: any, reqIndex: number) => {
+                            return (
+                              <div
+                                key={reqIndex}
+                                className="flex flex-row flex-wrap gap-2 font-semibold"
                               >
-                                EMAIL :
-                              </label>
-                              <input
-                                type="text"
-                                id="email"
-                                value={
-                                  index == 0
-                                    ? (participant.email = inputs.teamLeadEmail)
-                                    : participant.email
-                                }
-                                disabled={index == 0 ? true : false}
-                                onChange={(e) =>
-                                  handleEmailChange(index, e.target.value)
-                                }
-                                className="w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full"
-                              />
-                              {teamErrors && teamErrors[index] && (
-                                <h1 className="text-xs font-semibold text-red-600">
-                                  {teamErrors[index].email}
-                                </h1>
-                              )}
-                            </div>
-
-                            <div className="flex flex-row flex-wrap gap-2 font-semibold">
-                              <label
-                                htmlFor="email"
-                                id="glow"
-                                className="text-[#B51C69] tracking-widest"
-                              >
-                                COLLEGE ROLL :
-                              </label>
-                              <input
-                                type="text"
-                                id="email"
-                                value={
-                                  index == 0
-                                    ? (participant.roll = inputs.teamLeadRoll)
-                                    : participant.roll
-                                }
-                                disabled={index == 0 ? true : false}
-                                onChange={(e) =>
-                                  handleRollChange(index, e.target.value)
-                                }
-                                className="w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full"
-                              />
-                              {teamErrors && teamErrors[index] && (
-                                <h1 className="text-xs font-semibold text-red-600">
-                                  {teamErrors[index].roll}
-                                </h1>
-                              )}
-                            </div>
-
-                            {requirement?.map((req: any, reqIndex: number) => {
-                              return (
-                                <div
-                                  key={reqIndex}
-                                  className="flex flex-row flex-wrap gap-2 font-semibold"
+                                <label
+                                  id="glow"
+                                  htmlFor={req.toLowerCase().replace(/ /g, "_")}
+                                  className="text-[#B51C69] tracking-widest"
                                 >
-                                  <label
-                                    id="glow"
-                                    htmlFor={req
-                                      .toLowerCase()
-                                      .replace(/ /g, "_")}
-                                    className="text-[#B51C69] tracking-widest"
-                                  >
-                                    {req.toUpperCase()} :
-                                  </label>
-                                  <input
-                                    type="text"
-                                    id={req.toLowerCase().replace(/ /g, "_")}
-                                    value={
-                                      participant.extra[
-                                        req.toLowerCase().replace(/ /g, "_")
-                                      ] || ""
-                                    }
-                                    onChange={(e) =>
-                                      handleExtraChange(
-                                        index,
-                                        req.toLowerCase().replace(/ /g, "_"),
-                                        e.target.value
-                                      )
-                                    }
-                                    className="w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full"
-                                  />
-                                  {teamErrors && teamErrors[index] && (
-                                    <h1 className="text-xs font-semibold text-red-600">
-                                      {teamErrors[index].req}
-                                    </h1>
-                                  )}
-                                </div>
-                              );
-                            })}
+                                  {req.toUpperCase()} :
+                                </label>
+                                <input
+                                  type="text"
+                                  id={req.toLowerCase().replace(/ /g, "_")}
+                                  value={
+                                    participant.extra[
+                                      req.toLowerCase().replace(/ /g, "_")
+                                    ] || ""
+                                  }
+                                  onChange={(e) =>
+                                    handleExtraChange(
+                                      index,
+                                      req.toLowerCase().replace(/ /g, "_"),
+                                      e.target.value
+                                    )
+                                  }
+                                  className="w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full"
+                                />
+                                {teamErrors && teamErrors[index] && (
+                                  <h1 className="text-xs font-semibold text-red-600">
+                                    {teamErrors[index].req}
+                                  </h1>
+                                )}
+                              </div>
+                            );
+                          })}
 
-                            <div className="flex flex-row flex-wrap gap-2 font-semibold">
-                              <label
-                                htmlFor="name"
-                                id="glow"
-                                className="text-[#B51C69] tracking-widest"
-                              >
-                                NAME :
-                              </label>
-                              <input
-                                type="text"
-                                id="name"
-                                disabled={index == 0 ? true : false}
-                                value={
-                                  index == 0
-                                    ? (participant.name = inputs.teamLeadName)
-                                    : participant.name
-                                }
-                                onChange={(e) =>
-                                  handleNameChange(index, e.target.value)
-                                }
-                                className={`w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full `}
-                              />
-                              {teamErrors && teamErrors[index] && (
-                                <h1 className="text-xs font-semibold text-red-600">
-                                  {teamErrors[index].name}
-                                </h1>
-                              )}
-                            </div>
+                          <div className="flex flex-row flex-wrap gap-2 font-semibold">
+                            <label
+                              htmlFor="name"
+                              id="glow"
+                              className="text-[#B51C69] tracking-widest"
+                            >
+                              NAME :
+                            </label>
+                            <input
+                              type="text"
+                              id="name"
+                              disabled={index == 0 ? true : false}
+                              value={
+                                index == 0
+                                  ? (participant.name = inputs.teamLeadName)
+                                  : participant.name
+                              }
+                              onChange={(e) =>
+                                handleNameChange(index, e.target.value)
+                              }
+                              className={`w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full `}
+                            />
+                            {teamErrors && teamErrors[index] && (
+                              <h1 className="text-xs font-semibold text-red-600">
+                                {teamErrors[index].name}
+                              </h1>
+                            )}
+                          </div>
 
-                            <div className="flex flex-row flex-wrap gap-2 font-semibold">
-                              <label
-                                htmlFor="phone"
-                                id="glow"
-                                className="text-[#B51C69] tracking-widest"
-                              >
-                                PHONE :
-                              </label>
-                              <input
-                                type="text"
-                                disabled={index == 0 ? true : false}
-                                value={
-                                  index == 0
-                                    ? (participant.phone = inputs.teamLeadPhone)
-                                    : participant.phone
-                                }
-                                onChange={(e) =>
-                                  handlePhoneChange(index, e.target.value)
-                                }
-                                className={`w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full `}
-                              />
-                              {teamErrors && teamErrors[index] && (
-                                <h1 className="text-xs font-semibold text-red-600">
-                                  {teamErrors[index].phone}
-                                </h1>
-                              )}
-                            </div>
+                          <div className="flex flex-row flex-wrap gap-2 font-semibold">
+                            <label
+                              htmlFor="phone"
+                              id="glow"
+                              className="text-[#B51C69] tracking-widest"
+                            >
+                              PHONE :
+                            </label>
+                            <input
+                              type="text"
+                              disabled={index == 0 ? true : false}
+                              value={
+                                index == 0
+                                  ? (participant.phone = inputs.teamLeadPhone)
+                                  : participant.phone
+                              }
+                              onChange={(e) =>
+                                handlePhoneChange(index, e.target.value)
+                              }
+                              className={`w-full rounded-xl border-b border-[#B51C69] text-white bg-transparent px-2 py-1 focus:border-b max-md:w-full `}
+                            />
+                            {teamErrors && teamErrors[index] && (
+                              <h1 className="text-xs font-semibold text-red-600">
+                                {teamErrors[index].phone}
+                              </h1>
+                            )}
                           </div>
                         </div>
-
-                        {participants.length > minTeamMember && (
-                          <button
-                            onClick={() => removeParticipant(index)}
-                            className="rounded-full border-2 border-[#B51C69] px-2 py-1 text-xs font-semibold text-[#B51C69] lg:text-sm"
-                          >
-                            REMOVE
-                          </button>
-                        )}
                       </div>
-                    ))}
-                    {participants.length < maxTeamMember && (
-                      <button
-                        onClick={addParticipant}
-                        className="mt-3 rounded-full border-2 border-[#B51C69] bg-regalia  px-5 py-1    font-semibold tracking-widest text-[#B51C69] hover:border-regalia hover:bg-[#B51C69] hover:text-white"
-                      >
-                        ADD PERSON
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-            {!throughPortal && (
+
+                      {participants.length > minTeamMember && (
+                        <button
+                          onClick={() => removeParticipant(index)}
+                          className="rounded-full border-2 border-[#B51C69] px-2 py-1 text-xs font-semibold text-[#B51C69] lg:text-sm"
+                        >
+                          REMOVE
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  {participants.length < maxTeamMember && (
+                    <button
+                      onClick={addParticipant}
+                      className="mt-3 rounded-full border-2 border-[#B51C69] bg-regalia  px-5 py-1    font-semibold tracking-widest text-[#B51C69] hover:border-regalia hover:bg-[#B51C69] hover:text-white"
+                    >
+                      ADD PERSON
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+            )
+            {throughPortal && (
               <div className="flex w-full flex-row flex-wrap items-center justify-between pt-5">
                 <button
                   className="mt-3 rounded-full border-2 border-regalia bg-regalia  px-5 py-1    border-[#B51C69] bg-[#B51C69] font-semibold text-white hover:border-regalia hover:bg-black hover:text-[#B51C69]"
