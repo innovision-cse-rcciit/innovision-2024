@@ -10,6 +10,7 @@ import { useUser } from '@/lib/store/user';
 import { getAllEvents } from '@/utils/functions/getAllEvents';
 import { getAllParticipants } from '@/utils/functions/getAllParticipants';
 import { getAllCoordinators } from '@/utils/functions/getAllCoordinators';
+import { getAllEventsAdmin } from '@/utils/functions/getAllEventsAdmin';
 
 type Params = {
     params: {
@@ -28,7 +29,7 @@ const EventDashboard = ({params: {eventid}}: Params) => {
 
     useEffect(() => {
         const fetchAllData = async () => {
-            const events:any = await getAllEvents();
+            const events:any = await getAllEventsAdmin();
             setEventList(events);
             const participants = await getAllParticipants({ eventId: eventid });
             setParticipantList(participants as Participant[]);

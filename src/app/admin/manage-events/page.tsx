@@ -7,9 +7,9 @@ import { Role } from '@/lib/schema/add-coordinator-volunteer-schema';
 import { EventMode } from '@/lib/schema/add-event-schema';
 import { Coordinator, Event, Participant } from '@/utils/constants/admin-dashboard';
 import { useUser } from '@/lib/store/user';
-import { getAllEvents } from '@/utils/functions/getAllEvents';
 import { getAllParticipants } from '@/utils/functions/getAllParticipants';
 import { getAllCoordinators } from '@/utils/functions/getAllCoordinators';
+import { getAllEventsAdmin } from '@/utils/functions/getAllEventsAdmin';
 
 type Props = {}
 
@@ -24,8 +24,8 @@ const AdminPage = (props: Props) => {
 
     useEffect(() => {
         const fetchAllData = async () => {
-            const events:any = await getAllEvents();
-            setEventList(events);
+            // const events:any = await getAllEventsAdmin();
+            // setEventList(events);
             const participants = await getAllParticipants({ eventId: null });
             setParticipantList(participants as Participant[]);
             const coordinators = await getAllCoordinators({ eventId: null });
