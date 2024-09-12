@@ -11,6 +11,8 @@ import { getAllEvents } from '@/utils/functions/getAllEvents';
 import { getAllParticipants } from '@/utils/functions/getAllParticipants';
 import { getAllCoordinators } from '@/utils/functions/getAllCoordinators';
 import { getAllEventsAdmin } from '@/utils/functions/getAllEventsAdmin';
+import { getParticipations } from '@/utils/functions/getParticipations';
+import { supabase } from '@/lib/supabase-client';
 
 type Params = {
     params: {
@@ -25,7 +27,17 @@ const EventDashboard = ({params: {eventid}}: Params) => {
     const [eventList, setEventList] = useState<Event[]>([]);
     const [participantList, setParticipantList] = useState<Participant[]>([]);
     const [coordinatorList, setCoordinatorList] = useState<Coordinator[]>([]);
+    const [participantsData, setParticipantsData] = useState<any[]>([]);
     const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const getData = async () => {
+            const participants = await getParticipations(eventid);
+            console.log(participants);
+            setParticipantsData(participants);
+        };
+        getData();
+      }, [eventid]);
 
     useEffect(() => {
         const fetchAllData = async () => {
