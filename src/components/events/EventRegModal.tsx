@@ -224,10 +224,18 @@ const EventRegForm = ({
         requirements,
         file
       );
+      console.log(res);
       if (fileSubmission === false) {
         delete res.errors.file;
       }
-      const allFieldsEmpty =
+      let allExtraFieldsEmpty:boolean = true;
+      if (inputs.extra && typeof inputs.extra === 'object') {
+        const values: string[] = Object.values(inputs.extra);
+
+        allExtraFieldsEmpty = values.every((value) => value.trim() !== "");
+      }
+      console.log(allExtraFieldsEmpty);
+      const allFieldsEmpty = allExtraFieldsEmpty &&
         Object.values(res.errors).every((value) => value === "") &&
         res.teamErrors.every(
           (participant: any) =>
@@ -329,6 +337,7 @@ const EventRegForm = ({
       return updatedParticipants;
     });
   }, [eventDetails]);
+  console.log(generalErrors);
   return (
     <>
       {isOpen && (
