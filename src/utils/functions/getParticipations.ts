@@ -25,6 +25,7 @@ export const getParticipations = async (event: string) => {
             team_name: team.team_name,
             team_lead_name: teamLeadDetails!.data![0].name,
             team_lead_phone: teamLeadDetails!.data![0].phone,
+            team_lead_roll: teamLeadDetails!.data![0].college_roll,
             team_type: teamType,
             team_members: teamMembers.data,
             created_at: team.created_at,
