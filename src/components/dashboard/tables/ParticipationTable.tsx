@@ -40,39 +40,70 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 
 
 export const columns: ColumnDef<Participant>[] = [
+    // {
+    //     id: "select",
+    //     header: ({ table }) => (
+    //         <Checkbox
+    //             checked={
+    //                 table.getIsAllPageRowsSelected() ||
+    //                 (table.getIsSomePageRowsSelected() && "indeterminate")
+    //             }
+    //             onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+    //             aria-label="Select all"
+    //         />
+    //     ),
+    //     cell: ({ row }) => (
+    //         <Checkbox
+    //             checked={row.getIsSelected()}
+    //             onCheckedChange={(value) => row.toggleSelected(!!value)}
+    //             aria-label="Select row"
+    //         />
+    //     ),
+    //     enableSorting: false,
+    //     enableHiding: false,
+    // },
     {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
+        accessorKey: "team_lead_name",
+        header: ({ table }) => {
+            const allRows = table.getRowModel().rows;
+            let isSolo = true;
+
+            allRows.forEach(row => {
+                if (row.original.team_type !== "Solo") {
+                    isSolo = false;
                 }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
-        accessorKey: "name",
-        header: "Name",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("name")}</div>
-        ),
-    },
-    {
-        accessorKey: "email",
-        header: ({ column }) => {
+            });
+
+            return isSolo ? "Name" : "Team Name";
+        },
+        cell: ({ row }) => {
+            const {
+                team_type,
+                team_lead_name,
+                team_name
+            } = row.original
             return (
+                team_type === "Solo" ? (
+                    <div className="capitalize">{team_lead_name}</div>
+                ) : (
+                    <div className="capitalize">{team_name}</div>
+                )
+            );
+        },
+    },
+    {
+        accessorKey: "team_lead_email",
+        header: ({ table, column }) => {
+            const allRows = table.getRowModel().rows;
+            let isSolo = true;
+
+            allRows.forEach(row => {
+                if (row.original.team_type !== "Solo") {
+                    isSolo = false;
+                }
+            });
+
+            return isSolo ? (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -80,29 +111,83 @@ export const columns: ColumnDef<Participant>[] = [
                     Email
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
-            )
+            ) : (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Team Lead Email
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
         },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+
+        cell: ({ row }) => <div className="lowercase">{row.getValue("team_lead_email")}</div>,
     },
     {
-        accessorKey: "event",
+        accessorKey: "event_name",
         header: "Event",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("event")}</div>
+            <div className="capitalize">{row.getValue("event_name")}</div>
         ),
     },
     {
-        accessorKey: "phone",
-        header: "Phone Number",
+        accessorKey: "team_lead_roll",
+        header: ({ table }) => {
+            const allRows = table.getRowModel().rows;
+            let isSolo = true;
+
+            allRows.forEach(row => {
+                if (row.original.team_type !== "Solo") {
+                    isSolo = false;
+                }
+            });
+
+            return isSolo ? "College Roll" : "Team Lead Roll";
+        },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("phone")}</div>
+            <div className="capitalize">{row.getValue("team_lead_roll")}</div>
+        ),
+    },
+    {
+        accessorKey: "team_lead_phone",
+        header: ({ table }) => {
+            const allRows = table.getRowModel().rows;
+            let isSolo = true;
+
+            allRows.forEach(row => {
+                if (row.original.team_type !== "Solo") {
+                    isSolo = false;
+                }
+            });
+
+            return isSolo ? "Phone Number" : "Team Lead Phone Number";
+        },
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("team_lead_phone")}</div>
         ),
     },
     {
         accessorKey: "team_members",
-        header: "Team Members",
+        header: ({ table }) => {
+            const allRows = table.getRowModel().rows;
+            let isSolo = true;
+
+            allRows.forEach(row => {
+                if (row.original.team_type !== "Solo") {
+                    isSolo = false;
+                }
+            });
+
+            return isSolo ? null : "Team Members";
+        },
         cell: ({ row }) => {
-            const team_members = row.original.team_members;
+            const { team_type, team_members } = row.original;
+
+            if (team_type === "Solo") {
+                return null;
+            }
+
             return (
                 <Dialog>
                     <DialogTrigger asChild>
@@ -197,9 +282,9 @@ const ParticipationTable = ({ data, isAdmin }: Props) => {
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter emails..."
-                    value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+                    value={(table.getColumn("team_lead_email")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("email")?.setFilterValue(event.target.value)
+                        table.getColumn("team_lead_email")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
@@ -243,16 +328,21 @@ const ParticipationTable = ({ data, isAdmin }: Props) => {
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
+                                    // Determine if the column should be visible
+                                    const shouldShowColumn = !table.getRowModel().rows.some(row => row.original.team_type === "Solo" && header.column.id === "team_members");
+
                                     return (
-                                        <TableHead key={header.id}>
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                        </TableHead>
-                                    )
+                                        shouldShowColumn && (
+                                            <TableHead key={header.id}>
+                                                {header.isPlaceholder
+                                                    ? null
+                                                    : flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )}
+                                            </TableHead>
+                                        )
+                                    );
                                 })}
                             </TableRow>
                         ))}
@@ -264,14 +354,21 @@ const ParticipationTable = ({ data, isAdmin }: Props) => {
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
                                 >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
-                                        </TableCell>
-                                    ))}
+                                    {row.getVisibleCells().map((cell) => {
+                                        // Determine if the cell should be visible
+                                        const shouldShowCell = row.original.team_type !== "Solo" || cell.column.id !== "team_members";
+
+                                        return (
+                                            shouldShowCell && (
+                                                <TableCell key={cell.id}>
+                                                    {flexRender(
+                                                        cell.column.columnDef.cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </TableCell>
+                                            )
+                                        );
+                                    })}
                                 </TableRow>
                             ))
                         ) : (

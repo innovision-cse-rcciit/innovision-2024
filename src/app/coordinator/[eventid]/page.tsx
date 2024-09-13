@@ -43,8 +43,8 @@ const EventDashboard = ({params: {eventid}}: Params) => {
         const fetchAllData = async () => {
             const events:any = await getAllEventsAdmin();
             setEventList(events);
-            const participants = await getAllParticipants({ eventId: eventid });
-            setParticipantList(participants as Participant[]);
+            // const participants = await getAllParticipants({ eventId: eventid });
+            // setParticipantList(participants as Participant[]);
 
             const coordinators = await getAllCoordinators({ eventId: eventid });
             setCoordinatorList(coordinators as unknown as Coordinator[]);
@@ -64,12 +64,12 @@ const EventDashboard = ({params: {eventid}}: Params) => {
                     isAdmin
                         ? <Dashboard
                             coordinatorList={coordinatorList}
-                            participantList={participantList}
+                            participantList={participantsData}
                             eventList={eventList}
                             isAdmin={isAdmin}
                         />
                         : <ParticipationTable
-                            data={participantList}
+                            data={participantsData}
                             isAdmin={isAdmin}
                         />
                 }

@@ -19,8 +19,8 @@ export async function getAllEventsAdmin() {
 
         const isAdmin = userRole.data?.some((user) => user.role === "ADMIN")
 
-        if (!isAdmin)
-            throw new Error("This user cannot insert new event");
+        // if (!isAdmin)
+        //     throw new Error("This user cannot insert new event");
         
         const eventdata = await supabase
             .from("events")
