@@ -24,6 +24,9 @@ export type Participant = {
     team_id: string;
     team_lead_id: string;
     team_members: TeamMember[];
+    team_type?: string;
+    team_name?: string;
+    team_lead_name?: string;
 };
 
 export type TeamMember = {

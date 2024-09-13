@@ -30,6 +30,8 @@ import { ICoordinator } from '@/lib/types/coordinator';
 import { Switch } from '../../ui/switch';
 import { addEvent } from '@/utils/functions/addEvent';
 import { addCoordinator } from '@/utils/functions/addCoordinator';
+import { useParams } from 'next/navigation';
+import { supabase } from '@/lib/supabase-client';
 
 // Dynamically import ReactQuill with no SSR
 const ReactQuill = dynamic(() => import('react-quill'), {
@@ -65,36 +67,69 @@ const AddEventForm = ({
 }: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [coordinator, setCoordinator] = useState<ICoordinator[]>([]);
+    const [eventData, setEventData] = useState<any>(null);
+    const {eventid} = useParams();
 
     const form = useForm<z.infer<typeof addEventSchema>>({
         resolver: zodResolver(addEventSchema),
         defaultValues: {
-            event_name: event_name ?? "",
-            description: description ?? "",
-            image_path: banner_url ?? "",
-            max_team_size: max_team_size ?? 4,
-            min_team_size: min_team_size ?? 1,
-            rules: rules ?? "",
-            schedule: schedule ?? '',
-            coordinator: coordinator ?? [],
-            event_type: event_type ?? EventMode.ONLINE,
-            isOpen: is_open ?? true,
-            event_category: event_category ?? EventCategory.TECHNICAL
+          event_name: "",
+          description: "",
+          image_path: "",
+          max_team_size: 4,
+          min_team_size: 1,
+          rules: "",
+          schedule: '',
+          coordinator: [],
+          event_type: EventMode.ONLINE,
+          isOpen: true,
+          event_category: EventCategory.TECHNICAL,
         },
-    });
+      });
+      
+      const {
+        handleSubmit,
+        reset,
+        formState,
+        setValue,
+        getValues,
+      } = form;
+      
+      useEffect(() => {
+        if (eventid) {
+          const getData = async () => {
+            const { data, error } = await supabase?.from('events').select('*').eq('id', eventid).single();
+            if (data) {
+              setEventData(data);
+            }
+          }
+          getData();
+        }
+      }, [eventid]);
+      
+      // When eventData changes, reset form values with the fetched data
+      useEffect(() => {
+        if (eventData) {
+          reset({
+            event_name: eventData?.event_name ?? "",
+            description: eventData?.description ?? "",
+            image_path: eventData?.banner_url ?? "",
+            max_team_size: eventData?.max_team_size ?? 4,
+            min_team_size: eventData?.min_team_size ?? 1,
+            rules: eventData?.rules ?? "",
+            schedule: eventData?.schedule ?? '',
+            coordinator: coordinator ?? [],
+            event_type: eventData?.event_type ?? EventMode.ONLINE,
+            isOpen: eventData?.is_open ?? true,
+            event_category: eventData?.event_category ?? EventCategory.TECHNICAL
+          });
+        }
+      }, [eventData, reset]);
 
     useEffect(() => {
         if(coordinatorProps)
             setCoordinator(coordinatorProps);
     },[coordinatorProps]);
-
-    const {
-        handleSubmit,
-        reset,
-        formState,
-        setValue,
-        getValues
-    } = form;
 
     const handleAddEvent = async (values: z.infer<typeof addEventSchema>) => {
         if (coordinator.length === 0) {

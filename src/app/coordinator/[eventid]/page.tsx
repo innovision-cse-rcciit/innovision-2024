@@ -33,7 +33,6 @@ const EventDashboard = ({params: {eventid}}: Params) => {
     useEffect(() => {
         const getData = async () => {
             const participants = await getParticipations(eventid);
-            console.log(participants);
             setParticipantsData(participants);
         };
         getData();
@@ -69,6 +68,7 @@ const EventDashboard = ({params: {eventid}}: Params) => {
                             isAdmin={isAdmin}
                         />
                         : <ParticipationTable
+                            eventID={eventid}
                             data={participantsData}
                             isAdmin={isAdmin}
                         />
