@@ -22,9 +22,23 @@ export type Participant = {
     event: string;
     phone: string;
     team_id: string;
-    team_members: [];
     team_lead_id: string;
-}
+    team_members: TeamMember[];
+};
+
+export type TeamMember = {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    event_id: EventDetails;
+    team_id: string;
+};
+
+export type EventDetails = {
+    event_name: string;
+};
+
 
 
 export type Event = {

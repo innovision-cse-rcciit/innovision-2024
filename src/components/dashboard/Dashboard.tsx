@@ -18,9 +18,9 @@ const Dashboard = ({ coordinatorList, participantList, eventList, isAdmin }: Pro
         <>
             <Tabs defaultValue={AdminTabs.COORDINATOR} className="w-full">
                 <TabsList className="grid w-full grid-cols-3">
-                    <TabsTrigger value={AdminTabs.EVENTS}>{AdminTabs.EVENTS}</TabsTrigger>
-                    <TabsTrigger value={AdminTabs.COORDINATOR}>{AdminTabs.COORDINATOR}</TabsTrigger>
-                    <TabsTrigger value={AdminTabs.PARTICIPANTS}>{AdminTabs.PARTICIPANTS}</TabsTrigger>
+                    <TabsTrigger value={AdminTabs.EVENTS} className=' text-xs md:text-sm'>{AdminTabs.EVENTS}</TabsTrigger>
+                    <TabsTrigger value={AdminTabs.COORDINATOR} className=' text-xs md:text-sm'>{AdminTabs.COORDINATOR}</TabsTrigger>
+                    <TabsTrigger value={AdminTabs.PARTICIPANTS} className=' text-xs md:text-sm'>{AdminTabs.PARTICIPANTS}</TabsTrigger>
                 </TabsList>
                 <TabsContent value={AdminTabs.EVENTS}>
                     <EventTable

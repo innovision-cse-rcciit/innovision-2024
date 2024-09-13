@@ -224,7 +224,6 @@ const EventRegForm = ({
         requirements,
         file
       );
-      console.log(res);
       if (fileSubmission === false) {
         delete res.errors.file;
       }
