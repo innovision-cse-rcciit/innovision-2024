@@ -15,28 +15,33 @@ export type Coordinator = {
     type: Role;
 }
 
-// export type Participant = {
-//     id: string;
-//     name: string;
-//     email: string;
-//     event: string;
-//     phone: string;
-//     team_id: string;
-//     team_members: [];
-//     team_lead_id: string;
-// }
-
 export type Participant = {
-    event_name: string;
+    id: string;
+    name: string;
+    email: string;
+    event: string;
+    phone: string;
     team_id: string;
-    team_lead_email: string;
-    team_lead_name: string;
-    team_lead_phone: string;
-    team_lead_roll: string;
-    team_members: [{}];
-    team_name: string;
-    team_type: string;
-}
+    team_lead_id: string;
+    team_members: TeamMember[];
+    team_type?: string;
+    team_name?: string;
+    team_lead_name?: string;
+};
+
+export type TeamMember = {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    event_id: EventDetails;
+    team_id: string;
+};
+
+export type EventDetails = {
+    event_name: string;
+};
+
 
 
 export type Event = {

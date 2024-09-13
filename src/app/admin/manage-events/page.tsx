@@ -10,6 +10,7 @@ import { useUser } from '@/lib/store/user';
 import { getAllParticipants } from '@/utils/functions/getAllParticipants';
 import { getAllCoordinators } from '@/utils/functions/getAllCoordinators';
 import { getAllEventsAdmin } from '@/utils/functions/getAllEventsAdmin';
+import { getAllEventsParticipations } from '@/utils/functions/getAllParticipantsForEvents';
 
 type Props = {}
 
@@ -24,9 +25,9 @@ const AdminPage = (props: Props) => {
 
     useEffect(() => {
         const fetchAllData = async () => {
-            // const events:any = await getAllEventsAdmin();
-            // setEventList(events);
-            const participants = await getAllParticipants({ eventId: null });
+            const events:any = await getAllEventsAdmin();
+            setEventList(events);
+            const participants = await getAllEventsParticipations();
             setParticipantList(participants as Participant[]);
             const coordinators = await getAllCoordinators({ eventId: null });
             setCoordinatorList(coordinators as unknown as Coordinator[]);
