@@ -19,7 +19,7 @@ const departmentOptions = [
   { value: "EE", label: "Electrical Engineering" },
   { value: "AEIE", label: "Applied Electronics & Instrumentation Engineering" },
   { value: "BCA", label: "Bachelor Of Computer Application" },
-
+  { value: "BSC", label: "Bachelor Of Science : CS" },
 ];
 
 export default function Register() {
