@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useCurrentDateTime } from "@/utils/functions/dateTime";
 import Link from "next/link";
 import { FadeIn } from "react-slide-fade-in";
+import { FaDiscord } from "react-icons/fa";
 
 const LandingPage = () => {
   const { day, month, year, hours, minutes } = useCurrentDateTime();
@@ -44,6 +45,9 @@ const LandingPage = () => {
                 THE ANNUAL DEPARTMENTAL FEST OF CSE DEPARTMENT
               </h1>
               <h1 className="text-white font-semibold text-md md:text-xl text-center">(NBA ACCREDITED)</h1>
+              <Link target="_blank" href="https://discord.gg/EHYzPJeYAK">
+        <FaDiscord size={30} color="white" />
+        </Link>
               <Link href={"/events"}>
                 <button className="flex mt-2 mx-auto w-full flex-row bg-transparent items-center hover:opacity-90 relative">
                   <Image
