@@ -300,7 +300,7 @@ const ParticipationTable = ({ data }: Props) => {
         for (const team of teamData) {
           const { data: memberData, error: memberError } = await supabase
             .from("participants")
-            .select("name,phone,email,college_roll,attendance")
+            .select("name,phone,email,college_roll,attendance,requirement")
             .eq("team_id", team.team_id);
           console.log(memberData);
   
@@ -321,6 +321,7 @@ const ParticipationTable = ({ data }: Props) => {
                 email: any;
                 attendance: any;
                 team_name?: any; 
+                [key: string]: any;
               } = {
                 event_name: team?.events!.event_name,
                 team_name: team?.team_name,
@@ -329,10 +330,15 @@ const ParticipationTable = ({ data }: Props) => {
                 phone: member.phone,
                 email: member?.email,
                 attendance: member.attendance ?? '',
+
               };
 
               if (team?.events?.max_team_size === 1) {
                 delete memberInfo.team_name;
+              }
+
+              if (member?.requirement && Object.keys(member.requirement).length > 0) {
+                Object.assign(memberInfo, member.requirement);
               }
   
               membersWithUserData.push(memberInfo);
