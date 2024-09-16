@@ -62,7 +62,7 @@ const CoordinatorList = () => {
             <div className="flex h-full min-h-[60vh] flex-row flex-wrap items-center justify-center gap-20 mb-10">
                 {loading ? (
                     <div className=" flex flex-col items-center justify-center">
-                        <ClipLoader size={24} color="#000" />{" "}
+                        <ClipLoader size={100} color="#B51C69" />{" "}
                     </div>
                 ) : (
                     coordinatingEvents?.map((event: any, index: number) => {
