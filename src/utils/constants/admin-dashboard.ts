@@ -13,6 +13,7 @@ export type Coordinator = {
     email: string;
     event: string;
     type: Role;
+    college_roll: string;
 }
 
 export type Participant = {
