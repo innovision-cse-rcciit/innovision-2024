@@ -166,28 +166,6 @@ export const eventReg = async (
         })
         .select();
       if (participantError) throw participantError;
-
-      try {
-        const response = await fetch("/api/sendMail", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            to: team.teamLeadEmail,
-            subject: "Event Registration",
-            fileName: "send-mail.ejs",
-            data: {
-              eventName: eventResponse.data![0]?.event_name,
-            },
-          }),
-        });
-
-        const result = await response.json();
-        console.log(result);
-      } catch (mailError) {
-        console.error("Error sending email to team lead:", mailError);
-      }
     }
   } catch (error) {
     console.error("Error in event registration:", error);
