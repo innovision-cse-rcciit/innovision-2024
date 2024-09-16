@@ -11,12 +11,9 @@ import {
   Participant,
 } from "@/utils/constants/admin-dashboard";
 import { useUser } from "@/lib/store/user";
-import { getAllEvents } from "@/utils/functions/getAllEvents";
-import { getAllParticipants } from "@/utils/functions/getAllParticipants";
 import { getAllCoordinators } from "@/utils/functions/getAllCoordinators";
 import { getAllEventsAdmin } from "@/utils/functions/getAllEventsAdmin";
 import { getParticipations } from "@/utils/functions/getParticipations";
-import { supabase } from "@/lib/supabase-client";
 import { ClipLoader } from "react-spinners";
 
 type Params = {
@@ -48,8 +45,6 @@ const EventDashboard = ({ params: { eventid } }: Params) => {
       setLoading(true);
       const events: any = await getAllEventsAdmin();
       setEventList(events);
-      // const participants = await getAllParticipants({ eventId: eventid });
-      // setParticipantList(participants as Participant[]);
 
       const coordinators = await getAllCoordinators({ eventId: eventid });
       setCoordinatorList(coordinators as unknown as Coordinator[]);

@@ -25,45 +25,37 @@ const Navbar = () => {
   const [role, setRole] = useState("");
   const [moreOpen, setMoreOpen] = useState(false);
   const [showAdminDashboard, setShowAdminDashboard] = useState(false);
-  const [showRegisterDashboard, setShowRegisterDashboard] = useState(false);
-  const [showConvenorDashboard, setShowConvenorDashboard] = useState(false);
   const [showVolunteerDashboard, setShowVolunteerDashboard] = useState(false);
-  const [showDashboard, setShowDashboard] = useState(false);
-  const [showCoordinatorDashboard, setShowCoordinatorDashboard] =
-    useState(false);
+  const [showCoordinatorDashboard, setShowCoordinatorDashboard] = useState(false);
+  
   const handleLogout = async () => {
     setShowAdminDashboard(false);
     setShowCoordinatorDashboard(false);
-    setShowDashboard(false);
     await supabase.auth.signOut();
     router.refresh();
-
+  
     setUser(undefined);
-
+  
     toast.success("Logged out successfully !");
   };
-
+  
   useEffect(() => {
     const readUserSession = async () => {
       const { data } = await supabase.auth.getSession();
       console.log(data);
       if (data) {
-        setShowDashboard(true);
         setUserImg(data?.session?.user.user_metadata?.avatar_url);
       }
-
+  
       const { data: roleData }: any = await supabase
         .from("roles")
-        .select(
-          "role,event_id"
-        )
+        .select("role,event_id")
         .eq("id", data?.session?.user.id);
-
+  
       let isSuperAdmin = false;
       let isCoordinator = false;
       let isVolunteer = false;
-      let isConvenor = false;
-      let isRegistrar = false;
+  
       console.log(roleData);
       if (roleData) {
         for (const obj of roleData!) {
@@ -71,74 +63,50 @@ const Navbar = () => {
             isSuperAdmin = true;
           }
           if (obj.role === "COORDINATOR") {
-
-              isCoordinator = true;
-            
+            isCoordinator = true;
           }
           if (obj.role === "VOLUNTEER") {
-
-              isVolunteer = true;
-            
+            isVolunteer = true;
           }
         }
-
+  
         if (isSuperAdmin) {
           setShowAdminDashboard(true);
-          setShowConvenorDashboard(true);
-          setShowRegisterDashboard(true);
-          setShowCoordinatorDashboard(false);
+          setShowCoordinatorDashboard(true);
+          setShowVolunteerDashboard(false);
         } else {
-          if (isConvenor) {
-            setShowConvenorDashboard(true);
-            setShowRegisterDashboard(true);
+          if (isCoordinator) {
+            setShowCoordinatorDashboard(true);
+            setShowVolunteerDashboard(false);
+          }
+          if (isVolunteer) {
+            !isCoordinator && setShowCoordinatorDashboard(false);
+            setShowVolunteerDashboard(true);
+          } else if (!isSuperAdmin && !isCoordinator) {
             setShowCoordinatorDashboard(false);
-            return;
-          } else {
-            if (isCoordinator) {
-              setShowConvenorDashboard(false);
-              setShowRegisterDashboard(true);
-              setShowCoordinatorDashboard(true);
-              setShowVolunteerDashboard(false);
-            }
-            if (isVolunteer) {
-              !isConvenor && setShowConvenorDashboard(false);
-              setShowRegisterDashboard(true);
-              !isCoordinator && setShowCoordinatorDashboard(false);
-              !isCoordinator && setShowVolunteerDashboard(true);
-            } else if (!isSuperAdmin && !isCoordinator && !isConvenor) {
-              setShowCoordinatorDashboard(false);
-              setShowConvenorDashboard(false);
-            }
           }
         }
-
-        if (isRegistrar) {
-          setShowRegisterDashboard(true);
-        }
-
-        setShowDashboard(true);
         setShowAdminDashboard(isSuperAdmin);
       }
     };
-
+  
     const handleScroll = () => {
       setScrolling(window.scrollY > 0);
     };
-
+  
     window.addEventListener("scroll", handleScroll);
-
+  
     readUserSession();
-
+  
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [user]);
+  
 
   const handleLogin = async () => {
     try {
       await login();
-
-      setShowDashboard(true);
       router.refresh();
     } catch (error) {
       toast.error("Error Occured ! Please try again later !");
@@ -164,7 +132,7 @@ const Navbar = () => {
               onClick={clickSound}
               className="flex flex-row items-end"
             >
-              <Image src="https://i.postimg.cc/W4p806NH/image1.png" height={20} width={300} alt="rcc" className="w-80" />
+              <Image src="https://i.postimg.cc/W4p806NH/image1.png" height={20} width={300} alt="rcc"  />
             </Link>
           </div>
           <div className="flex flex-row-reverse items-center justify-between gap-4 md:flex-row">
@@ -221,13 +189,13 @@ const Navbar = () => {
                   onClick={() => {
                     clickSound();
                     setIsMenuOpen(false);
+                    console.log(pathname.includes(link.path));
                   }}
                   key={index}
                 >
                   <li
-                    className={`my-2 cursor-pointer -ml-2 md:bg-black text-Chakra_Petch  text-white hover:text-[#DAD7D9] hover:bg-[#B61B69] px-5 py-3 rounded-tl-sm md:border border-[#B61B69] text-sm font-semibold duration-200 ease-linear md:my-0 md:ml-2 md:mt-2 md:text-xs  lg:ml-4 lg:text-sm xl:mt-0 2xl:text-[14px] ${
-                      pathname === link.path && " text-[#B61B69] bg-[#DAD7D9] "
-                    }`}
+                    className={`my-2 cursor-pointer -ml-2  text-Chakra_Petch  hover:text-[#DAD7D9] hover:bg-[#B61B69] px-3 py-2 rounded-tl-sm md:border border-[#B61B69] text-sm font-semibold duration-200 ease-linear md:my-0 md:ml-2 md:mt-2 md:text-xs lg:ml-4 lg:text-sm xl:mt-0 2xl:text-[12px] ${pathname === (link.path) ? "text-[#B61B69] bg-[#DAD7D9]" : "md:bg-black md:text-white"}`}
+
                   >
                     {link.name.toUpperCase()}
                   </li>
@@ -261,11 +229,9 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                    className={`my-2 cursor-pointer -ml-2 md:bg-black text-Chakra_Petch  text-white hover:text-[#DAD7D9] hover:bg-[#B61B69] px-5 py-3 rounded-tl-sm md:border border-[#B61B69] text-sm font-semibold duration-200 ease-linear    md:my-0 md:ml-2 md:mt-2 md:text-xs  lg:ml-4 lg:text-sm xl:mt-0 2xl:text-[15px] ${
-                      pathname === 'dashboard' && " text-[#B61B69] bg-[#DAD7D9] "
-                    }`}
+                   className={`my-2 cursor-pointer -ml-2  text-Chakra_Petch  hover:text-[#DAD7D9] hover:bg-[#B61B69] px-3 py-2 rounded-tl-sm md:border border-[#B61B69] text-sm font-semibold duration-200 ease-linear md:my-0 md:ml-2 md:mt-2 md:text-xs lg:ml-4 lg:text-sm xl:mt-0 2xl:text-[12px] ${pathname.includes('admin') ? "text-[#B61B69] bg-[#DAD7D9]" : "md:bg-black md:text-white"}`}
                   >
-                    DASHBOARD
+                    ADMIN
                   </li>
                 </Link>
               )}
@@ -280,16 +246,14 @@ const Navbar = () => {
                     }}
                   >
                     <li
-                      className={`my-2 cursor-pointer rounded-xl px-2 py-1 pt-2   text-sm font-semibold duration-200 ease-linear  hover:text-yellow-400  md:my-0 md:ml-2 md:mt-2 md:text-xs md:hover:scale-105 lg:ml-4 lg:text-sm  xl:mt-0 2xl:text-[18px] ${
-                        pathname === "coordinator" && "  "
-                      }`}
+                      className={`my-2 cursor-pointer -ml-2  text-Chakra_Petch  hover:text-[#DAD7D9] hover:bg-[#B61B69] px-3 py-2 rounded-tl-sm md:border border-[#B61B69] text-sm font-semibold duration-200 ease-linear md:my-0 md:ml-2 md:mt-2 md:text-xs lg:ml-4 lg:text-sm xl:mt-0 2xl:text-[12px] ${pathname.includes('coordinator') ? "text-[#B61B69] bg-[#DAD7D9]" : "md:bg-black md:text-white"}`}
                     >
-                      Coordinator
+                      COORDINATOR
                     </li>
                   </Link>
                 )}
 
-                {/* {user && showConvenorDashboard && (
+                {user && showVolunteerDashboard && (
                   <Link
                     // onMouseEnter={hoverSound}
                     href={"/coordinator"}
@@ -299,70 +263,14 @@ const Navbar = () => {
                     }}
                   >
                     <li
-                      className={`my-2 cursor-pointer rounded-xl px-2 py-1 pt-2   text-sm font-semibold duration-200 ease-linear  hover:text-yellow-400  md:my-0 md:ml-2 md:mt-2 md:text-xs md:hover:scale-105 lg:ml-4 lg:text-sm  xl:mt-0 2xl:text-[18px] ${
-                        pathname === "coordinator" && "  "
-                      }`}
+                     className={`my-2 cursor-pointer -ml-2  text-Chakra_Petch  hover:text-[#DAD7D9] hover:bg-[#B61B69] px-3 py-2 rounded-tl-sm md:border border-[#B61B69] text-sm font-semibold duration-200 ease-linear md:my-0 md:ml-2 md:mt-2 md:text-xs lg:ml-4 lg:text-sm xl:mt-0 2xl:text-[12px] ${pathname.includes('coordinator') ? "text-[#B61B69] bg-[#DAD7D9]" : "md:bg-black md:text-white"}`}
                     >
-                      Convenor
+                      VOLUNTEER
                     </li>
                   </Link>
-                )} */}
+                )}
+                
 
-                {/* {user && showVolunteerDashboard && (
-                  <Link
-                    // onMouseEnter={hoverSound}
-                    href={"/coordinator"}
-                    onClick={() => {
-                      clickSound();
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    <li
-                      className={`my-2 cursor-pointer rounded-xl px-2 py-1 pt-2   text-sm font-semibold duration-200 ease-linear  hover:text-yellow-400  md:my-0 md:ml-2 md:mt-2 md:text-xs md:hover:scale-105 lg:ml-4 lg:text-sm  xl:mt-0 2xl:text-[18px] ${
-                        pathname === "coordinator" && "  "
-                      }`}
-                    >
-                      Volunteer
-                    </li>
-                  </Link>
-                )} */}
-                {/* {user && showRegisterDashboard && (
-                  <Link
-                    // onMouseEnter={hoverSound}
-                    href={"/registrar"}
-                    onClick={() => {
-                      clickSound();
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    <li
-                      className={`my-2 cursor-pointer rounded-xl px-2 py-1 pt-2   text-sm font-semibold duration-200 ease-linear  hover:text-yellow-400  md:my-0 md:ml-2 md:mt-2 md:text-xs md:hover:scale-105 lg:ml-4 lg:text-sm  xl:mt-0 2xl:text-[18px] ${
-                        pathname === "/registrar" && "  "
-                      }`}
-                    >
-                      Registrar
-                    </li>
-                  </Link>
-                )} */}
-
-                {/* {user && showAdminDashboard && (
-                  <Link
-                    // onMouseEnter={hoverSound}
-                    href={"/admin"}
-                    onClick={() => {
-                      clickSound();
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    <li
-                      className={`my-2 cursor-pointer rounded-xl px-2 py-1 pt-2   text-sm font-semibold duration-200 ease-linear  hover:text-yellow-400  md:my-0 md:ml-2 md:mt-2 md:text-xs md:hover:scale-105 lg:ml-4 lg:text-sm  xl:mt-0 2xl:text-[18px] ${
-                        pathname === "/admin" && "  "
-                      }`}
-                    >
-                      Admin
-                    </li>
-                  </Link>
-                )} */}
               </div>
 
               <div className="flex cursor-pointer flex-row items-center gap-5  md:ml-5 ">
@@ -374,8 +282,8 @@ const Navbar = () => {
                       clickSound();
                       setIsMenuOpen(false);
                     }}
-                    className={`hidden rounded-full border-4 md:block ${
-                      pathname === "/profile" && "rounded-full border-4  border-[#B61B69] "
+                    className={`hidden rounded-full border-2 lg:border-4 md:block ${
+                      pathname === "/profile" && "rounded-full border-2 lg:border-4  border-[#B61B69] "
                     }`}
                   >
                     <Image
@@ -396,7 +304,7 @@ const Navbar = () => {
                       setIsMenuOpen(false);
                     }
                   }}
-                  className="cursor-pointer ml-5 border-2 hover:text-[#B61B69] hover:border-[#B61B69] hover:bg-[#DAD7D9]  text-[#DAD7D9] bg-[#B61B69]  bg-transparent px-5 py-2 md:py-4 text-sm font-bold  duration-300 hover:bg-regalia  md:text-xs lg:px-6 lg:text-[10px] 2xl:px-10 2xl:text-[18px]"
+                  className="cursor-pointer  border-2 hover:text-[#B61B69] hover:border-[#B61B69] hover:bg-[#DAD7D9]  text-[#DAD7D9] bg-[#B61B69]  bg-transparent px-3 py-1 md:py-2 text-sm font-bold  duration-300 hover:bg-regalia  md:text-xs lg:px-6 lg:text-[10px] 2xl:px-10 2xl:text-[18px]"
                 >
                   {user ? (
                     <>
