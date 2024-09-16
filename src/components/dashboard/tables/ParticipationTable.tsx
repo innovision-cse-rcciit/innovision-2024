@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,6 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { CSVLink } from "react-csv";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -35,7 +36,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Participant } from "@/utils/constants/admin-dashboard";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -43,6 +44,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { supabase } from "@/lib/supabase-client";
+import { dateTime } from "@/utils/functions/dateTime";
+import { ClipLoader } from "react-spinners";
 
 export const columns: ColumnDef<Participant>[] = [
   // {
@@ -245,16 +249,15 @@ export const columns: ColumnDef<Participant>[] = [
 
 type Props = {
   data: Participant[];
-  isAdmin: boolean;
-  eventID?: string;
 };
 
-const ParticipationTable = ({ data, isAdmin, eventID }: Props) => {
+const ParticipationTable = ({ data }: Props) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const router = useRouter();
+  const {eventid} = useParams();
 
   const table = useReactTable({
     data,
@@ -274,9 +277,106 @@ const ParticipationTable = ({ data, isAdmin, eventID }: Props) => {
       rowSelection,
     },
   });
+  const [teamsWithMembers, setTeamsWithMembers] = useState<any[]>([]);
+  const [downloadableCSV, setDownloadableCSV] = useState<boolean>(false);
+  const [loadCSV, setLoadCSV] = useState<boolean>(false);
+  useEffect(() => {
+    const getTeamRegistrations = async () => {
+      const { data: teamData, error: teamError } = await supabase
+        .from("teams")
+        .select(
+          "team_id,team_name,team_lead_id,events(event_name,max_team_size)",
+        )
+        .eq("event_id", eventid) as any;
+  
+      if (teamError) {
+        console.error("Error fetching teams:", teamError.message);
+        return;
+      }
+  
+      if (teamData) {
+        const teamsWithMembers = [];
+  
+        for (const team of teamData) {
+          const { data: memberData, error: memberError } = await supabase
+            .from("participants")
+            .select("name,phone,email,college_roll,attendance")
+            .eq("team_id", team.team_id);
+          console.log(memberData);
+  
+          if (memberError) {
+            console.error("Error fetching team members:", memberError.message);
+            continue;
+          }
+  
+          if (memberData) {
+            const membersWithUserData = [];
+  
+            for (const member of memberData) {
+              const memberInfo: {
+                event_name: any;
+                name: any;
+                college_roll: any;
+                phone: any;
+                email: any;
+                attendance: any;
+                team_name?: any; 
+              } = {
+                event_name: team?.events!.event_name,
+                team_name: team?.team_name,
+                name: member?.name,
+                college_roll: member?.college_roll,
+                phone: member.phone,
+                email: member?.email,
+                attendance: member.attendance ?? '',
+              };
+
+              if (team?.events?.max_team_size === 1) {
+                delete memberInfo.team_name;
+              }
+  
+              membersWithUserData.push(memberInfo);
+            }
+  
+            teamsWithMembers.push(...membersWithUserData);
+          }
+        }
+        setTeamsWithMembers(teamsWithMembers);
+        setDownloadableCSV(true);
+        setLoadCSV(false);
+      }
+    };
+  
+    if(loadCSV) {
+      getTeamRegistrations();
+    };
+  }, [loadCSV]);
+  
 
   return (
     <div className="w-full">
+      <div className="flex flex-end justify-end">
+      {downloadableCSV ?
+       
+          <CSVLink
+            data={teamsWithMembers}
+            filename={`registrations-${dateTime()}.csv`}
+            className=" text-xs lg:text-base bg-violet-600 text-white rounded-xl border border-violet-600 px-5 py-2"
+          >
+           Download CSV
+          </CSVLink>
+          :
+          <button
+          onClick={() => setLoadCSV(true)}
+          className=" text-xs lg:text-base bg-violet-600 text-white rounded-xl border border-violet-600 px-5 py-2"
+          >
+            {loadCSV ?  
+            <ClipLoader color="#fff" loading={loadCSV} size={20} />
+            : "Load CSV"} 
+          </button>
+        }
+      </div>
+       
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter emails..."
@@ -303,8 +403,10 @@ const ParticipationTable = ({ data, isAdmin, eventID }: Props) => {
           >
             {isAdmin ? "Add" : "Edit"} Event
           </Button> */}
+          
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
+           
               <Button variant="outline" className="ml-auto">
                 Columns <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
@@ -329,6 +431,7 @@ const ParticipationTable = ({ data, isAdmin, eventID }: Props) => {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
+         
         </div>
       </div>
       <div className="rounded-md border">
