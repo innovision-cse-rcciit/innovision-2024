@@ -14,7 +14,7 @@ const LandingPage = () => {
       style={{ backgroundImage: "url('/Landing/Future_landing_page.png')" }}
     >
       <div className="flex items-center justify-center my-auto mx-auto h-full">
-        <div className="rounded-xl backdrop-blur-sm flex flex-row md:pt-10 hover:backdrop-blur-none cursor-pointer flex-wrap border-2 border-white w-[90%]  md:w-4/5 h-auto md:h-4/5 lg:h-[90%] 2xl:h-4/5 transform -translate-y-1/6 gap-4 items-center justify-around  ">
+        <div className="rounded-xl backdrop-blur-sm flex flex-col xl:flex-row md:pt-10 hover:backdrop-blur-none cursor-pointer  border-2 border-white w-[90%]  md:w-4/5 h-auto md:h-4/5 lg:h-[90%] 2xl:h-5/6 transform -translate-y-1/6 gap-4 items-center justify-around  ">
           <div className="absolute left-10 top-10 max-md:hidden">
             <Image height={40} width={40} src="/Landing/arrow.png" alt="Logo" />
           </div>
@@ -28,14 +28,14 @@ const LandingPage = () => {
             height={400}
             width={450}
             src="https://i.postimg.cc/JnPs7b2s/Innovision-logo-landing.png"
-            className=" max-md:w-80 max-md:h-42 md:w-72 md:h-56 xl:w-96 xl:h-80 avatar"
+            className=" max-md:w-80 max-md:h-42 md:w-72 md:h-56 xl:w-80 xl:h-68 2xl:w-96 2xl:h-80 avatar"
             alt="Logo"
           />
               </FadeIn>
        
           <div className="flex flex-col gap-4 items-center">
             <div className="bg-white px-10 py-2 border rounded-xl">
-              <h1 className="keania-one-regular text-2xl md:text-4xl lg:text-6xl text-[#B61B69]">
+              <h1 className="keania-one-regular text-2xl md:text-4xl lg:text-6xl 2xl:text-6xl text-[#B61B69]">
                 INNOVISION 2024
               </h1>
             </div>

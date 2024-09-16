@@ -21,7 +21,8 @@ export async function getAllCoordinators({ eventId }: ICoordinators) {
                     id (
                     id,
                     name,
-                    email
+                    email,
+                    college_roll
                     ),
                     event_id (
                     event_name
@@ -37,7 +38,8 @@ export async function getAllCoordinators({ eventId }: ICoordinators) {
             id (
             id,
             name,
-            email
+            email,
+             college_roll
             ),
             event_id (
             event_name
@@ -46,21 +48,6 @@ export async function getAllCoordinators({ eventId }: ICoordinators) {
                 .in("role", ["COORDINATOR", "VOLUNTEER"]);
         }
         console.log(coordinators)
-
-        // const coordinators = await supabase
-        //     .from("roles")
-        //     .select(`
-        //     role,
-        //     id (
-        //     id,
-        //     name,
-        //     email
-        //     ),
-        //     event_id (
-        //     event_name
-        //     )
-        //     `)
-        //     .in("role", ["COORDINATOR", "VOLUNTEER"]);
 
         if (coordinators.data?.length === 0)
             return [];
@@ -71,7 +58,8 @@ export async function getAllCoordinators({ eventId }: ICoordinators) {
                 name: coordinator.id?.name,
                 email: coordinator.id?.email,
                 event: coordinator.event_id?.event_name,
-                type: coordinator.role as Role
+                type: coordinator.role as Role,
+                college_roll: coordinator.id?.college_roll?.toUpperCase()
             };
         });
 

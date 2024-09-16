@@ -46,21 +46,22 @@ const EventRegCard = ({ teams }: { teams: any }) => {
     };
   
     return (
-      <div className="px-5 lg:px-0 md:w-[70%] lg:w-[40%] border-2 border-white rounded-xl backdrop-blur-md xl:w-[25%] 2xl:h-auto">
-        <div className="flex w-[100%] flex-col items-center justify-around gap-5 rounded-xl bg-body p-12 font-Chakra_Petch  text-sm font-semibold tracking-widest  ">
+      <>
+       <div className="px-5 lg:px-0  md:w-[70%] lg:w-[40%] border-2 border-white rounded-xl backdrop-blur-md xl:w-[25%] 2xl:h-auto">
+        <div className="flex py-5 flex-col items-center justify-around gap-2 lg:gap-5 rounded-xl bg-body  font-Chakra_Petch  text-sm font-semibold tracking-widest  ">
           {eventImage! && (
-            <Image src={eventImage!} width={150} height={100} alt="" />
+            <Image src={eventImage!} width={250} height={100} alt="" />
           )}
   
-          <div className="flex flex-row text-xl xl:text-lg flex-wrap items-center gap-2">
+          <div className="flex flex-row text-base md:text-xl xl:text-lg flex-wrap items-center gap-2">
             <h1>Event :</h1> <span>{event!}</span>
           </div>
   
-          <div className="flex flex-row flex-wrap items-center text-xl xl:text-lg justify-center gap-2">
+          <div className="flex flex-row flex-wrap items-center text-base md:text-xl xl:text-lg justify-center gap-2">
             <h1>{members! && members?.length > 1 ? "Team Name" : "Name"} :</h1>{" "}
             <span>{teams.team_name}</span>
           </div>
-          <div className="flex flex-row flex-wrap items-center text-xl xl:text-lg justify-center gap-2">
+          <div className="flex flex-row flex-wrap items-center text-base md:text-xl xl:text-lg justify-center gap-2">
             <h1>
               {members! && members?.length > 1 ? "Team Lead Email" : "Email"}:
             </h1>{" "}
@@ -79,19 +80,23 @@ const EventRegCard = ({ teams }: { teams: any }) => {
           )}
           <button
             onClick={generateQrCode}
-            className="rounded-xl border hover:cursor-pointer border-[#B51C69] bg-[#B51C69] px-3 py-1 text-white hover:bg-black hover:text-regalia hover:border-[#B51C69] "
+            className="rounded-xl border hover:cursor-pointer border-[#B51C69] bg-[#B51C69] px-3 py-1 mt-2 text-white hover:bg-black hover:text-regalia hover:border-[#B51C69] "
           >
             Show QR
           </button>
         </div>
   
-        <MemberModal
+       
+        
+      </div>
+      <MemberModal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
           members={teams.participants}
         />
-        <QrCodeModal isQrOpen={isQrOpen} onClose={() => setIsQrOpen(false)} qrCodeUrl={qrCodeUrl} />
-      </div>
+      <QrCodeModal isQrOpen={isQrOpen} onClose={() => setIsQrOpen(false)} qrCodeUrl={qrCodeUrl} />
+      </>
+     
     );
   };
   
@@ -168,8 +173,8 @@ const EventRegCard = ({ teams }: { teams: any }) => {
       <>
         {isQrOpen && (
           <div className="fixed inset-0 flex items-center tracking-widest justify-center bg-black bg-opacity-10 z-[50]">
-            <div className="flex flex-col items-center justify-center bg-black p-5 rounded-lg border-2 border-[#B51C69]">
-              <h2 className="text-lg font-semibold text-white mb-4">Scan this QR Code</h2>
+            <div className="flex flex-col w-[70%] md:w-[40%] lg:w-[25%] items-center justify-center bg-black p-5 rounded-lg border-2 border-[#B51C69]">
+              <h2 className="text-base text-center font-semibold text-white mb-4">Scan this QR Code by Event Coordinator to get Attendance</h2>
               <Image height={100} width={100} src={qrCodeUrl} alt="QR Code" className="w-40 h-40" />
               <button
                 onClick={onClose}

@@ -37,7 +37,7 @@ const Page = () => {
         style={{ background: 'url("/events/Background-img.png")' }}
       >
         <Heading text="Registrations" />
-        <div className="flex flex-row flex-wrap items-center justify-evenly gap-5 text-center font-Chakra_Petch  md:gap-8 text-xl lg:text-2xl xl:gap-20">
+        <div className="flex flex-row flex-wrap items-center justify-evenly gap-5 text-center font-Chakra_Petch  md:gap-8 text-lg lg:text-2xl xl:gap-20">
           <h1>
             <span id="glow">Name : </span>
             {user?.name.toUpperCase()}
