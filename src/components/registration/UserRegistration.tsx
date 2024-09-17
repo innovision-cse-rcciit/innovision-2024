@@ -120,7 +120,7 @@ export default function Register() {
 
       <div className="gap-10 flex flex-col items-center justify-center py-10">
         <Toaster position="bottom-right" />
-        <Heading text="REGISTRATION" />
+        <Heading text="PROFILE : REGISTER" />
         <div className="relative z-10 flex flex-col-reverse lg:flex-row items-center justify-between w-full max-w-7xl px-8">
           <div className="mb-8 lg:mb-0 lg:order-2 lg:w-1/2">
             <Image
