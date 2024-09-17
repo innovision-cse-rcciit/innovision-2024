@@ -48,6 +48,7 @@ import { supabase } from "@/lib/supabase-client";
 import { dateTime } from "@/utils/functions/dateTime";
 import { ClipLoader } from "react-spinners";
 import { FaCheck } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
 
 export const columns: ColumnDef<Participant>[] = [
   // {
@@ -104,7 +105,15 @@ export const columns: ColumnDef<Participant>[] = [
       return(
       <div className="w-full text-center">
         {attendance ? 
-        <h1 className="font-semibold text-base">PRESENT</h1>
+       <button onClick={async()=>{
+        const { data, error } = await supabase.from('teams').update({attendance: false}).eq('team_id', row.original.team_id);
+
+        if (error) {
+          console.error("Error updating team attendance:", error.message);
+          return;
+        }
+        setAttendance(false);
+      }} className="bg-red-500 text-white p-2 rounded-lg text-center"><ImCross /></button>
         : 
         <button onClick={async()=>{
           const { data, error } = await supabase.from('teams').update({attendance: true}).eq('team_id', row.original.team_id);
