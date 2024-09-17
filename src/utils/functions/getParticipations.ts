@@ -29,7 +29,7 @@ export const getParticipations = async (event: string) => {
             team_type: teamType,
             team_members: teamMembers.data,
             created_at: team.created_at,
-            // attendance: team.attendance
+            attendance: team.attendance
         };
     }));
 

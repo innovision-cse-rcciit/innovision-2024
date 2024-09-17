@@ -47,6 +47,7 @@ import {
 import { supabase } from "@/lib/supabase-client";
 import { dateTime } from "@/utils/functions/dateTime";
 import { ClipLoader } from "react-spinners";
+import { FaCheck } from "react-icons/fa";
 
 export const columns: ColumnDef<Participant>[] = [
   // {
@@ -93,6 +94,30 @@ export const columns: ColumnDef<Participant>[] = [
         <div className="capitalize">{team_name}</div>
       );
     },
+  },
+  {
+    accessorKey: "attendance",
+    header: "Attendance",
+    cell: ({ row }) => {
+      console.log(row.original);
+        const [attendance, setAttendance] = useState<boolean>(row.getValue("attendance") ?? false);
+      return(
+      <div className="w-full text-center">
+        {attendance ? 
+        <h1 className="font-semibold text-base">PRESENT</h1>
+        : 
+        <button onClick={async()=>{
+          const { data, error } = await supabase.from('teams').update({attendance: true}).eq('team_id', row.original.team_id);
+
+          if (error) {
+            console.error("Error updating team attendance:", error.message);
+            return;
+          }
+          setAttendance(true);
+        }} className="bg-green-500 text-white p-2 rounded-lg text-center"><FaCheck /></button>
+        }
+      </div>
+    )},
   },
   {
     accessorKey: "team_lead_email",
@@ -383,9 +408,36 @@ const ParticipationTable = ({ data }: Props) => {
         }
       </div>
        
-      <div className="flex items-center py-4">
+      <div className="flex flex-row flex-wrap gap-2 items-center py-4">
         <Input
-          placeholder="Filter emails..."
+          placeholder="Filter Name"
+          value={
+            (table.getColumn("team_lead_name")?.getFilterValue() as string) ??
+            ""
+          }
+          onChange={(event) =>
+            table
+              .getColumn("team_lead_name")
+              ?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+         <Input
+          placeholder="Filter College Roll"
+          value={
+            (table.getColumn("team_lead_roll")?.getFilterValue() as string) ??
+            ""
+          }
+          onChange={(event) =>
+            table
+              .getColumn("team_lead_roll")
+              ?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+
+<Input
+          placeholder="Filter Email"
           value={
             (table.getColumn("team_lead_email")?.getFilterValue() as string) ??
             ""
@@ -410,33 +462,6 @@ const ParticipationTable = ({ data }: Props) => {
             {isAdmin ? "Add" : "Edit"} Event
           </Button> */}
           
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-           
-              <Button variant="outline" className="ml-auto">
-                Columns <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
          
         </div>
       </div>
