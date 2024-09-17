@@ -28,6 +28,7 @@ export type Participant = {
     team_type?: string;
     team_name?: string;
     team_lead_name?: string;
+    attendance?: boolean;
 };
 
 export type TeamMember = {
