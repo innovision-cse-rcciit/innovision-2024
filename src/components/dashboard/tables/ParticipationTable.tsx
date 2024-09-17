@@ -49,6 +49,7 @@ import { dateTime } from "@/utils/functions/dateTime";
 import { ClipLoader } from "react-spinners";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
+import { getCollegeYear } from "@/utils/functions/getCollegeYear";
 
 export const columns: ColumnDef<Participant>[] = [
   // {
@@ -336,7 +337,6 @@ const ParticipationTable = ({ data }: Props) => {
             .from("participants")
             .select("name,phone,email,college_roll,attendance,requirement")
             .eq("team_id", team.team_id);
-          console.log(memberData);
   
           if (memberError) {
             console.error("Error fetching team members:", memberError.message);
@@ -355,6 +355,7 @@ const ParticipationTable = ({ data }: Props) => {
                 email: any;
                 attendance: any;
                 team_name?: any; 
+                year?: any;
                 [key: string]: any;
               } = {
                 event_name: team?.events!.event_name,
@@ -363,6 +364,7 @@ const ParticipationTable = ({ data }: Props) => {
                 college_roll: member?.college_roll,
                 phone: member.phone,
                 email: member?.email,
+                year: getCollegeYear(member.college_roll),
                 attendance: member.attendance ?? '',
 
               };
