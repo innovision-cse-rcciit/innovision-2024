@@ -30,7 +30,7 @@ import { ICoordinator } from '@/lib/types/coordinator';
 import { Switch } from '../../ui/switch';
 import { addEvent } from '@/utils/functions/addEvent';
 import { addCoordinator } from '@/utils/functions/addCoordinator';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabase-client';
 
 // Dynamically import ReactQuill with no SSR
@@ -98,9 +98,18 @@ const AddEventForm = ({
       useEffect(() => {
         if (eventid) {
           const getData = async () => {
-            const { data, error } = await supabase?.from('events').select('*').eq('id', eventid).single();
+            const { data, error } = await supabase?.from('events').select('*,event_categories(title),roles(*,users(*))').eq('id', eventid).single();
             if (data) {
               setEventData(data);
+              const rolesData = data.roles.map((role: any) => {
+                return {
+                    role: role.role,
+                    name: role.users.name,
+                    email: role.users.email,
+                    phone: role.users.phone,
+                }
+              });
+                setCoordinator(rolesData);
             }
           }
           getData();
@@ -121,7 +130,7 @@ const AddEventForm = ({
             coordinator: coordinator ?? [],
             event_type: eventData?.event_type ?? EventMode.ONLINE,
             isOpen: eventData?.is_open ?? true,
-            event_category: eventData?.event_category ?? EventCategory.TECHNICAL
+            event_category: eventData?.event_categories?.title ?? EventCategory.TECHNICAL
           });
         }
       }, [eventData, reset]);
@@ -140,21 +149,37 @@ const AddEventForm = ({
             return;
         }
         const roles = coordinator;
-        // console.log('Events:', values);
-        // console.log('Roles:', roles);
+
         const eventResponse = await addEvent({ event: values });
-        // console.log('Add event res:', eventResponse);
         const coordinatorResponse = await addCoordinator({ coordinators: roles, eventId: eventResponse.id });
-        // console.log('Add coordinator res:', coordinatorResponse);
         reset();
     }
 
+    const handleEditEvent = async (values: z.infer<typeof addEventSchema>) => {
+        if (coordinator.length === 0) {
+            form.setError('coordinator', {
+                type: 'manual',
+                message: 'At least one coordinator is required',
+            });
+            return;
+        }
+        const roles = coordinator;
+
+        // const eventResponse = await addEvent({ event: values });
+        // const coordinatorResponse = await addCoordinator({ coordinators: roles, eventId: eventResponse.id });
+        reset();
+    }
+    const pathname = usePathname();
     return (
         <Form
             {...form}
         >
             <form
-                onSubmit={handleSubmit(handleAddEvent)}
+                onSubmit={
+                    ()=>{
+                        pathname.includes('edit') ? handleSubmit(handleEditEvent) : handleSubmit(handleAddEvent)
+                    }
+                }
                 className='flex flex-col gap-y-4'
             >
                 <div className="flex gap-x-4 items-center max-md:flex-col">
@@ -288,9 +313,10 @@ const AddEventForm = ({
                                     <FormLabel>
                                         <Label>Rules</Label>
                                     </FormLabel>
-                                    <FormControl>
+                                    <FormControl className='text-black'>
                                         <ReactQuill
                                             theme="snow"
+                                            
                                             onChange={(rules) => onChange(rules)}
                                             value={value || ''}
                                         />
@@ -338,13 +364,14 @@ const AddEventForm = ({
                             <FormField
                                 control={form.control}
                                 name="event_category"
-                                render={({ field }) => (
+                                render={({ field }) => {
+                                    return(
                                     <FormItem className='w-full'>
                                         <Label>Event Category</Label>
                                         <Select
                                             disabled={field.disabled}
                                             onValueChange={field.onChange}
-                                            defaultValue={field.value}
+                                            value={field.value}
                                         >
                                             <SelectTrigger className="bg-zinc-300/50 border-0 text-black focus:ring-0 ring-offset-0 capitalize outline-none focus:ring-offset-0">
                                                 <SelectValue placeholder="Select an event type" />
@@ -364,7 +391,7 @@ const AddEventForm = ({
                                             </SelectContent>
                                         </Select>
                                     </FormItem>
-                                )}
+                                )}}
                             />
                         </div>
 

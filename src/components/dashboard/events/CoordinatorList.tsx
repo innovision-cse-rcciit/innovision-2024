@@ -46,7 +46,6 @@ type Props = {
 }
 
 export function CoordinatorList({ data, setCoordinator, event_name }: Props) {
-    console.log(data);
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})

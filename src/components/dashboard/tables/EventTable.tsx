@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -37,88 +37,12 @@ import {
 import { Event } from '@/utils/constants/admin-dashboard';
 import { useRouter } from 'next/navigation';
 import parse from 'html-react-parser';
+import Link from 'next/link';
+import { Switch } from '@/components/ui/switch';
+import { supabase } from '@/lib/supabase-client';
 
 
-export const columns: ColumnDef<Event>[] = [
-    {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
-        accessorKey: "name",
-        header: "Name",
-        cell: ({ row }) => (
-            <div className="capitalize">{row?.getValue("name")}</div>
-        ),
-    },
-    {
-        accessorKey: "duration",
-        header: "Duration",
-        cell: ({ row }) => (
-            <div className="capitalize">{parse(row?.getValue("duration"))}</div>
-        ),
-    },
-    {
-        accessorKey: "type",
-        header: "Event Mode",
-        cell: ({ row }) => (
-            <div className="capitalize">{row?.getValue("type")}</div>
-        ),
-    },
-    {
-        accessorKey: "isOpen",
-        header: "Registration",
-        cell: ({ row }) => (
-            <div className="capitalize">{row?.getValue("isOpen") ? "Open" : "Closed"}</div>
-        ),
-    },
-    {
-        id: "actions",
-        header: "Actions",
-        enableHiding: false,
-        cell: ({ row }) => {
-            const payment = row.original
 
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                        >
-                            Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            Delete
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )
-        },
-    },
-]
 
 type Props = {
     data: Event[];
@@ -129,7 +53,93 @@ const EventTable = ({ data }: Props) => {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = useState({});
+    const [isEventRegistrationOpen, setIsEventRegistrationOpen] = useState(false);
     const router = useRouter();
+
+
+
+     const columns: ColumnDef<Event>[] = [
+      {
+          accessorKey: "name",
+          header: "Name",
+          cell: ({ row }) => (
+              <div className="capitalize">{row?.getValue("name")}</div>
+          ),
+      },
+      {
+          accessorKey: "duration",
+          header: "Duration",
+          cell: ({ row }) => (
+              <div className="capitalize">{parse(row?.getValue("duration"))}</div>
+          ),
+      },
+      {
+          accessorKey: "type",
+          header: "Event Mode",
+          cell: ({ row }) => (
+              <div className="capitalize">{row?.getValue("type")}</div>
+          ),
+      },
+      {
+          accessorKey: "isOpen",
+          header: "Registration",
+          cell: ({ row }) =>{
+            const [isEventRegistrationOpen, setIsEventRegistrationOpen] = useState<any>(row.original.isOpen);
+            const toggleRegistrationOpen = async () => {
+              setIsEventRegistrationOpen(!isEventRegistrationOpen);
+              const { data, error } = await supabase
+                .from("events")
+                .update({
+                  is_open: !isEventRegistrationOpen,
+                })
+                .eq("id", row.original.id);
+            };
+            return (
+              <label className="inline-flex cursor-pointer items-center gap-2">
+              <input
+                checked={isEventRegistrationOpen == true ? true : false}
+                onChange={toggleRegistrationOpen}
+                value={isEventRegistrationOpen}
+                type="checkbox"
+                className="peer sr-only"
+              />
+              <div className="peer relative h-6 w-11 rounded-full bg-black  before:bg-white after:absolute  after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-regalia peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4  rtl:peer-checked:after:-translate-x-full"></div>
+            </label>
+          )},
+      },
+      {
+          id: "actions",
+          header: "Actions",
+          enableHiding: false,
+          cell: ({ row }) => {
+              const payment = row.original
+              const router = useRouter();
+              return (
+                  <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                              <span className="sr-only">Open menu</span>
+                              <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                      <Link  href={`/coordinator/${row.original.id}/edit`}>
+                          <DropdownMenuItem
+                         
+                          >
+                            Edit
+                              
+                          </DropdownMenuItem>
+                          </Link>
+                          <DropdownMenuItem>
+                              Delete
+                          </DropdownMenuItem>
+                      </DropdownMenuContent>
+                  </DropdownMenu>
+              )
+          },
+      },
+  ]
 
     const table = useReactTable({
         data,
