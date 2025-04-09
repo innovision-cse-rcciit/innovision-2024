@@ -61,7 +61,64 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
     },
   ];
 
+  const feedBackFormLinks = [
+    {
+      "id": "d2b94b57-e19e-4cfa-b1f4-d6de94994b6f",
+      "formLink": "https://docs.google.com/forms/d/e/1FAIpQLScVN5cab5N8Gua43z8MK1l1iGgcvGe7lrvWPjwGSW15tix2iw/viewform?usp=dialog"
+    },
+    {
+      "id": "ea7547c1-e42d-4b2c-877a-556c50b75357",
+      "formLink": "https://forms.gle/gh61vySdK2RbD9bCA"
+    },
+    {
+      "id": "8d6e7fb1-23e7-4668-8389-f55f9cc58ff4",
+      "formLink": "https://docs.google.com/forms/d/e/1FAIpQLSc5RVQ4-y8aVvYGIdWUWm-yJ7Gj4tPLpQgEscyWo0eh9kTNIA/viewform?usp=header"
+    },
+    {
+      "id": "abbff6e3-6224-45f3-a3fb-3fe3e45441cc",
+      "formLink": "https://docs.google.com/forms/d/e/1FAIpQLSfmdnZuB25LBCXUSnXLP9h1U4kRcv97r2DK_K5ApWyVLW2KZQ/viewform?usp=dialog"
+    },
+    {
+      "id": "5b764c88-c599-48b0-8364-1065085d9c2b",
+      "formLink": "https://docs.google.com/forms/d/e/1FAIpQLScTbifMsJoZ8CJQoLrciifWusM1pXSgcOwWfHkhiN6hAG0FRw/viewform?usp=header"
+    },
+    {
+      "id": "46d522e2-0135-4582-9d45-7f70c8e6fc32",
+      "formLink": "https://forms.gle/zMTvjpruzEToJ3qc7"
+    },
+    {
+      "id": "015bb9ad-4b9b-44aa-9181-fc6a79fcb09a",
+      "formLink": "https://forms.gle/cEdDns9jiCf4KWoy7"
+    },
+    {
+      "id": "e8b48f8f-50cb-4ffb-9447-c144f566ac65",
+      "formLink": "https://docs.google.com/forms/d/e/1FAIpQLSfY8aJS2BlgEdafZk-w8o6dvH9AhukBa55CV__fp3ivhhivsw/viewform?usp=sharing"
+    },
+    {
+      "id": "4506ea8e-c7b5-49dd-a856-60cd96713335",
+      "formLink": "https://forms.gle/HH3fEGoFgvcnjRiK8"
+    },
+    {
+      "id": "9cb652d2-5026-473b-b562-0bea0c036009",
+      "formLink": "https://forms.gle/PmBK3KPCpcjzGAGu7"
+    }
+  ]
+  
+
   const [formLink, setFormLink] = useState<string>("");
+
+
+  const getFeedback = async () => {
+
+    const feebackfrom = feedBackFormLinks.find(form => form.id === eventId);
+
+    if (feebackfrom) {
+      window.open(feebackfrom.formLink, "_blank");
+    } else {
+      toast.error("Feedback form not available for this event!");
+    }
+    
+  }
 
   useEffect(() => {
     if (eventDetails && eventDetails?.register_through_portal === false) {
@@ -259,13 +316,13 @@ const EventDetailsCard = ({ eventId }: { eventId: string }) => {
     )
   ) : (
     <button
-      onClick={() => toast("Registration Closed !", { icon: "🚫" })}
+      onClick={getFeedback}
       className="relative mx-auto my-2 inline-flex h-12 w-auto overflow-hidden rounded-full p-1 font-retrolight focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:my-3"
-      disabled
+    
     >
       <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FEC923_0%,#0917F5_50%,#FEC923_100%)]" />
       <span className="text-md inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-12 py-5 font-medium tracking-wider text-white backdrop-blur-3xl md:text-sm lg:px-5 lg:py-3 lg:text-sm">
-        Registration Closed
+        Feedback form
       </span>
     </button>
   )
